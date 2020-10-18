@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@awdware/eslint-config-nodejs"
+  ]
+}

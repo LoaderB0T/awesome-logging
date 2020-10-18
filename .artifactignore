@@ -1,0 +1,8 @@
+node_modules
+.vscode
+.eslintignore
+.eslintrc.json
+tsconfig.json
+azure-pipelines.yml
+src
+!assets/**/src
