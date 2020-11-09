@@ -1,31 +1,72 @@
+import stringWidth from 'string-width';
+import { colorize } from './logger-color';
+import { TextObject } from './text-object';
+import { MOVE_UP } from './utils';
+
 export abstract class LineLogger {
-  private lastLine: string;
+  private _lastLine: string | TextObject;
   private _changedLength: number;
+  private _firstRender: boolean = true;
 
-  protected abstract getNextLine(): string;
+  constructor() {
+    this._lastLine = '';
+  }
 
-  public getLine(): string {
-    const newLine = this.getNextLine();
-    this._changedLength = this.calculateChangedLength(this.lastLine, newLine);
-    this.lastLine = newLine;
-    return this.lastLine;
+  protected abstract getNextLine(): string | TextObject;
+
+  private ensureString(line: string | TextObject) {
+    const isObj = typeof line === 'object';
+    if (!isObj) {
+      return line as string;
+    }
+    const lineObj = line as TextObject;
+
+    lineObj.color;
+    return colorize(lineObj.color)(lineObj.text);
+  }
+
+  private lineWidth(line: string | TextObject) {
+    const lineStr = this.ensureString(line);
+    return stringWidth(lineStr);
+  }
+
+  public getLine(): string | TextObject {
+    let newLine = this.getNextLine();
+    this._changedLength = this.calculateChangedLength(this._lastLine, newLine);
+    this._lastLine = newLine;
+
+    while (this._changedLength > this.lineWidth(newLine)) {
+      newLine += ' ';
+    }
+
+    return newLine;
   }
   public get changedLength(): number {
     return this._changedLength;
   }
 
+  private calculateChangedLength(lastLine: string | TextObject, newLine: string | TextObject): number {
+    const lastString = this.ensureString(lastLine);
+    const newString = this.ensureString(newLine);
+    const lastStrWidth = this.lineWidth(lastString);
+    const newStrWidth = this.lineWidth(newString);
 
-  private calculateChangedLength(lastLine: string, newLine: string): number {
-    if (newLine.length > lastLine.length) {
-      return newLine.length;
+    if (newStrWidth > lastStrWidth) {
+      return newStrWidth;
     }
-    if (lastLine.length > newLine.length) {
-      return lastLine.length;
+
+    if ((lastLine as TextObject).color !== (newLine as TextObject).color) {
+      return Math.max(newStrWidth, lastStrWidth);
     }
+
+    if (lastStrWidth > newStrWidth) {
+      return lastStrWidth;
+    }
+
     let unequalChars = 0;
-    for (let i = 0; i < lastLine.length; i++) {
-      const lastChar = lastLine[i];
-      const newCharChar = lastLine[i];
+    for (let i = 0; i < lastStrWidth; i++) {
+      const lastChar = lastString[i];
+      const newCharChar = newString[i];
       if (lastChar !== newCharChar) {
         unequalChars = i + 1;
       }
@@ -35,10 +76,15 @@ export abstract class LineLogger {
 
   public render() {
     const newLine = this.getLine();
-    if (this.changedLength !== 0) {
-      const [maxWidth,] = process.stdout.getWindowSize();
-      const printText = (newLine.length > maxWidth) ? newLine.substr(0, maxWidth) : newLine;
-      process.stdout.write(printText);
+    const newString = this.ensureString(newLine);
+    if (this._firstRender) {
+      this._firstRender = false;
+      console.log('');
+      process.stdout.write(MOVE_UP);
     }
+    if (this.changedLength !== 0) {
+      process.stdout.write(newString);
+    }
+    console.log('');
   }
 }

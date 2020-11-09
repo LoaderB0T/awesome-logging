@@ -15,7 +15,8 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "string-width": "^4.2.0"
   },
   "devDependencies": {
     "@awdware/eslint-config-nodejs": "^0.0.6",

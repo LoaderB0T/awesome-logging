@@ -1,5 +1,14 @@
 {
   "extends": [
     "@awdware/eslint-config-nodejs"
-  ]
+  ],
+  "rules": {
+    "switch-colon-spacing": "warn",
+    "indent": [
+      2,
+      {
+        "SwitchCase": 0
+      }
+    ]
+  }
 }
