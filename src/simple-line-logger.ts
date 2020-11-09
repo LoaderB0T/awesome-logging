@@ -13,7 +13,7 @@ export class SimpleLineLogger extends LineLogger {
     return this._text;
   }
 
-  public setNextText(text: string) {
+  public setNextText(text: string | TextObject) {
     this._text = text;
   }
 }

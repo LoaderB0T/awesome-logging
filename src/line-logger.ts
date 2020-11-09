@@ -1,3 +1,4 @@
+import cliTruncate from 'cli-truncate';
 import stringWidth from 'string-width';
 import { colorize } from './logger-color';
 import { TextObject } from './text-object';
@@ -36,7 +37,11 @@ export abstract class LineLogger {
     this._lastLine = newLine;
 
     while (this._changedLength > this.lineWidth(newLine)) {
-      newLine += ' ';
+      if (typeof newLine === 'object') {
+        newLine.text += ' ';
+      } else {
+        (newLine as string) += ' ';
+      }
     }
 
     return newLine;
@@ -83,7 +88,8 @@ export abstract class LineLogger {
       process.stdout.write(MOVE_UP);
     }
     if (this.changedLength !== 0) {
-      process.stdout.write(newString);
+      const fittingString = cliTruncate(newString, process.stdout.columns - 2);
+      process.stdout.write(fittingString);
     }
     console.log('');
   }

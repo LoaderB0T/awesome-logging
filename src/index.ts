@@ -10,5 +10,5 @@ while (true) {
   b.render();
 
   a1.setNextText('val: ' + Math.random())
-  a3.setNextText('val: ' + Math.random())
+  a3.setNextText({ text: 'val: ' + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random(), color: "CYAN" })
 }
