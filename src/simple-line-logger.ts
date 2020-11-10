@@ -10,10 +10,15 @@ export class SimpleLineLogger extends LineLogger {
   }
 
   protected getNextLine(): string | TextObject {
+    this._hasChanges = false;
     return this._text;
   }
 
   public setNextText(text: string | TextObject) {
-    this._text = text;
+    if (text !== this._text) {
+      this._hasChanges = true;
+      this._text = text;
+    }
   }
+
 }

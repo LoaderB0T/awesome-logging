@@ -5,39 +5,42 @@ import { TextObject } from './text-object';
 import { MOVE_UP } from './utils';
 
 export abstract class LineLogger {
-  private _lastLine: string | TextObject;
+  private _lastLine: string | TextObject | TextObject[];
   private _changedLength: number;
   private _firstRender: boolean = true;
+  protected _hasChanges: boolean = true;
 
   constructor() {
     this._lastLine = '';
   }
 
-  protected abstract getNextLine(): string | TextObject;
+  protected abstract getNextLine(): string | TextObject | TextObject[];
 
-  private ensureString(line: string | TextObject) {
+  private ensureString(line: string | TextObject | TextObject[]): string {
+    const isArray = Array.isArray(line);
     const isObj = typeof line === 'object';
-    if (!isObj) {
+    if (!isObj && !isArray) {
       return line as string;
     }
-    const lineObj = line as TextObject;
+    const lineObjArray = isArray ? line as TextObject[] : [line as TextObject];
 
-    lineObj.color;
-    return colorize(lineObj.color)(lineObj.text);
+    return lineObjArray.map(x => colorize(x.color)(x.text)).join('');
   }
 
-  private lineWidth(line: string | TextObject) {
+  private lineWidth(line: string | TextObject | TextObject[]) {
     const lineStr = this.ensureString(line);
     return stringWidth(lineStr);
   }
 
-  public getLine(): string | TextObject {
+  public getLine(): string | TextObject | TextObject[] {
     let newLine = this.getNextLine();
     this._changedLength = this.calculateChangedLength(this._lastLine, newLine);
     this._lastLine = newLine;
 
     while (this._changedLength > this.lineWidth(newLine)) {
-      if (typeof newLine === 'object') {
+      if (Array.isArray(newLine)) {
+        newLine[newLine.length - 1].text += ' ';
+      } else if (typeof newLine === 'object') {
         newLine.text += ' ';
       } else {
         (newLine as string) += ' ';
@@ -50,7 +53,7 @@ export abstract class LineLogger {
     return this._changedLength;
   }
 
-  private calculateChangedLength(lastLine: string | TextObject, newLine: string | TextObject): number {
+  private calculateChangedLength(lastLine: string | TextObject | TextObject[], newLine: string | TextObject | TextObject[]): number {
     const lastString = this.ensureString(lastLine);
     const newString = this.ensureString(newLine);
     const lastStrWidth = this.lineWidth(lastString);
@@ -80,6 +83,10 @@ export abstract class LineLogger {
   }
 
   public render() {
+    if (!this._hasChanges) {
+      console.log('');
+      return;
+    }
     const newLine = this.getLine();
     const newString = this.ensureString(newLine);
     if (this._firstRender) {
@@ -88,7 +95,7 @@ export abstract class LineLogger {
       process.stdout.write(MOVE_UP);
     }
     if (this.changedLength !== 0) {
-      const fittingString = cliTruncate(newString, process.stdout.columns - 2);
+      const fittingString = cliTruncate(newString, process.stdout.columns);
       process.stdout.write(fittingString);
     }
     console.log('');
