@@ -1,6 +1,6 @@
-import { LoggerColor } from "../logger-color";
+import { LoggerColor } from "../models/logger-color";
 
-export interface ProgressLoggerOptions {
+export interface SimpleProgressLoggerOptions {
   totalProgress: number;
   text: string;
   completedText: string;

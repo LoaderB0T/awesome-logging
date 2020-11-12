@@ -1,5 +1,5 @@
 import { LineLogger } from './line-logger';
-import { TextObject } from './text-object';
+import { TextObject } from '../models/text-object';
 
 export class SimpleLineLogger extends LineLogger {
   private _text: string | TextObject;
@@ -10,14 +10,13 @@ export class SimpleLineLogger extends LineLogger {
   }
 
   protected getNextLine(): string | TextObject {
-    this._hasChanges = false;
     return this._text;
   }
 
   public setNextText(text: string | TextObject) {
     if (text !== this._text) {
-      this._hasChanges = true;
       this._text = text;
+      this.changed();
     }
   }
 

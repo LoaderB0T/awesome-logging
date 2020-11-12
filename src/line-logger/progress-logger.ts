@@ -1,12 +1,13 @@
 import { LineLogger } from "./line-logger";
-import { ProgressLoggerOptions } from "./options/progress-logger-options";
-import { TextObject } from "./text-object";
+import { SimpleProgressLoggerOptions } from "../options/progress-logger-options";
+import { TextObject } from "../models/text-object";
+import { HIDE_CURSOR } from "../utils";
 
-export class ProgressLogger extends LineLogger {
-  private _options: ProgressLoggerOptions;
+export class SimpleProgressLogger extends LineLogger {
+  private _options: SimpleProgressLoggerOptions;
   private _currentProgress: number = 0;
 
-  constructor(options: Partial<ProgressLoggerOptions>) {
+  constructor(options: Partial<SimpleProgressLoggerOptions>) {
     super();
     this._options = {
       totalProgress: options.totalProgress ?? 100,
@@ -24,7 +25,6 @@ export class ProgressLogger extends LineLogger {
 
   public getNextLine(): string | TextObject | TextObject[] {
     const totalLength: number = Math.min(process.stdout.columns - 2, this._options.maxWidth);
-    this._hasChanges = false;
     const finnishedLength = Math.round(this._currentProgress / this._options.totalProgress * totalLength);
     const unFinnishedLength = totalLength - finnishedLength;
     return [
@@ -37,8 +37,8 @@ export class ProgressLogger extends LineLogger {
 
   public setProgress(progress: number) {
     if (progress !== this._currentProgress) {
-      this._hasChanges = true;
       this._currentProgress = progress;
+      this.changed();
     }
   }
 

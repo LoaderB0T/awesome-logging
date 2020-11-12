@@ -1,5 +1,5 @@
 {
-  "name": "cli-tools",
+  "name": "awesome-logging",
   "version": "0.0.1alpha1",
   "description": "Advanced logging messages, interactive prompts, loading animations and more in TypeScript",
   "main": "lib/index.js",
@@ -17,11 +17,14 @@
   "dependencies": {
     "chalk": "^4.1.0",
     "cli-truncate": "^2.1.0",
-    "string-width": "^4.2.0"
+    "slice-ansi": "^4.0.0",
+    "string-width": "^4.2.0",
+    "strip-ansi": "^6.0.0"
   },
   "devDependencies": {
     "@awdware/eslint-config-nodejs": "^0.0.6",
     "@types/node": "^14.11.10",
+    "@types/slice-ansi": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
