@@ -1,10 +1,11 @@
 import cliTruncate from 'cli-truncate';
 import sliceAnsi from 'slice-ansi';
 import stripAnsi from 'strip-ansi';
+import { LoggerManager } from '../models/logger-manager';
 
 import { ILoggerParent } from '../models/logger-parent';
 import { TextObject } from '../models/text-object';
-import { INSERT_LINE, MOVE_UP } from '../utils';
+import { DELETE_LINE, INSERT_LINE, INSERT_NEW_LINE, MOVE_UP } from '../utils';
 
 export abstract class LineLogger {
   private _lastLine: string | TextObject | TextObject[];
@@ -25,6 +26,14 @@ export abstract class LineLogger {
       this._parent.childChanged(this);
     } else {
       this.render();
+    }
+  }
+
+  protected delete() {
+    if (this._parent) {
+      this._parent.deleteChild(this);
+    } else {
+      DELETE_LINE();
     }
   }
 
@@ -82,23 +91,63 @@ export abstract class LineLogger {
     return unequalChars;
   }
 
+  public get currentLineCount(): number {
+    return TextObject.lineCount(this._lastLine);
+  }
+
   public render() {
-    if (!this._hasChanges) {
-      INSERT_LINE();
-      return;
+    if (LoggerManager.activeLogger && !this._parent) {
+      throw new Error('A complex logger is active, to log a single line, use the interrupt method');
     }
+
+    const lastLineCount = this._firstRender ? 0 : TextObject.lineCount(this._lastLine);
+    const text = this.getRenderText();
+    const newLineCount = TextObject.lineCount(text ?? '');
+    this.prepareCursor(lastLineCount, newLineCount);
+
+    if (text) {
+      process.stdout.write(text);
+    }
+
+
+    INSERT_LINE();
+  }
+
+  private getRenderText() {
     const newLine = this.getLine();
     const newString = TextObject.ensureString(newLine);
-    if (this._firstRender) {
-      this._firstRender = false;
-      INSERT_LINE();
-      MOVE_UP(1);
-    }
     if (this.changedLength !== 0) {
       const changedNewString = sliceAnsi(newString, 0, this.changedLength);
-      const fittingString = cliTruncate(changedNewString, process.stdout.columns);
-      process.stdout.write(fittingString);
+      return cliTruncate(changedNewString, process.stdout.columns);
     }
-    INSERT_LINE();
+  }
+
+  private prepareCursor(lastLineCount: number, newLineCount: number) {
+    if (this._parent) {
+      if (this._firstRender) {
+        this._firstRender = false;
+      }
+    } else {
+      if (!this._firstRender) {
+        MOVE_UP(lastLineCount);
+      } else {
+        this._firstRender = false;
+      }
+    }
+    for (let i = 0; i < lastLineCount - newLineCount; i++) {
+      DELETE_LINE();
+    }
+    this._parent.insertLines(newLineCount - lastLineCount, this);
+
+    // if (!this._parent && !this._firstRender) {
+    // }
+    // if (this._firstRender) {
+    //   this._firstRender = false;
+    //   INSERT_LINE();
+    //   MOVE_UP(1);
+    // } else if (!this._hasChanges) {
+    //   INSERT_LINE();
+    //   return;
+    // }
   }
 }

@@ -34,7 +34,11 @@ export class SimpleSpinnerLogger extends LineLogger {
 
   public complete(options: SimpleSpinnerCompleteOptions) {
     clearInterval(this._animationInterval);
-    this.changed();
+    if (options.deleteLine) {
+      this.delete();
+    } else {
+      this.changed();
+    }
   }
 
 }

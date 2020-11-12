@@ -33,4 +33,9 @@ export class TextObject {
 
     return lineObjArray;
   }
+
+  static lineCount(text: string | TextObject | TextObject[]): number {
+    const str = this.ensureString(text);
+    return str.split(/\r\n|\r|\n/).length;
+  }
 }
