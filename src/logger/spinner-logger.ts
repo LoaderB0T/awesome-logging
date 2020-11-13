@@ -28,6 +28,10 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
     return this._hasChanges;
   }
 
+  public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
+    return calledFrom === this;
+  }
+
   public getNextLine(): string | TextObject | TextObject[] {
     return [
       { text: this._options.spinnerFrames[this._animationIndex], color: this._options.spinnerColor },

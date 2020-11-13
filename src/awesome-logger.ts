@@ -4,7 +4,7 @@ import { AwesomeTextLogger } from './logger/text-logger';
 import { AwesomeLoggerTextControl } from './models/config/text';
 import { AwesomeLoggerBase } from './models/logger-base';
 import { TextObject } from './models/text-object';
-import { DELETE_LINE, HIDE_CURSOR, INSERT_LINE, MOVE_UP } from './ansi-utils';
+import { DELETE_LINE, HIDE_CURSOR, INSERT_LINE, INSERT_NEW_LINE, MOVE_DOWN, MOVE_LEFT, MOVE_UP } from './ansi-utils';
 import { StringUtils } from './string-utils';
 import { ExtractLoggerType } from './types/extract-logger-type';
 import { AwesomeLoggerDefinitions } from './types/logger-definitions';
@@ -19,7 +19,9 @@ export class AwesomeLogger {
     return this.log('text', { text });
   }
 
-  public static create<T extends AwesomeLoggerType>(type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+  public static create<T extends AwesomeLoggerType>(
+    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+
     let logger: AwesomeLoggerBase | undefined = undefined;
 
     switch (type) {
@@ -35,7 +37,9 @@ export class AwesomeLogger {
     return logger as any as ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'];
   }
 
-  public static log<T extends AwesomeLoggerType>(type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+  public static log<T extends AwesomeLoggerType>(
+    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+
     const logger = this.create(type, config) as AwesomeLoggerBase;
 
     const renderedText = logger['render']();
@@ -44,15 +48,43 @@ export class AwesomeLogger {
 
     renderedLines?.forEach(line => {
       process.stdout.write(line);
-      console.log();
+      INSERT_LINE();
     });
+
     this.activeLogger = logger;
     return logger as ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'];
   }
 
-  // Does get called from outside
-  private static loggerChanged() {
-    HIDE_CURSOR();
+  public static interrupt<T extends AwesomeLoggerType>(
+    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): void {
+    const logger = this.create(type, config) as AwesomeLoggerBase;
+    const renderedText = logger['render']();
+    const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
+
+    if (!this.activeLogger || !this._lastRenderedLines) {
+      throw new Error('Cannot interrupt if no logger is active');
+    }
+    if (!renderedLines) {
+      return;
+    }
+
+    renderedLines.forEach(renderedLine => {
+      MOVE_UP(this._lastRenderedLines!.length);
+      INSERT_NEW_LINE();
+      process.stdout.write(renderedLine);
+      MOVE_LEFT();
+      MOVE_DOWN(this._lastRenderedLines!.length);
+      INSERT_LINE();
+    });
+  }
+
+  public static loggerChanged(calledFrom: AwesomeLoggerBase) {
+    const validCaller = this.activeLogger.canBeCalledFrom(calledFrom);
+    if (!validCaller) {
+      throw new Error('This logger is not active anymore');
+    }
+
+    // HIDE_CURSOR();
     const renderedText = this.activeLogger['render']();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 

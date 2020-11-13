@@ -21,7 +21,7 @@ export class TextObject {
     return stringWidth(lineStr);
   }
 
-  static ensureArray(text: string | TextObject | TextObject[]): TextObject[] {
+  public static ensureArray(text: string | TextObject | TextObject[]): TextObject[] {
     const isObj = typeof text === 'object';
     const isArray = Array.isArray(text);
 
@@ -34,12 +34,12 @@ export class TextObject {
     return lineObjArray;
   }
 
-  static lineCount(text: string | TextObject | TextObject[]): number {
+  public static lineCount(text: string | TextObject | TextObject[]): number {
     const str = this.ensureString(text);
     return str.split(/\r\n|\r|\n/).length;
   }
 
-  static ensureObject(text: string | TextObject): TextObject {
+  public static ensureObject(text: string | TextObject): TextObject {
     const isObj = typeof text === 'object';
     if (!isObj) {
       return { text: text as string };

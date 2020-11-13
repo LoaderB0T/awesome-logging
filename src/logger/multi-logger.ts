@@ -14,11 +14,15 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
     return this._children.some(x => x.hasChanges());
   }
 
-  getChild<T extends AwesomeLoggerBase>(index: number): T {
+  public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
+    return (calledFrom === this || this._children.some(x => x.canBeCalledFrom(calledFrom)));
+  }
+
+  public getChild<T extends AwesomeLoggerBase>(index: number): T {
     return this._children[index] as T;
   }
 
-  getNextLine(): string | TextObject | TextObject[] {
+  public getNextLine(): string | TextObject | TextObject[] {
     return this._children.map(child => child['render']()).join('\n');
   }
 }

@@ -12,10 +12,11 @@ export abstract class AwesomeLoggerBase {
 
   public abstract getNextLine(): string | TextObject | TextObject[];
   public abstract hasChanges(): boolean;
+  public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;
 
   protected changed() {
     this._hasChanges = true;
-    AwesomeLogger['loggerChanged']();
+    AwesomeLogger.loggerChanged(this);
   }
 
   public getLine(): string | TextObject | TextObject[] {

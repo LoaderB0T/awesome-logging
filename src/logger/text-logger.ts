@@ -14,6 +14,10 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     return this._hasChanges;
   }
 
+  public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
+    return calledFrom === this;
+  }
+
   getNextLine(): string | TextObject | TextObject[] {
     return this._text;
   }
@@ -24,5 +28,4 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
       this.changed();
     }
   }
-
 }

@@ -3,6 +3,13 @@
     "@awdware/eslint-config-nodejs"
   ],
   "rules": {
-    "switch-colon-spacing": "warn"
+    "switch-colon-spacing": "warn",
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ]
   }
 }

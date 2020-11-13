@@ -26,6 +26,10 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeL
     return this._hasChanges;
   }
 
+  public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
+    return calledFrom === this;
+  }
+
   public getNextLine(): string | TextObject | TextObject[] {
     const totalLength: number = Math.min(process.stdout.columns - 2, this._options.maxWidth);
     const finnishedLength = Math.round(this._currentProgress / this._options.totalProgress * totalLength);
