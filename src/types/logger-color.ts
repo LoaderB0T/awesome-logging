@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 
-export type LoggerColor = 'WHITE' | 'BLACK' | 'RED' | 'GREEN' | 'YELLOW' | 'BLUE' | 'MAGENTA' | 'CYAN' | 'GRAY';
+export type AwesomeLoggerColor = 'WHITE' | 'BLACK' | 'RED' | 'GREEN' | 'YELLOW' | 'BLUE' | 'MAGENTA' | 'CYAN' | 'GRAY';
 
-export const colorize = (color?: LoggerColor) => {
+export const colorize = (color?: AwesomeLoggerColor) => {
   switch (color) {
     case 'WHITE': return chalk.white;
     case 'BLACK': return chalk.black;

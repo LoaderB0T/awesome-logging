@@ -1,9 +1,9 @@
 import stringWidth from 'string-width';
-import { colorize, LoggerColor } from './logger-color';
+import { colorize, AwesomeLoggerColor } from '../types/logger-color';
 
 export class TextObject {
   text: string;
-  color?: LoggerColor;
+  color?: AwesomeLoggerColor;
 
   public static ensureString(line: string | TextObject | TextObject[]): string {
     const isArray = Array.isArray(line);
@@ -37,5 +37,13 @@ export class TextObject {
   static lineCount(text: string | TextObject | TextObject[]): number {
     const str = this.ensureString(text);
     return str.split(/\r\n|\r|\n/).length;
+  }
+
+  static ensureObject(text: string | TextObject): TextObject {
+    const isObj = typeof text === 'object';
+    if (!isObj) {
+      return { text: text as string };
+    }
+    return text as TextObject;
   }
 }

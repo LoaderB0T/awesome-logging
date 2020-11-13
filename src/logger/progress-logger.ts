@@ -1,13 +1,12 @@
-import { LineLogger } from "./line-logger";
-import { SimpleProgressLoggerOptions } from "../options/progress-logger-options";
 import { TextObject } from "../models/text-object";
-import { HIDE_CURSOR } from "../utils";
+import { AwesomeLoggerProgressConfig, AwesomeLoggerProgressControl } from "../models/config/progress";
+import { AwesomeLoggerBase } from "../models/logger-base";
 
-export class SimpleProgressLogger extends LineLogger {
-  private _options: SimpleProgressLoggerOptions;
+export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeLoggerProgressControl {
+  private _options: AwesomeLoggerProgressConfig;
   private _currentProgress: number = 0;
 
-  constructor(options: Partial<SimpleProgressLoggerOptions>) {
+  constructor(options: Partial<AwesomeLoggerProgressConfig>) {
     super();
     this._options = {
       totalProgress: options.totalProgress ?? 100,
@@ -21,6 +20,10 @@ export class SimpleProgressLogger extends LineLogger {
       filledColor: options.filledColor ?? 'WHITE',
       maxWidth: options.maxWidth ?? 999999
     };
+  }
+
+  public hasChanges(): boolean {
+    return this._hasChanges;
   }
 
   public getNextLine(): string | TextObject | TextObject[] {

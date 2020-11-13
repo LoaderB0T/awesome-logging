@@ -1,14 +1,13 @@
-import { LineLogger } from "./line-logger";
+import { AwesomeLoggerSpinnerConfig } from "../models/config/spinner";
+import { AwesomeLoggerBase } from "../models/logger-base";
 import { TextObject } from "../models/text-object";
-import { SimpleSpinnerLoggerOptions } from "../options/progress-spinner-options";
-import { SimpleSpinnerCompleteOptions } from "../options/progress-spinner-complete-options";
 
-export class SimpleSpinnerLogger extends LineLogger {
-  private _options: SimpleSpinnerLoggerOptions;
+export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
+  private _options: AwesomeLoggerSpinnerConfig;
   private _animationIndex: number = 0;
   private _animationInterval: NodeJS.Timer;
 
-  constructor(options: Partial<SimpleSpinnerLoggerOptions>) {
+  constructor(options: Partial<AwesomeLoggerSpinnerConfig>) {
     super();
     this._options = {
       text: options.text ?? '',
@@ -25,6 +24,10 @@ export class SimpleSpinnerLogger extends LineLogger {
     }, this._options.spinnerDelay);
   }
 
+  public hasChanges(): boolean {
+    return this._hasChanges;
+  }
+
   public getNextLine(): string | TextObject | TextObject[] {
     return [
       { text: this._options.spinnerFrames[this._animationIndex], color: this._options.spinnerColor },
@@ -32,10 +35,10 @@ export class SimpleSpinnerLogger extends LineLogger {
     ];
   }
 
-  public complete(options: SimpleSpinnerCompleteOptions) {
+  public complete(options: any) {
     clearInterval(this._animationInterval);
     if (options.deleteLine) {
-      this.delete();
+      // this.delete();
     } else {
       this.changed();
     }
