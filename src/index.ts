@@ -1,4 +1,4 @@
-import { AwesomeLogger } from "./awesome-logger";
+import { AwesomeLogger } from './awesome-logger';
 
 
 // AwesomeLogger.log('text', { text: { text: 'awd', color: 'CYAN' } });
@@ -10,7 +10,7 @@ import { AwesomeLogger } from "./awesome-logger";
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
 const line = AwesomeLogger.create('text', { text: [{ text: 'awd\nawd2awd3', color: 'GREEN' }] });
 const prog = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-const spin = AwesomeLogger.create('spinner', { text: ' My text', spinnerDelay: 75, spinnerFrames: ['▄', '■', '▀', '▀', '■'], spinnerColor: "MAGENTA" });
+const spin = AwesomeLogger.create('spinner', { text: ' My text', spinnerDelay: 75, spinnerFrames: ['▄', '■', '▀', '▀', '■'], spinnerColor: 'MAGENTA' });
 
 const multi = AwesomeLogger.log('multi', { children: [line, prog, spin] });
 
@@ -19,7 +19,7 @@ setInterval(() => {
 }, 1000);
 let i = 1;
 setInterval(() => {
-  line.setText('awdNew' + `\nline${i}`.repeat(i));
+  line.setText(`awdNew${`\nline${i}`.repeat(i)}`);
   i++;
   if (i > 5) {
     i = 0;

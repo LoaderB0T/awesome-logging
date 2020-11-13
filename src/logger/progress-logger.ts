@@ -1,9 +1,9 @@
-import { TextObject } from "../models/text-object";
-import { AwesomeLoggerProgressConfig, AwesomeLoggerProgressControl } from "../models/config/progress";
-import { AwesomeLoggerBase } from "../models/logger-base";
+import { TextObject } from '../models/text-object';
+import { AwesomeLoggerProgressConfig, AwesomeLoggerProgressControl } from '../models/config/progress';
+import { AwesomeLoggerBase } from '../models/logger-base';
 
 export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeLoggerProgressControl {
-  private _options: AwesomeLoggerProgressConfig;
+  private readonly _options: AwesomeLoggerProgressConfig;
   private _currentProgress: number = 0;
 
   constructor(options: Partial<AwesomeLoggerProgressConfig>) {

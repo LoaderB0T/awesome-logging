@@ -1,11 +1,11 @@
-import { AwesomeLoggerSpinnerConfig } from "../models/config/spinner";
-import { AwesomeLoggerBase } from "../models/logger-base";
-import { TextObject } from "../models/text-object";
+import { AwesomeLoggerSpinnerConfig } from '../models/config/spinner';
+import { AwesomeLoggerBase } from '../models/logger-base';
+import { TextObject } from '../models/text-object';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
-  private _options: AwesomeLoggerSpinnerConfig;
+  private readonly _options: AwesomeLoggerSpinnerConfig;
+  private readonly _animationInterval: NodeJS.Timer;
   private _animationIndex: number = 0;
-  private _animationInterval: NodeJS.Timer;
 
   constructor(options: Partial<AwesomeLoggerSpinnerConfig>) {
     super();
@@ -13,7 +13,7 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
       text: options.text ?? '',
       spinnerFrames: options.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
       spinnerDelay: options.spinnerDelay ?? 500,
-      spinnerColor: options.spinnerColor ?? "WHITE"
+      spinnerColor: options.spinnerColor ?? 'WHITE'
     };
     this._animationInterval = setInterval(() => {
       this._animationIndex++;

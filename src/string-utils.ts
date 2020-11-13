@@ -1,7 +1,7 @@
-import cliTruncate from "cli-truncate";
-import sliceAnsi from "slice-ansi";
-import stripAnsi from "strip-ansi";
-import { TextObject } from "./models/text-object";
+import cliTruncate from 'cli-truncate';
+import sliceAnsi from 'slice-ansi';
+import stripAnsi from 'strip-ansi';
+import { TextObject } from './models/text-object';
 
 export class StringUtils {
   public static trimLines(newLines: string[], oldLines?: string[]): (string | undefined)[] {

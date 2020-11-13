@@ -1,4 +1,4 @@
-const controlPrefix: string = "\u001b[";
+const controlPrefix: string = '\u001b[';
 
 export const MOVE_LEFT = () => process.stdout.write(`${controlPrefix}1000D`);
 export const MOVE_UP = (i: number) => i > 0 ? process.stdout.write(`${controlPrefix}${i}A`) : {};

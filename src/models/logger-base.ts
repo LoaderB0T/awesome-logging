@@ -1,5 +1,5 @@
-import { AwesomeLogger } from "../awesome-logger";
-import { TextObject } from "./text-object";
+import { AwesomeLogger } from '../awesome-logger';
+import { TextObject } from './text-object';
 
 export abstract class AwesomeLoggerBase {
 
@@ -19,7 +19,7 @@ export abstract class AwesomeLoggerBase {
   }
 
   public getLine(): string | TextObject | TextObject[] {
-    let newLine = this.getNextLine();
+    const newLine = this.getNextLine();
     return newLine;
   }
 

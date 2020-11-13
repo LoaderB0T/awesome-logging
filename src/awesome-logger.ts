@@ -1,15 +1,15 @@
-import { AwesomeMultiLogger } from "./logger/multi-logger";
-import { AwesomeProgressLogger } from "./logger/progress-logger";
-import { AwesomeTextLogger } from "./logger/text-logger";
-import { AwesomeLoggerTextControl } from "./models/config/text";
-import { AwesomeLoggerBase } from "./models/logger-base";
-import { TextObject } from "./models/text-object";
-import { DELETE_LINE, HIDE_CURSOR, INSERT_LINE, MOVE_UP } from "./ansi-utils";
-import { StringUtils } from "./string-utils";
-import { ExtractLoggerType } from "./types/extract-logger-type";
-import { AwesomeLoggerDefinitions } from "./types/logger-definitions";
-import { AwesomeLoggerType } from "./types/logger-type";
-import { AwesomeSpinnerLogger } from "./logger/spinner-logger";
+import { AwesomeMultiLogger } from './logger/multi-logger';
+import { AwesomeProgressLogger } from './logger/progress-logger';
+import { AwesomeTextLogger } from './logger/text-logger';
+import { AwesomeLoggerTextControl } from './models/config/text';
+import { AwesomeLoggerBase } from './models/logger-base';
+import { TextObject } from './models/text-object';
+import { DELETE_LINE, HIDE_CURSOR, INSERT_LINE, MOVE_UP } from './ansi-utils';
+import { StringUtils } from './string-utils';
+import { ExtractLoggerType } from './types/extract-logger-type';
+import { AwesomeLoggerDefinitions } from './types/logger-definitions';
+import { AwesomeLoggerType } from './types/logger-type';
+import { AwesomeSpinnerLogger } from './logger/spinner-logger';
 
 export class AwesomeLogger {
   private static activeLogger: AwesomeLoggerBase;
@@ -30,7 +30,7 @@ export class AwesomeLogger {
     }
 
     if (!logger) {
-      throw new Error('Logger type \'' + type + '\' not found');
+      throw new Error(`Logger type '${type}' not found`);
     }
     return logger as any as ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'];
   }
@@ -97,4 +97,4 @@ export class AwesomeLogger {
 
   // public static logCustom(name: string, config: any) {
   // }
-};
+}
