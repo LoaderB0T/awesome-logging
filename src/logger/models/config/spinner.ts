@@ -1,6 +1,6 @@
+import { TextObject } from '../../../models/text-object';
+import { AwesomeLoggerColor } from '../../../types/logger-color';
 import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeLoggerColor } from '../../types/logger-color';
-import { TextObject } from '../text-object';
 
 
 export interface AwesomeLoggerSpinnerConfig {

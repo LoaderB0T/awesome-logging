@@ -1,6 +1,6 @@
-import { TextObject } from '../models/text-object';
-import { AwesomeLoggerProgressConfig, AwesomeLoggerProgressControl } from '../models/config/progress';
+import { TextObject } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerProgressControl, AwesomeLoggerProgressConfig } from './config/progress';
 
 export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeLoggerProgressControl {
   private readonly _options: AwesomeLoggerProgressConfig;

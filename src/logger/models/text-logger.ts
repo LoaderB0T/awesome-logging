@@ -1,6 +1,6 @@
-import { TextObject } from '../models/text-object';
-import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from '../models/config/text';
+import { TextObject } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from './config/text';
 
 export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLoggerTextControl {
   private _text: string | TextObject | TextObject[];

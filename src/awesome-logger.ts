@@ -1,15 +1,16 @@
-import { AwesomeMultiLogger } from './logger/multi-logger';
-import { AwesomeProgressLogger } from './logger/progress-logger';
-import { AwesomeTextLogger } from './logger/text-logger';
-import { AwesomeLoggerTextControl } from './models/config/text';
-import { AwesomeLoggerBase } from './models/logger-base';
 import { TextObject } from './models/text-object';
-import { DELETE_LINE, HIDE_CURSOR, INSERT_LINE, INSERT_NEW_LINE, MOVE_DOWN, MOVE_LEFT, MOVE_UP } from './ansi-utils';
-import { StringUtils } from './string-utils';
-import { ExtractLoggerType } from './types/extract-logger-type';
-import { AwesomeLoggerDefinitions } from './types/logger-definitions';
-import { AwesomeLoggerType } from './types/logger-type';
-import { AwesomeSpinnerLogger } from './logger/spinner-logger';
+import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/types/logger-type';
+import { AwesomeLoggerBase } from './logger/models/logger-base';
+import { AwesomeMultiLogger } from './logger/models/multi-logger';
+import { AwesomeProgressLogger } from './logger/models/progress-logger';
+import { AwesomeSpinnerLogger } from './logger/models/spinner-logger';
+import { AwesomeTextLogger } from './logger/models/text-logger';
+import { INSERT_LINE, MOVE_UP, INSERT_NEW_LINE, MOVE_LEFT, MOVE_DOWN, HIDE_CURSOR, DELETE_LINE } from './utils/ansi-utils';
+import { StringUtils } from './utils/string-utils';
+import { AwesomeLoggerTextControl } from './logger/models/config/text';
+import { AwesomePromptType, PromptConfig, PromptReturnType } from './interaction/types/prompt-type';
+import { AwesomeTextPromt } from './interaction/models/text-prompt';
+import { AwesomePromptBase } from './interaction/models/prompt-base';
 
 export class AwesomeLogger {
   private static activeLogger: AwesomeLoggerBase;
@@ -19,8 +20,8 @@ export class AwesomeLogger {
     return this.log('text', { text });
   }
 
-  public static create<T extends AwesomeLoggerType>(
-    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+
+  public static create<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
 
     let logger: AwesomeLoggerBase | undefined = undefined;
 
@@ -34,15 +35,14 @@ export class AwesomeLogger {
     if (!logger) {
       throw new Error(`Logger type '${type}' not found`);
     }
-    return logger as any as ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'];
+    return logger as any as LoggerReturnType<T>;
   }
 
-  public static log<T extends AwesomeLoggerType>(
-    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'] {
+  public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
 
     const logger = this.create(type, config) as AwesomeLoggerBase;
 
-    const renderedText = logger['render']();
+    const renderedText = logger.render();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
     this._lastRenderedLines = renderedLines;
 
@@ -52,13 +52,12 @@ export class AwesomeLogger {
     });
 
     this.activeLogger = logger;
-    return logger as ExtractLoggerType<AwesomeLoggerDefinitions, T>['returnValue'];
+    return logger as LoggerReturnType<T>;
   }
 
-  public static interrupt<T extends AwesomeLoggerType>(
-    type: T, config: Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>): void {
+  public static interrupt<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): void {
     const logger = this.create(type, config) as AwesomeLoggerBase;
-    const renderedText = logger['render']();
+    const renderedText = logger.render();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 
     if (!this.activeLogger || !this._lastRenderedLines) {
@@ -84,7 +83,7 @@ export class AwesomeLogger {
       throw new Error('This logger is not active anymore');
     }
 
-    // HIDE_CURSOR();
+    HIDE_CURSOR();
     const renderedText = this.activeLogger['render']();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 
@@ -127,6 +126,30 @@ export class AwesomeLogger {
 
 
 
-  // public static logCustom(name: string, config: any) {
-  // }
+  public static prompt<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {
+    let prompt: AwesomePromptBase | undefined = undefined;
+
+    switch (type) {
+      case 'text': { prompt = new AwesomeTextPromt(config); break; }
+    }
+
+    if (!prompt) {
+      throw new Error(`Logger type '${type}' not found`);
+    }
+
+    this.activeLogger = prompt;
+
+    const renderedText = prompt.render();
+    const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
+    this._lastRenderedLines = renderedLines;
+
+    renderedLines?.forEach(line => {
+      process.stdout.write(line);
+      INSERT_LINE();
+    });
+
+    prompt.waitForUserInput();
+
+    return prompt as any as PromptReturnType<T>;
+  }
 }

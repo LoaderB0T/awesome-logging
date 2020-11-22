@@ -1,6 +1,6 @@
-import { AwesomeLoggerSpinnerConfig } from '../models/config/spinner';
+import { TextObject } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
-import { TextObject } from '../models/text-object';
+import { AwesomeLoggerSpinnerConfig } from './config/spinner';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
   private readonly _options: AwesomeLoggerSpinnerConfig;

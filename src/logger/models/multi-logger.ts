@@ -1,6 +1,6 @@
-import { TextObject } from '../models/text-object';
-import { AwesomeLoggerMultiConfig, AwesomeLoggerMultiControl } from '../models/config/multi';
+import { TextObject } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerMultiControl, AwesomeLoggerMultiConfig } from './config/multi';
 
 export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLoggerMultiControl {
   private readonly _children: AwesomeLoggerBase[];

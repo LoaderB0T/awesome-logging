@@ -1,5 +1,5 @@
+import { TextObject } from '../../../models/text-object';
 import { AwesomeLoggerBase } from '../logger-base';
-import { TextObject } from '../text-object';
 
 export interface AwesomeLoggerTextConfig {
   text: string | TextObject | TextObject[];

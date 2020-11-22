@@ -1,5 +1,5 @@
-import { AwesomeLogger } from '../awesome-logger';
-import { TextObject } from './text-object';
+import { AwesomeLogger } from '../../awesome-logger';
+import { TextObject } from '../../models/text-object';
 
 export abstract class AwesomeLoggerBase {
 
