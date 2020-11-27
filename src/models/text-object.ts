@@ -1,49 +1,62 @@
 import stringWidth from 'string-width';
 import { colorize, AwesomeLoggerColor } from '../types/logger-color';
 
-export class TextObject {
+export interface TextValue {
   text: string;
   color?: AwesomeLoggerColor;
+}
 
-  public static ensureString(line: string | TextObject | TextObject[]): string {
-    const isArray = Array.isArray(line);
-    const isObj = typeof line === 'object';
-    if (!isObj && !isArray) {
-      return line as string;
-    }
-    const lineObjArray = isArray ? line as TextObject[] : [line as TextObject];
+export class TextObject {
+  private readonly _values: TextValue[];
+  private _child?: TextObject;
 
-    return lineObjArray.map(x => colorize(x.color)(x.text)).join('');
+  constructor(text: string, color?: AwesomeLoggerColor) {
+    this._values = [{ text, color }];
   }
 
-  public static lineWidth(line: string | TextObject | TextObject[]) {
-    const lineStr = this.ensureString(line);
+  public static create(text: string | TextObject | TextValue): TextObject {
+    if (typeof text === 'string') {
+      return new TextObject(text);
+    }
+    if (text instanceof TextObject) {
+      return text;
+    }
+    return new TextObject(text.text, text.color);
+  }
+
+  public static ensureTextValue(text: string | TextValue): TextValue {
+    if (typeof text === 'string') {
+      return { text };
+    }
+    return { text: text.text, color: text.color };
+  }
+
+  public append(text: string, color?: AwesomeLoggerColor): TextObject {
+    this._values.push({ text, color });
+    return this;
+  }
+
+  public appendLine(child: TextObject): TextObject {
+    this._child = child;
+    return this._child;
+  }
+
+  public toString(): string {
+    let res = '';
+    res += this._values.map(x => colorize(x.color)(x.text)).join('');
+    if (this._child) {
+      res += `\n${this._child.toString()}`;
+    }
+    return res;
+  }
+
+  public width() {
+    const lineStr = this.toString();
     return stringWidth(lineStr);
   }
 
-  public static ensureArray(text: string | TextObject | TextObject[]): TextObject[] {
-    const isObj = typeof text === 'object';
-    const isArray = Array.isArray(text);
-
-    if (!isObj && !isArray) {
-      return [{ text: text as string }];
-    }
-
-    const lineObjArray = isArray ? text as TextObject[] : [text as TextObject];
-
-    return lineObjArray;
-  }
-
-  public static lineCount(text: string | TextObject | TextObject[]): number {
-    const str = this.ensureString(text);
+  public lineCount(): number {
+    const str = this.toString();
     return str.split(/\r\n|\r|\n/).length;
-  }
-
-  public static ensureObject(text: string | TextObject): TextObject {
-    const isObj = typeof text === 'object';
-    if (!isObj) {
-      return { text: text as string };
-    }
-    return text as TextObject;
   }
 }

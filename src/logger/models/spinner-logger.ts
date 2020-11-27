@@ -1,19 +1,21 @@
-import { TextObject } from '../../models/text-object';
+import { TextObject, TextValue } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
 import { AwesomeLoggerSpinnerConfig } from './config/spinner';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
   private readonly _options: AwesomeLoggerSpinnerConfig;
+  private readonly _text: TextValue;
   private readonly _animationInterval: NodeJS.Timer;
   private _animationIndex: number = 0;
 
-  constructor(options: Partial<AwesomeLoggerSpinnerConfig>) {
+  constructor(options?: Partial<AwesomeLoggerSpinnerConfig>) {
     super();
+    this._text = options?.text ? TextObject.ensureTextValue(options.text) : { text: '' };
     this._options = {
-      text: options.text ?? '',
-      spinnerFrames: options.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
-      spinnerDelay: options.spinnerDelay ?? 500,
-      spinnerColor: options.spinnerColor ?? 'WHITE'
+      text: '',
+      spinnerFrames: options?.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
+      spinnerDelay: options?.spinnerDelay ?? 500,
+      spinnerColor: options?.spinnerColor ?? 'WHITE'
     };
     this._animationInterval = setInterval(() => {
       this._animationIndex++;
@@ -32,11 +34,9 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
     return calledFrom === this;
   }
 
-  public getNextLine(): string | TextObject | TextObject[] {
-    return [
-      { text: this._options.spinnerFrames[this._animationIndex], color: this._options.spinnerColor },
-      ...TextObject.ensureArray(this._options.text)
-    ];
+  public getNextLine(): TextObject {
+    return new TextObject(this._options.spinnerFrames[this._animationIndex], this._options.spinnerColor)
+      .append(this._text.text, this._text.color);
   }
 
   public complete(options: any) {

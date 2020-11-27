@@ -1,11 +1,11 @@
-import { TextObject } from './models/text-object';
+import { TextObject, TextValue } from './models/text-object';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/types/logger-type';
 import { AwesomeLoggerBase } from './logger/models/logger-base';
 import { AwesomeMultiLogger } from './logger/models/multi-logger';
 import { AwesomeProgressLogger } from './logger/models/progress-logger';
 import { AwesomeSpinnerLogger } from './logger/models/spinner-logger';
 import { AwesomeTextLogger } from './logger/models/text-logger';
-import { INSERT_LINE, MOVE_UP, INSERT_NEW_LINE, MOVE_LEFT, MOVE_DOWN, HIDE_CURSOR, DELETE_LINE } from './utils/ansi-utils';
+import { INSERT_LINE, MOVE_UP, INSERT_NEW_LINE, MOVE_LEFT, MOVE_DOWN, DELETE_LINE } from './utils/ansi-utils';
 import { StringUtils } from './utils/string-utils';
 import { AwesomeLoggerTextControl } from './logger/models/config/text';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './interaction/types/prompt-type';
@@ -16,12 +16,12 @@ export class AwesomeLogger {
   private static activeLogger: AwesomeLoggerBase;
   private static _lastRenderedLines: string[] | undefined;
 
-  public static logText(text: string | TextObject | TextObject[]): AwesomeLoggerTextControl {
+  public static logText(text: string | TextValue): AwesomeLoggerTextControl {
     return this.log('text', { text });
   }
 
 
-  public static create<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
+  public static create<T extends AwesomeLoggerType>(type: T, config?: LoggerConfig<T>): LoggerReturnType<T> {
 
     let logger: AwesomeLoggerBase | undefined = undefined;
 
@@ -42,7 +42,7 @@ export class AwesomeLogger {
 
     const logger = this.create(type, config) as AwesomeLoggerBase;
 
-    const renderedText = logger.render();
+    const renderedText = logger.render().toString();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
     this._lastRenderedLines = renderedLines;
 
@@ -57,7 +57,7 @@ export class AwesomeLogger {
 
   public static interrupt<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): void {
     const logger = this.create(type, config) as AwesomeLoggerBase;
-    const renderedText = logger.render();
+    const renderedText = logger.render().toString();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 
     if (!this.activeLogger || !this._lastRenderedLines) {
@@ -83,9 +83,9 @@ export class AwesomeLogger {
       throw new Error('This logger is not active anymore');
     }
 
-    HIDE_CURSOR();
-    const renderedText = this.activeLogger['render']();
-    const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
+    // HIDE_CURSOR();
+    const renderedText = this.activeLogger.render().toString();
+    const renderedLines = renderedText?.split(/[\r\n]/g);
 
 
     if (!renderedLines) {
@@ -113,9 +113,9 @@ export class AwesomeLogger {
 
     MOVE_UP(newLineCount);
 
-    const trimmedLines = StringUtils.trimLines(renderedLines, this._lastRenderedLines);
+    // const trimmedLines = StringUtils.trimLines(renderedLines, this._lastRenderedLines);
 
-    trimmedLines?.forEach(line => {
+    renderedLines?.forEach(line => {
       if (line) {
         process.stdout.write(line);
       }
@@ -139,7 +139,8 @@ export class AwesomeLogger {
 
     this.activeLogger = prompt;
 
-    const renderedText = prompt.render();
+
+    const renderedText = prompt.render().toString();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
     this._lastRenderedLines = renderedLines;
 
@@ -148,6 +149,7 @@ export class AwesomeLogger {
       INSERT_LINE();
     });
 
+    prompt.init();
     prompt.waitForUserInput();
 
     return prompt as any as PromptReturnType<T>;

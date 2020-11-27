@@ -8,21 +8,24 @@ import { AwesomeLogger } from './awesome-logger';
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
-// const line1 = AwesomeLogger.create('text', { text: [{ text: 'awd\nawd2awd3', color: 'GREEN' }] });
-// const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-// const spin1 = AwesomeLogger.create('spinner', { text: ' My text', spinnerDelay: 75, spinnerFrames: ['▄', '■', '▀', '▀', '■'], spinnerColor: 'MAGENTA' });
+const line1 = AwesomeLogger.create('text', { text: { text: '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15', color: 'GREEN' } });
+const line2 = AwesomeLogger.create('text', { text: { text: 'awd\nawd2awd3', color: 'GREEN' } });
+const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+const spin1 = AwesomeLogger.create('spinner', { text: ' My text', spinnerDelay: 75, spinnerFrames: ['▄', '■', '▀', '▀', '■'], spinnerColor: 'MAGENTA' });
 // const line2 = AwesomeLogger.create('text', { text: [{ text: 'awd\nawd2awd3', color: 'GREEN' }] });
 // const prog2 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
 // const spin2 = AwesomeLogger.create('spinner', { text: ' My text', spinnerDelay: 75, spinnerFrames: ['▄', '■', '▀', '▀', '■'], spinnerColor: 'MAGENTA' });
 
-// const multi1 = AwesomeLogger.create('multi', { children: [line1, prog1, spin1] });
+const multi1 = AwesomeLogger.log('multi', { children: [line1, line2, prog1, spin1] });
 // const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
 // const multi = AwesomeLogger.log('multi', { children: [multi1, multi2] });
 
-// setInterval(() => {
-//   prog1.setProgress(Math.round(Math.random() * 100));
-//   prog2.setProgress(Math.round(Math.random() * 100));
-// }, 1000);
+// line2.setText('\n\n\n\n\ntest');
+
+setInterval(() => {
+  prog1.setProgress(Math.round(Math.random() * 100));
+  // prog2.setProgress(Math.round(Math.random() * 100));
+}, 1000);
 // let i = 1;
 // setInterval(() => {
 //   line1.setText(`awdNew${`\nline${i}`.repeat(i)}`);
@@ -45,4 +48,4 @@ import { AwesomeLogger } from './awesome-logger';
 //   i3++;
 // }, 5000);
 
-AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee' });
+// AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'] });

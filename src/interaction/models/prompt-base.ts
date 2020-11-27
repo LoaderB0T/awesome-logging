@@ -16,7 +16,7 @@ export abstract class AwesomePromptBase extends AwesomeLoggerBase {
 
   public multiLogger: AwesomeLoggerMultiControl;
 
-  public getNextLine(): string | TextObject | TextObject[] {
+  public getNextLine(): TextObject {
     return this.multiLogger.getNextLine();
   }
 
@@ -33,14 +33,16 @@ export abstract class AwesomePromptBase extends AwesomeLoggerBase {
     AwesomeLogger.loggerChanged(this.multiLogger);
   }
 
-  public getLine(): string | TextObject | TextObject[] {
+  public getLine(): TextObject {
     const newLine = this.getNextLine();
     return newLine;
   }
 
-  public render(): string | undefined {
+  public render(): TextObject {
     return this.multiLogger.render();
   }
+
+  public abstract init(): void;
 
   protected abstract gotKey(key: string): void;
 

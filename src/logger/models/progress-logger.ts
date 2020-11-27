@@ -6,19 +6,19 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeL
   private readonly _options: AwesomeLoggerProgressConfig;
   private _currentProgress: number = 0;
 
-  constructor(options: Partial<AwesomeLoggerProgressConfig>) {
+  constructor(options?: Partial<AwesomeLoggerProgressConfig>) {
     super();
     this._options = {
-      totalProgress: options.totalProgress ?? 100,
-      text: options.text ?? '',
-      completedText: options.completedText ?? '',
-      unfilledChar: options.unfilledChar ?? '·',
-      filledChar: options.filledChar ?? '■',
-      borderChar: options.borderChar ?? '▮',
-      borderColor: options.borderColor ?? 'GRAY',
-      unfilledColor: options.unfilledColor ?? 'GRAY',
-      filledColor: options.filledColor ?? 'WHITE',
-      maxWidth: options.maxWidth ?? 999999
+      totalProgress: options?.totalProgress ?? 100,
+      text: options?.text ?? '',
+      completedText: options?.completedText ?? '',
+      unfilledChar: options?.unfilledChar ?? '·',
+      filledChar: options?.filledChar ?? '■',
+      borderChar: options?.borderChar ?? '▮',
+      borderColor: options?.borderColor ?? 'GRAY',
+      unfilledColor: options?.unfilledColor ?? 'GRAY',
+      filledColor: options?.filledColor ?? 'WHITE',
+      maxWidth: options?.maxWidth ?? 999999
     };
   }
 
@@ -30,16 +30,14 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeL
     return calledFrom === this;
   }
 
-  public getNextLine(): string | TextObject | TextObject[] {
+  public getNextLine(): TextObject {
     const totalLength: number = Math.min(process.stdout.columns - 2, this._options.maxWidth);
     const finnishedLength = Math.round(this._currentProgress / this._options.totalProgress * totalLength);
     const unFinnishedLength = totalLength - finnishedLength;
-    return [
-      { text: this._options.borderChar, color: this._options.borderColor },
-      { text: this._options.filledChar.repeat(finnishedLength), color: this._options.filledColor },
-      { text: this._options.unfilledChar.repeat(unFinnishedLength), color: this._options.unfilledColor },
-      { text: this._options.borderChar, color: this._options.borderColor }
-    ];
+    return new TextObject(this._options.borderChar, this._options.borderColor)
+      .append(this._options.filledChar.repeat(finnishedLength), this._options.filledColor)
+      .append(this._options.unfilledChar.repeat(unFinnishedLength), this._options.unfilledColor)
+      .append(this._options.borderChar, this._options.borderColor);
   }
 
   public setProgress(progress: number) {

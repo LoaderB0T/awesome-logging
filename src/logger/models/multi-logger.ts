@@ -5,9 +5,9 @@ import { AwesomeLoggerMultiControl, AwesomeLoggerMultiConfig } from './config/mu
 export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLoggerMultiControl {
   private readonly _children: AwesomeLoggerBase[];
 
-  constructor(config: Partial<AwesomeLoggerMultiConfig>) {
+  constructor(config?: Partial<AwesomeLoggerMultiConfig>) {
     super();
-    this._children = config.children ?? [];
+    this._children = config?.children ?? [];
   }
 
   public hasChanges(): boolean {
@@ -22,7 +22,17 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
     return this._children[index] as T;
   }
 
-  public getNextLine(): string | TextObject | TextObject[] {
-    return this._children.map(child => child['render']()).join('\n');
+  public getNextLine(): TextObject {
+    const res: TextObject = this._children[0].render();
+    let latestChild: TextObject = this._children[0].render();
+    let first = true;
+    this._children.forEach(child => {
+      if (!first) {
+        latestChild = latestChild.appendLine(child.render());
+      } else {
+        first = false;
+      }
+    });
+    return res;
   }
 }

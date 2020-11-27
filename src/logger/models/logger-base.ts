@@ -3,14 +3,14 @@ import { TextObject } from '../../models/text-object';
 
 export abstract class AwesomeLoggerBase {
 
-  private _lastLine: string | TextObject | TextObject[];
+  private _lastLine: TextObject;
   protected _hasChanges: boolean = true;
 
   constructor() {
-    this._lastLine = '';
+    this._lastLine = new TextObject('');
   }
 
-  public abstract getNextLine(): string | TextObject | TextObject[];
+  public abstract getNextLine(): TextObject;
   public abstract hasChanges(): boolean;
   public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;
 
@@ -19,19 +19,19 @@ export abstract class AwesomeLoggerBase {
     AwesomeLogger.loggerChanged(this);
   }
 
-  public getLine(): string | TextObject | TextObject[] {
+  public getLine(): TextObject {
     const newLine = this.getNextLine();
     return newLine;
   }
 
-  public render(): string | undefined {
+  public render(): TextObject {
     if (!this.hasChanges()) {
-      return TextObject.ensureString(this._lastLine);
+      return this._lastLine;
     }
     this._hasChanges = false;
     const newLine = this.getLine();
+
     this._lastLine = newLine;
-    const newString = TextObject.ensureString(newLine);
-    return newString;
+    return newLine;
   }
 }

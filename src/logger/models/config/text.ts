@@ -1,10 +1,10 @@
-import { TextObject } from '../../../models/text-object';
+import { TextObject, TextValue } from '../../../models/text-object';
 import { AwesomeLoggerBase } from '../logger-base';
 
 export interface AwesomeLoggerTextConfig {
-  text: string | TextObject | TextObject[];
+  text: string | TextValue;
 }
 
 export interface AwesomeLoggerTextControl extends AwesomeLoggerBase {
-  setText(text: string | TextObject | TextObject[]): void;
+  setText(text: string | TextValue | TextObject): void;
 }
