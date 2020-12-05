@@ -1,5 +1,6 @@
 import { AwesomeLogger } from '../../awesome-logger';
 import { TextObject } from '../../models/text-object';
+import { HIDE_CURSOR } from '../../utils/ansi-utils';
 
 export abstract class AwesomeLoggerBase {
 
@@ -8,6 +9,7 @@ export abstract class AwesomeLoggerBase {
 
   constructor() {
     this._lastLine = new TextObject('');
+    HIDE_CURSOR();
   }
 
   public abstract getNextLine(): TextObject;
@@ -19,17 +21,12 @@ export abstract class AwesomeLoggerBase {
     AwesomeLogger.loggerChanged(this);
   }
 
-  public getLine(): TextObject {
-    const newLine = this.getNextLine();
-    return newLine;
-  }
-
   public render(): TextObject {
     if (!this.hasChanges()) {
       return this._lastLine;
     }
     this._hasChanges = false;
-    const newLine = this.getLine();
+    const newLine = this.getNextLine();
 
     this._lastLine = newLine;
     return newLine;

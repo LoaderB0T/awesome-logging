@@ -2,7 +2,6 @@ import { AwesomeLogger } from '../../awesome-logger';
 import { AwesomeLoggerMultiControl } from '../../logger/models/config/multi';
 import { AwesomeLoggerBase } from '../../logger/models/logger-base';
 import { TextObject } from '../../models/text-object';
-import { SHOW_CURSOR } from '../../utils/ansi-utils';
 
 
 export abstract class AwesomePromptBase extends AwesomeLoggerBase {
@@ -33,11 +32,6 @@ export abstract class AwesomePromptBase extends AwesomeLoggerBase {
     AwesomeLogger.loggerChanged(this.multiLogger);
   }
 
-  public getLine(): TextObject {
-    const newLine = this.getNextLine();
-    return newLine;
-  }
-
   public render(): TextObject {
     return this.multiLogger.render();
   }
@@ -51,20 +45,17 @@ export abstract class AwesomePromptBase extends AwesomeLoggerBase {
   }
 
   public waitForUserInput() {
-    SHOW_CURSOR();
     const stdin = process.stdin;
     // without this, we would only get streams once enter is pressed
     stdin.setRawMode(true);
     stdin.resume();
     stdin.setEncoding('utf8');
-
     this._readStream = stdin.on('data', (key) => {
       // ctrl-c ( end of text )
       if (key.toString() === '\u0003') {
         process.exit();
       }
       this.gotKey(key.toString());
-      SHOW_CURSOR();
     });
   }
 }

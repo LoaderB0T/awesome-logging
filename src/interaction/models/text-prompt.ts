@@ -1,6 +1,7 @@
 import { AwesomeLogger } from '../../awesome-logger';
 import { AwesomeLoggerTextControl } from '../../logger/models/config/text';
 import { TextObject } from '../../models/text-object';
+import { CONTROL_PREFIX, KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from '../../utils/ansi-utils';
 import { AwesomePromptTextConfig, AwesomePromptTextControl } from './config/text';
 import { AwesomePromptBase } from './prompt-base';
 
@@ -11,6 +12,7 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   private readonly _caseInsensitive: boolean;
   private readonly _autoComplete: string[];
   private _currentAnswer: string;
+  private _cursorPos: number;
 
   constructor(config: Partial<AwesomePromptTextConfig>) {
     const questionLogger = AwesomeLogger.create('text');
@@ -21,6 +23,7 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
     this._autoComplete = config.autoComplete ? Array.isArray(config.autoComplete) ? config.autoComplete : [config.autoComplete] : [];
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
+    this._cursorPos = 0;
   }
 
 
@@ -32,39 +35,78 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   }
 
   private getAnswerText(): TextObject {
+    let autoCompleteMatch: TextObject | null = null;
+    let cursorRendered = false;
     if (this._autoComplete.length > 0) {
       const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
       if (match) {
-        return new TextObject(this._currentAnswer).append(match.substr(this._currentAnswer.length), 'GRAY');
+        if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
+          autoCompleteMatch = new TextObject(match.substr(this._currentAnswer.length), 'GRAY');
+        } else {
+          const relativeCurserPos = this._cursorPos - this._currentAnswer.length;
+          const autoCompletePart = match.substr(this._currentAnswer.length);
+          autoCompleteMatch = new TextObject(autoCompletePart.substr(0, relativeCurserPos), 'GRAY');
+          autoCompleteMatch.append(autoCompletePart.substring(relativeCurserPos, relativeCurserPos + 1), 'GRAY', 'WHITE');
+          autoCompleteMatch.append(autoCompletePart.substring(relativeCurserPos + 1), 'GRAY');
+          cursorRendered = true;
+        }
       }
     }
-    return new TextObject(this._currentAnswer);
+
+    let textObject: TextObject;
+    if (cursorRendered) {
+      textObject = new TextObject(this._currentAnswer);
+    } else {
+      // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end
+      const currentAnswer = `${this._currentAnswer}${this._cursorPos === this._currentAnswer.length ? ' ' : ''}`;
+      textObject = new TextObject(currentAnswer.substring(0, this._cursorPos));
+      textObject.append(currentAnswer.substring(this._cursorPos, this._cursorPos + 1), 'BLACK', 'WHITE');
+      textObject.append(currentAnswer.substring(this._cursorPos + 1));
+
+    }
+    if (autoCompleteMatch) {
+      textObject.append(autoCompleteMatch);
+    }
+    return textObject;
   }
 
   public init() {
     this._questionLogger.setText(this._text);
     if (this._autoComplete.length > 0) {
-      this._answerLogger.setText({ text: this._autoComplete[0], color: 'GRAY' });
+      this._answerLogger.setText(this.getAnswerText());
     } else {
       this._answerLogger.setText({ text: 'type your answer here...', color: 'GRAY' });
     }
   }
 
   protected gotKey(key: string): void {
-    if (key.match(/[\r\n]+/)) {
+    if (key.match(/^[\r\n]+$/)) {
       this.inputFinished();
       return;
     } else if (key === '\b') {
       if (this._currentAnswer.length > 0) {
-        this._currentAnswer = this._currentAnswer.substr(0, this._currentAnswer.length - 1);
+        if (this._cursorPos > 0) {
+          this._currentAnswer = this._currentAnswer.substr(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
+          this._cursorPos--;
+        }
       }
     } else if (key === '\t') {
       const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._autoComplete);
       if (fittingAutocomplete) {
         this._currentAnswer = fittingAutocomplete;
+        this._cursorPos = this._currentAnswer.length;
       }
-    } else {
-      this._currentAnswer += key;
+    } else if (!key.includes(CONTROL_PREFIX) && key.match(/^.+$/)) {
+      this._currentAnswer = this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
+      this._cursorPos += key.length;
+    } else if (key === KEY_ARROW_LEFT) {
+      if (this._cursorPos > 0) {
+        this._cursorPos--;
+      }
+    } else if (key === KEY_ARROW_RIGHT) {
+      if (this._cursorPos < this._currentAnswer.length) {
+        this._cursorPos++;
+      }
     }
     this._answerLogger.setText(this.getAnswerText());
   }
