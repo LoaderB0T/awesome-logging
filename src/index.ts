@@ -48,4 +48,4 @@ import { AwesomeLogger } from './awesome-logger';
 //   i3++;
 // }, 5000);
 
-AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'] });
+AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });

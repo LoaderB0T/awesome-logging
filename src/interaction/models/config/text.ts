@@ -5,6 +5,7 @@ export interface AwesomePromptTextConfig {
   autoComplete: string | string[];
   hasToBeFromAutoComplete: boolean;
   caseInsensitive: boolean;
+  fuzzyAutoComplete: boolean;
 }
 
 export interface AwesomePromptTextControl extends AwesomePromptBase {

@@ -11,6 +11,7 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   private readonly _text: string;
   private readonly _caseInsensitive: boolean;
   private readonly _autoComplete: string[];
+  private readonly _fuzzyAutoComplete: boolean;
   private _currentAnswer: string;
   private _cursorPos: number;
 
@@ -21,13 +22,24 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
     this._text = config.text ?? '';
     this._currentAnswer = '';
     this._autoComplete = config.autoComplete ? Array.isArray(config.autoComplete) ? config.autoComplete : [config.autoComplete] : [];
+    this._fuzzyAutoComplete = config.fuzzyAutoComplete ?? false;
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
     this._cursorPos = 0;
   }
 
 
+  private fuzzyMatch(possibleValue: string, input: string) {
+    const regexPattern = `.*${input.split('').join('.*')}.*`;
+    const re = new RegExp(regexPattern, this._caseInsensitive ? 'i' : undefined);
+    return re.test(possibleValue);
+  }
+
   private findPartialMatch(input: string, possibilities: string[]) {
+    if (this._fuzzyAutoComplete) {
+      return possibilities.find(x => this.fuzzyMatch(x, input));
+    }
+
     if (this._caseInsensitive) {
       return possibilities.find(x => x.toLowerCase().startsWith(input.toLowerCase()));
     }
@@ -37,7 +49,16 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   private getAnswerText(): TextObject {
     let autoCompleteMatch: TextObject | null = null;
     let cursorRendered = false;
-    if (this._autoComplete.length > 0) {
+
+
+    if (this._fuzzyAutoComplete && this._autoComplete.length > 0) {
+      const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
+      if (match && this._currentAnswer !== match) {
+        autoCompleteMatch = new TextObject(' (', 'GRAY');
+        autoCompleteMatch.append(match, 'GRAY');
+        autoCompleteMatch.append(')', 'GRAY');
+      }
+    } else if (this._autoComplete.length > 0) {
       const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
       if (match) {
         if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
@@ -57,8 +78,9 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
     if (cursorRendered) {
       textObject = new TextObject(this._currentAnswer);
     } else {
-      // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end
-      const currentAnswer = `${this._currentAnswer}${this._cursorPos === this._currentAnswer.length ? ' ' : ''}`;
+      // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end.
+      // If fuzzy match is activated there is text rendered after the actual user input. To prevent it from jumping around the additional space char is always rendered.
+      const currentAnswer = `${this._currentAnswer}${this._cursorPos === this._currentAnswer.length || this._fuzzyAutoComplete ? ' ' : ''}`;
       textObject = new TextObject(currentAnswer.substring(0, this._cursorPos));
       textObject.append(currentAnswer.substring(this._cursorPos, this._cursorPos + 1), 'BLACK', 'WHITE');
       textObject.append(currentAnswer.substring(this._cursorPos + 1));
