@@ -48,4 +48,10 @@ import { AwesomeLogger } from './awesome-logger';
 //   i3++;
 // }, 5000);
 
-AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });
+// AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });
+AwesomeLogger.prompt('toggle', {
+  options: [
+    'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
+    'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
+    'first', 'second']
+});

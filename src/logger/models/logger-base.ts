@@ -3,7 +3,7 @@ import { TextObject } from '../../models/text-object';
 import { HIDE_CURSOR } from '../../utils/ansi-utils';
 
 export abstract class AwesomeLoggerBase {
-
+  public scrollAmount: number = 0;
   private _lastLine: TextObject;
   protected _hasChanges: boolean = true;
 
@@ -31,4 +31,5 @@ export abstract class AwesomeLoggerBase {
     this._lastLine = newLine;
     return newLine;
   }
+
 }
