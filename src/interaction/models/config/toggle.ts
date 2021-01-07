@@ -1,9 +1,7 @@
-import { AwesomePromptBase } from '../prompt-base';
-
 export interface AwesomePromptToggleConfig {
   options: string[];
 }
 
-export interface AwesomePromptToggleControl extends AwesomePromptBase {
-
+export interface AwesomePromptToggleControl {
+  result: Promise<string[]>;
 }

@@ -49,9 +49,13 @@ import { AwesomeLogger } from './awesome-logger';
 // }, 5000);
 
 // AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });
-AwesomeLogger.prompt('toggle', {
+const a = AwesomeLogger.prompt('toggle', {
   options: [
     'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
     'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
     'first', 'second']
+});
+
+a.result.then(x => {
+  console.log(x[0]);
 });

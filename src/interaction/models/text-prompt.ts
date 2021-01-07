@@ -14,6 +14,9 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   private readonly _fuzzyAutoComplete: boolean;
   private _currentAnswer: string;
   private _cursorPos: number;
+  private _promptFinished: (value: string | PromiseLike<string>) => void;
+  private _promptCancelled: (value: string | PromiseLike<string>) => void;
+  public readonly result: Promise<string>;
 
   constructor(config: Partial<AwesomePromptTextConfig>) {
     const questionLogger = AwesomeLogger.create('text');
@@ -26,6 +29,10 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
     this._cursorPos = 0;
+    this.result = new Promise<string>((resolve, reject) => {
+      this._promptFinished = resolve;
+      this._promptCancelled = reject;
+    });
   }
 
 
@@ -104,6 +111,7 @@ export class AwesomeTextPromt extends AwesomePromptBase implements AwesomePrompt
   protected gotKey(key: string): void {
     if (key.match(/^[\r\n]+$/)) {
       this.inputFinished();
+      this._promptFinished(this._currentAnswer);
       return;
     } else if (key === '\b') {
       if (this._currentAnswer.length > 0) {
