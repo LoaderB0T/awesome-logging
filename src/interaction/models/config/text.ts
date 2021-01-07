@@ -1,3 +1,5 @@
+import { AwesomePromptBaseControl } from './base';
+
 export interface AwesomePromptTextConfig {
   text: string;
   autoComplete: string | string[];
@@ -6,6 +8,5 @@ export interface AwesomePromptTextConfig {
   fuzzyAutoComplete: boolean;
 }
 
-export interface AwesomePromptTextControl {
-  result: Promise<string>;
+export interface AwesomePromptTextControl extends AwesomePromptBaseControl<string> {
 }

@@ -1,19 +1,28 @@
 import { AwesomeLogger } from '../../awesome-logger';
 import { AwesomeLoggerMultiControl } from '../../logger/models/config/multi';
+import { AwesomeLoggerTextControl } from '../../logger/models/config/text';
 import { AwesomeLoggerBase } from '../../logger/models/logger-base';
+import { AwesomeMultiLogger } from '../../logger/models/multi-logger';
 import { TextObject } from '../../models/text-object';
 
 
-export abstract class AwesomePromptBase extends AwesomeLoggerBase {
+export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   protected _hasChanges: boolean = true;
   private _readStream: NodeJS.ReadStream;
+  private _promptFinished: (value: T | PromiseLike<T>) => void;
+  private _promptCancelled: (value: T | PromiseLike<T>) => void;
+  public readonly result: Promise<T>;
 
   constructor(prompt: AwesomeLoggerBase[]) {
     super();
-    this.multiLogger = AwesomeLogger.create('multi', { children: prompt });
+    this.multiLogger = AwesomeLogger.create('multi', { children: prompt }) as AwesomeMultiLogger;
+    this.result = new Promise<T>((resolve, reject) => {
+      this._promptFinished = resolve;
+      this._promptCancelled = reject;
+    });
   }
 
-  public multiLogger: AwesomeLoggerMultiControl;
+  public multiLogger: AwesomeMultiLogger;
 
   public getNextLine(): TextObject {
     return this.multiLogger.getNextLine();
@@ -40,9 +49,14 @@ export abstract class AwesomePromptBase extends AwesomeLoggerBase {
 
   protected abstract gotKey(key: string): void;
 
-  protected inputFinished() {
+  protected inputFinished(result: T) {
     this._readStream.destroy();
+    this._promptFinished(result);
+    this.multiLogger['_children'].splice(0, this.multiLogger['_children'].length - 1);
+    this.resetViewAndShowResult();
   }
+
+  protected abstract resetViewAndShowResult(): void;
 
   public waitForUserInput() {
     const stdin = process.stdin;

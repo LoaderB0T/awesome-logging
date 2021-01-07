@@ -1,18 +1,16 @@
 import { AwesomeLogger } from '../../awesome-logger';
+import { AwesomeLoggerTextControl } from '../../logger/models/config/text';
 import { AwesomeTextLogger } from '../../logger/models/text-logger';
 import { TextObject } from '../../models/text-object';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
 import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle';
 import { AwesomePromptBase } from './prompt-base';
 
-export class AwesomeTogglePromt extends AwesomePromptBase implements AwesomePromptToggleControl {
+export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {
   private _currentHighlightedRow: number;
   private readonly _options: string[];
   private readonly _lines: AwesomeTextLogger[];
   private readonly _toggles: boolean[];
-  public readonly result: Promise<string[]>;
-  private _promptFinished: (value: string[] | PromiseLike<string[]>) => void;
-  private _promptCancelled: (value: string[] | PromiseLike<string[]>) => void;
 
   constructor(config: Partial<AwesomePromptToggleConfig>) {
     const lines = config.options?.map(() => {
@@ -24,10 +22,6 @@ export class AwesomeTogglePromt extends AwesomePromptBase implements AwesomeProm
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
     this._toggles = this._options.map(() => false);
-    this.result = new Promise<string[]>((resolve, reject) => {
-      this._promptFinished = resolve;
-      this._promptCancelled = reject;
-    });
   }
 
   private adjustLine(lineText: string, line: AwesomeTextLogger, highlighted: boolean, selected: boolean = false) {
@@ -69,7 +63,6 @@ export class AwesomeTogglePromt extends AwesomePromptBase implements AwesomeProm
       this._toggles[this._currentHighlightedRow] = !this._toggles[this._currentHighlightedRow];
       this.renderLine(this._currentHighlightedRow);
     } else if (key.match(/^[\r\n]+$/)) {
-      this.inputFinished();
       const result = new Array<string>();
       for (let i = 0; i < this._options.length; i++) {
         const option = this._options[i];
@@ -78,11 +71,26 @@ export class AwesomeTogglePromt extends AwesomePromptBase implements AwesomeProm
           result.push(option);
         }
       }
-      this._promptFinished(result);
+      this.inputFinished(result);
     }
   }
 
-  renderLine(i: number) {
+  private renderLine(i: number) {
     this.adjustLine(this._options[i], this._lines[i], i === this._currentHighlightedRow, this._toggles[i]);
+  }
+
+  protected resetViewAndShowResult(): void {
+    const resultLog = new TextObject(' - Selected option(s): ', 'GRAY');
+
+    const result = new Array<string>();
+    for (let i = 0; i < this._options.length; i++) {
+      const option = this._options[i];
+      const toggle = this._toggles[i];
+      if (toggle) {
+        result.push(option);
+      }
+    }
+    resultLog.append(result.join(', '), 'GREEN');
+    this.multiLogger.getChild<AwesomeLoggerTextControl>(0).setText(resultLog);
   }
 }

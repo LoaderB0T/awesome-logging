@@ -135,7 +135,7 @@ export class AwesomeLogger {
   }
 
   public static prompt<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {
-    let prompt: AwesomePromptBase | undefined = undefined;
+    let prompt: AwesomePromptBase<any> | undefined = undefined;
 
     switch (type) {
       case 'text': { prompt = new AwesomeTextPromt(config); break; }
