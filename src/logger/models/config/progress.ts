@@ -3,7 +3,7 @@ import { AwesomeLoggerColor } from '../../../types/logger-color';
 import { AwesomeLoggerBase } from '../logger-base';
 
 
-export interface AwesomeLoggerProgressConfig {
+export interface AwesomeProgressLoggerConfig {
   totalProgress: number;
   text: string | TextValue;
   completedText: string | TextValue;
@@ -16,6 +16,6 @@ export interface AwesomeLoggerProgressConfig {
   filledColor: AwesomeLoggerColor;
 }
 
-export interface AwesomeLoggerProgressControl extends AwesomeLoggerBase {
+export interface AwesomeProgressLoggerControl extends AwesomeLoggerBase {
   setProgress(progress: number, text?: string | TextValue | TextObject): void;
 }

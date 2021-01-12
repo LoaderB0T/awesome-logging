@@ -1,8 +1,8 @@
 import { TextObject, TextValue } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
-import { AwesomeLoggerSpinnerConfig } from './config/spinner';
+import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner';
 
-export class AwesomeSpinnerLogger extends AwesomeLoggerBase {
+export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;
   private readonly _text: TextValue;
   private readonly _animationInterval: NodeJS.Timer;

@@ -1,4 +1,5 @@
 import { AwesomeLogger } from './awesome-logger';
+import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 
 
 // AwesomeLogger.log('text', { text: { text: 'awd', color: 'CYAN' } });
@@ -49,13 +50,34 @@ import { AwesomeLogger } from './awesome-logger';
 // }, 5000);
 
 // AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });
-const a = AwesomeLogger.prompt('toggle', {
-  options: [
-    'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
-    'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
-    'first', 'second']
+// const a = AwesomeLogger.prompt('toggle', {
+//   options: [
+//     'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
+//     'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
+//     'first', 'second']
+// });
+
+// a.result.then(x => {
+//   console.log(x[0]);
+// });
+
+const checklistLogger = AwesomeLogger.log('checklist', {
+  items: [
+    {
+      state: AwesomeChecklistLoggerState.pending,
+      text: 'yeeeee1'
+    },
+    {
+      state: AwesomeChecklistLoggerState.pending,
+      text: 'yeeeee2'
+    },
+    {
+      state: AwesomeChecklistLoggerState.pending,
+      text: 'yeeeee3'
+    }
+  ]
 });
 
-a.result.then(x => {
-  console.log(x[0]);
-});
+setInterval(() => {
+  checklistLogger.changeState(Math.round(Math.random() * 2), Math.round(Math.random() * 6));
+}, 100);

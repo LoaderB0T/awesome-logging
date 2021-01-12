@@ -1,12 +1,12 @@
 import { TextObject } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
-import { AwesomeLoggerProgressControl, AwesomeLoggerProgressConfig } from './config/progress';
+import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress';
 
-export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeLoggerProgressControl {
-  private readonly _options: AwesomeLoggerProgressConfig;
+export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeProgressLoggerControl {
+  private readonly _options: AwesomeProgressLoggerConfig;
   private _currentProgress: number = 0;
 
-  constructor(options?: Partial<AwesomeLoggerProgressConfig>) {
+  constructor(options?: Partial<AwesomeProgressLoggerConfig>) {
     super();
     this._options = {
       totalProgress: options?.totalProgress ?? 100,

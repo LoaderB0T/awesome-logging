@@ -11,6 +11,7 @@ import { AwesomePromptType, PromptConfig, PromptReturnType } from './interaction
 import { AwesomeTextPromt } from './interaction/models/text-prompt';
 import { AwesomePromptBase } from './interaction/models/prompt-base';
 import { AwesomeTogglePromt } from './interaction/models/toggle-prompt';
+import { AwesomeChecklistLogger } from './logger/models/checklist-logger';
 
 export class AwesomeLogger {
   private static activeLogger: AwesomeLoggerBase;
@@ -30,6 +31,7 @@ export class AwesomeLogger {
       case 'progress': { logger = new AwesomeProgressLogger(config); break; }
       case 'spinner': { logger = new AwesomeSpinnerLogger(config); break; }
       case 'multi': { logger = new AwesomeMultiLogger(config); break; }
+      case 'checklist': { logger = new AwesomeChecklistLogger(config); break; }
     }
 
     if (!logger) {
@@ -61,17 +63,18 @@ export class AwesomeLogger {
   }
 
   public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
-    const logger = this.create(type, config) as AwesomeLoggerBase;
+    const loggerReturnType = this.create(type, config);
+    const logger = loggerReturnType as AwesomeLoggerBase;
     const renderedLines = logger.render().allLines();
     this.renderScrollWindow(renderedLines, logger.scrollAmount);
 
     this._lastRenderedLines = renderedLines;
     this.activeLogger = logger;
-    return logger as LoggerReturnType<T>;
+    return loggerReturnType;
   }
 
   public static interrupt<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): void {
-    const logger = this.create(type, config) as AwesomeLoggerBase;
+    const logger = this.create(type, config) as any as AwesomeLoggerBase;
     const renderedText = logger.render().toLineString();
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 

@@ -1,6 +1,4 @@
 import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomeLoggerMultiControl } from '../../logger/models/config/multi';
-import { AwesomeLoggerTextControl } from '../../logger/models/config/text';
 import { AwesomeLoggerBase } from '../../logger/models/logger-base';
 import { AwesomeMultiLogger } from '../../logger/models/multi-logger';
 import { TextObject } from '../../models/text-object';
