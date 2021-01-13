@@ -11,6 +11,9 @@ export interface TextValue {
 export class TextObject {
   private readonly _values: TextValue[];
   private _child?: TextObject;
+  private _empty: boolean;
+
+  public static empty: TextObject = new TextObject('').empty();
 
   constructor(text: string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor) {
     const lines = text.split(/[\r\n]/g).filter(x => !!x);
@@ -19,6 +22,11 @@ export class TextObject {
     if (lines.length > 0) {
       this._child = new TextObject(lines.join('\n'), color, bgColor);
     }
+  }
+
+  private empty() {
+    this._empty = true;
+    return this;
   }
 
   public static create(text: string | TextObject | TextValue): TextObject {
