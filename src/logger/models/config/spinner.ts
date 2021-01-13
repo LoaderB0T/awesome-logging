@@ -11,4 +11,5 @@ export interface AwesomeLoggerSpinnerConfig {
 }
 
 export interface AwesomeLoggerSpinnerControl extends AwesomeLoggerBase {
+  stop(options: { succeeded?: boolean, removeLine?: boolean, text?: string }): void;
 }
