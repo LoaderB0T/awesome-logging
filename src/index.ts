@@ -1,6 +1,7 @@
 import { AwesomeLogger } from './awesome-logger';
 import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 
+export { AwesomeLogger } from './awesome-logger';
 
 // AwesomeLogger.log('text', { text: { text: 'awd', color: 'CYAN' } });
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
