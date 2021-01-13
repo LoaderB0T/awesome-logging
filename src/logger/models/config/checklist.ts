@@ -3,15 +3,15 @@ export interface AwesomeChecklistLoggerItem {
   text: string;
 }
 
-export enum AwesomeChecklistLoggerState {
-  unknown = 0,
-  pending = 1,
-  inProgress = 2,
-  done = 3,
-  succeeded = 4,
-  failed = 5,
-  partiallySucceeded = 6
-}
+export type AwesomeChecklistLoggerState =
+  'unknown' |
+  'pending' |
+  'inProgress' |
+  'done' |
+  'succeeded' |
+  'failed' |
+  'skipped' |
+  'partiallySucceeded';
 
 export interface AwesomeChecklistLoggerConfig {
   items: AwesomeChecklistLoggerItem[];

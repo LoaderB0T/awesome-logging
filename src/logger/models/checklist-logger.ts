@@ -58,17 +58,19 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
 
   private getPrefix(state: AwesomeChecklistLoggerState): TextObject {
     switch (state) {
-      case AwesomeChecklistLoggerState.done:
+      case 'done':
         return new TextObject('√', 'GREEN');
-      case AwesomeChecklistLoggerState.failed:
+      case 'failed':
         return new TextObject('X', 'RED');
-      case AwesomeChecklistLoggerState.inProgress:
+      case 'inProgress':
         return new TextObject('>', 'BLUE');
-      case AwesomeChecklistLoggerState.partiallySucceeded:
+      case 'partiallySucceeded':
         return new TextObject('!', 'YELLOW');
-      case AwesomeChecklistLoggerState.pending:
+      case 'skipped':
+        return new TextObject('■', 'GREEN');
+      case 'pending':
         return new TextObject('■', 'GRAY');
-      case AwesomeChecklistLoggerState.succeeded:
+      case 'succeeded':
         return new TextObject('√', 'GREEN');
       default:
         return new TextObject('?', 'GRAY');
