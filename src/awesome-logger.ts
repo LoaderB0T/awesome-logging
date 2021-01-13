@@ -17,7 +17,7 @@ export class AwesomeLogger {
   private static activeLogger: AwesomeLoggerBase;
   private static _lastRenderedLines: TextObject[] | undefined;
   private static _lastScrollAmount: number = 0;
-  public static maxLinesInTerminal: number = 5;
+  public static maxLinesInTerminal: number = 25;
 
   public static logText(text: string | TextValue): AwesomeLoggerTextControl {
     return this.log('text', { text });
@@ -79,7 +79,8 @@ export class AwesomeLogger {
     const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
 
     if (!this.activeLogger || !this._lastRenderedLines) {
-      throw new Error('Cannot interrupt if no logger is active');
+      this.log(type, config);
+      return;
     }
     if (!renderedLines) {
       return;
