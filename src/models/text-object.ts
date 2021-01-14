@@ -74,19 +74,21 @@ export class TextObject {
   }
 
   public toLineString(lastText?: TextObject): string {
+    const res = this._values.map(x => colorize(x.color, x.bgColor)(x.text)).join('');
+    if (!lastText) {
+      return res;
+    }
+
     let appendSpaces = '';
     const textLength = this.length;
     let newTextRenderLength = textLength;
-    if (lastText) {
-      const lastlength = lastText.length;
-      if (lastlength > textLength) {
-        appendSpaces = ' '.repeat(lastlength - textLength);
-      } else if (lastlength === textLength) {
-        newTextRenderLength = TextObject.calculateLastChangedCharacterIndex(lastText, this) + 1;
-      }
+    const lastlength = lastText.length;
+    if (lastlength > textLength) {
+      appendSpaces = ' '.repeat(lastlength - textLength);
+    } else if (lastlength === textLength) {
+      newTextRenderLength = TextObject.calculateLastChangedCharacterIndex(lastText, this) + 1;
     }
-    let res = '';
-    res += this._values.map(x => colorize(x.color, x.bgColor)(x.text)).join('');
+
     const changedText = (newTextRenderLength !== -1 ? sliceAnsi(res, 0, newTextRenderLength) : res) + appendSpaces;
     return changedText;
   }

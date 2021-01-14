@@ -74,27 +74,24 @@ export class AwesomeLogger {
   }
 
   public static interrupt<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): void {
-    const logger = this.create(type, config) as any as AwesomeLoggerBase;
-    const renderedText = logger.render().toLineString();
-    const renderedLines = renderedText?.split(/[\r\n|\n|\r]/g);
-
     if (!this.activeLogger || !this._lastRenderedLines) {
       this.log(type, config);
       return;
     }
-    if (!renderedLines) {
+
+    const logger = this.create(type, config) as any as AwesomeLoggerBase;
+    const interruptText = logger.render().toString();
+    if (!interruptText) {
       return;
     }
 
-    const visibleLines = this.visibleLineCount(this._lastRenderedLines ?? []);
-    renderedLines.forEach(renderedLine => {
-      MOVE_UP(visibleLines);
-      INSERT_NEW_LINE();
-      process.stdout.write(renderedLine);
-      MOVE_LEFT();
-      MOVE_DOWN(visibleLines);
-      INSERT_LINE();
-    });
+    const renderedLines = this.activeLogger.render().allLines();
+    this._lastRenderedLines = undefined;
+    this.activeLogger.clean();
+    console.log(interruptText);
+
+    this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount);
+    this._lastRenderedLines = renderedLines;
   }
 
   public static loggerChanged(calledFrom: AwesomeLoggerBase) {

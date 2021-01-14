@@ -1,6 +1,6 @@
 import { AwesomeLogger } from '../../awesome-logger';
 import { TextObject } from '../../models/text-object';
-import { HIDE_CURSOR } from '../../utils/ansi-utils';
+import { DELETE_LINE, HIDE_CURSOR, MOVE_UP } from '../../utils/ansi-utils';
 
 export abstract class AwesomeLoggerBase {
   public scrollAmount: number = 0;
@@ -30,6 +30,23 @@ export abstract class AwesomeLoggerBase {
 
     this._lastLine = newLine;
     return newLine;
+  }
+
+  public clean(): void {
+
+    if (!this._lastLine) {
+      return;
+    }
+
+    const visibleLines = AwesomeLoggerBase.visibleLineCount(this._lastLine.allLines() ?? []);
+    for (let i = 0; i < visibleLines; i++) {
+      MOVE_UP(1);
+      DELETE_LINE();
+    }
+  }
+
+  private static visibleLineCount(allLines: TextObject[]): number {
+    return Math.min(allLines.length, AwesomeLogger.maxLinesInTerminal);
   }
 
 }
