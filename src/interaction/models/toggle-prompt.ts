@@ -41,12 +41,12 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
   protected gotKey(key: string): void {
     if (key === KEY_ARROW_UP) {
       if (this._currentHighlightedRow > 0) {
-        const prevHighlightdLine = this._currentHighlightedRow;
+        const prevHighlightedLine = this._currentHighlightedRow;
         this._currentHighlightedRow--;
         if (this._currentHighlightedRow - this.scrollAmount < 1 && this.scrollAmount > 0) {
           this.scrollAmount--;
         }
-        this.renderLine(prevHighlightdLine);
+        this.renderLine(prevHighlightedLine);
         this.renderLine(this._currentHighlightedRow);
       }
     } else if (key === KEY_ARROW_DOWN) {
