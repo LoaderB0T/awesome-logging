@@ -1,6 +1,6 @@
 {
   "name": "awesome-logging",
-  "version": "0.0.1-pre-alpha9",
+  "version": "0.0.1-pre-alpha10",
   "description": "Advanced logging messages, interactive prompts, loading animations and more in TypeScript",
   "main": "lib/index.js",
   "files": [
