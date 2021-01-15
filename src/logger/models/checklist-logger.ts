@@ -36,6 +36,10 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     return this._multiLine.getNextLine();
   }
 
+  public needsScroll() {
+    return true;
+  }
+
   public changeState(index: number, state: AwesomeChecklistLoggerState, newText?: string): void {
     const item = this._options.items[index];
     if (!item) {

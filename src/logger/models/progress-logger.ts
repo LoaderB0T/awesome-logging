@@ -6,6 +6,10 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
   private readonly _options: AwesomeProgressLoggerConfig;
   private _currentProgress: number = 0;
 
+  public needsScroll() {
+    return false;
+  }
+
   constructor(options?: Partial<AwesomeProgressLoggerConfig>) {
     super();
     this._options = {

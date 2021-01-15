@@ -15,6 +15,7 @@ export abstract class AwesomeLoggerBase {
   public abstract getNextLine(): TextObject;
   public abstract hasChanges(): boolean;
   public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;
+  public abstract needsScroll(): boolean;
 
   protected changed() {
     this._hasChanges = true;

@@ -14,6 +14,10 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     return this._hasChanges;
   }
 
+  public needsScroll() {
+    return false;
+  }
+
   public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
     return calledFrom === this;
   }

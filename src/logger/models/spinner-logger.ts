@@ -38,6 +38,10 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     return calledFrom === this;
   }
 
+  public needsScroll() {
+    return false;
+  }
+
   public getNextLine(): TextObject {
     if (this._stopped) {
       if (this._cleared) {

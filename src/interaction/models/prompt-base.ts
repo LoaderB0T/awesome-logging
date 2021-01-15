@@ -34,6 +34,10 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     return this.multiLogger.canBeCalledFrom(calledFrom);
   }
 
+  public needsScroll() {
+    return true;
+  }
+
   protected changed() {
     this._hasChanges = true;
     AwesomeLogger.loggerChanged(this.multiLogger);
