@@ -46,24 +46,21 @@ export class TextObject {
     return { text: text.text, color: text.color, bgColor: text.bgColor };
   }
 
-  public append(textObject: TextObject): TextObject
+  public append(text: TextObject): TextObject
   public append(text: string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject
-  public append(text?: TextObject | string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject {
-    if (typeof text === 'string') {
-      this._values.push({ text, color, bgColor });
-    } else {
-      text?._values.forEach(v => {
-        this._values.push({ text: v.text, color: v.color, bgColor: v.bgColor });
-      });
-      if (text?._child) {
-        let parent: TextObject = this;
-        let child: TextObject | undefined = this._child;
-        while (child) {
-          parent = child;
-          child = parent._child;
-        }
-        parent._child = text._child;
+  public append(text: TextObject | string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject {
+    const newChild = typeof text === 'string' ? new TextObject(text, color, bgColor) : text;
+    newChild._values.forEach(v => {
+      this._values.push({ text: v.text, color: v.color, bgColor: v.bgColor });
+    });
+    if (newChild._child) {
+      let parent: TextObject = this;
+      let child: TextObject | undefined = this._child;
+      while (child) {
+        parent = child;
+        child = parent._child;
       }
+      parent._child = newChild._child;
     }
     return this;
   }
