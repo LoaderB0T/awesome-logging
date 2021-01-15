@@ -5,7 +5,7 @@ import { AwesomeMultiLogger } from './logger/models/multi-logger';
 import { AwesomeProgressLogger } from './logger/models/progress-logger';
 import { AwesomeSpinnerLogger } from './logger/models/spinner-logger';
 import { AwesomeTextLogger } from './logger/models/text-logger';
-import { INSERT_LINE, MOVE_UP, INSERT_NEW_LINE, MOVE_LEFT, MOVE_DOWN, DELETE_LINE, HIDE_CURSOR } from './utils/ansi-utils';
+import { INSERT_LINE, MOVE_UP, DELETE_LINE, HIDE_CURSOR } from './utils/ansi-utils';
 import { AwesomeLoggerTextControl } from './logger/models/config/text';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './interaction/types/prompt-type';
 import { AwesomeTextPromt } from './interaction/models/text-prompt';
@@ -14,7 +14,7 @@ import { AwesomeTogglePromt } from './interaction/models/toggle-prompt';
 import { AwesomeChecklistLogger } from './logger/models/checklist-logger';
 
 export class AwesomeLogger {
-  private static activeLogger: AwesomeLoggerBase;
+  private static activeLogger?: AwesomeLoggerBase;
   private static _lastRenderedLines: TextObject[] | undefined;
   private static _lastScrollAmount: number = 0;
   public static maxLinesInTerminal: number = 25;
@@ -44,7 +44,17 @@ export class AwesomeLogger {
     return Math.min(allLines.length, this.maxLinesInTerminal);
   }
 
-  private static renderScrollWindow(allLines: TextObject[], scrollAmount: number) {
+  private static renderScrollWindow(allLines: TextObject[], scrollAmount: number, needsScroll: boolean) {
+    if (!needsScroll) {
+      for (let i = 0; i < allLines.length; i++) {
+        const line = allLines[i];
+        process.stdout.write(line.toLineString(this._lastRenderedLines?.[i]));
+        INSERT_LINE();
+      }
+      this._lastScrollAmount = scrollAmount;
+      return;
+    }
+
     const preDots = scrollAmount > 0;
     const postDots = scrollAmount < allLines.length - this.maxLinesInTerminal;
     const visibleLineCount = this.visibleLineCount(allLines);
@@ -66,7 +76,7 @@ export class AwesomeLogger {
     const loggerReturnType = this.create(type, config);
     const logger = loggerReturnType as AwesomeLoggerBase;
     const renderedLines = logger.render().allLines();
-    this.renderScrollWindow(renderedLines, logger.scrollAmount);
+    this.renderScrollWindow(renderedLines, logger.scrollAmount, logger.needsScroll());
 
     this._lastRenderedLines = renderedLines;
     this.activeLogger = logger;
@@ -75,7 +85,15 @@ export class AwesomeLogger {
 
   public static interrupt<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): void {
     if (!this.activeLogger || !this._lastRenderedLines) {
+      const noActiveLogger = !this.activeLogger;
+      const noLastRenderedLines = !this._lastRenderedLines;
       this.log(type, config);
+      if (noLastRenderedLines) {
+        this._lastRenderedLines = undefined;
+      }
+      if (noActiveLogger) {
+        this.activeLogger = undefined;
+      }
       return;
     }
 
@@ -85,24 +103,23 @@ export class AwesomeLogger {
       return;
     }
 
-    const renderedLines = this.activeLogger.render().allLines();
     this._lastRenderedLines = undefined;
+    const renderedLines = this.activeLogger.render().allLines();
     this.activeLogger.clean();
     console.log(interruptText);
-
-    this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount);
+    this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount, this.activeLogger.needsScroll());
     this._lastRenderedLines = renderedLines;
   }
 
   public static loggerChanged(calledFrom: AwesomeLoggerBase) {
-    const validCaller = this.activeLogger.canBeCalledFrom(calledFrom);
+    const validCaller = this.activeLogger!.canBeCalledFrom(calledFrom);
     if (!validCaller) {
       throw new Error('This logger is not active anymore');
     }
 
     HIDE_CURSOR();
 
-    const renderedLines = this.activeLogger.render().allLines();
+    const renderedLines = this.activeLogger!.render().allLines();
     if (!renderedLines) {
       return;
     }
@@ -131,7 +148,7 @@ export class AwesomeLogger {
 
     MOVE_UP(this.visibleLineCount(renderedLines));
 
-    this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount);
+    this.renderScrollWindow(renderedLines, this.activeLogger!.scrollAmount, this.activeLogger!.needsScroll());
     this._lastRenderedLines = renderedLines;
   }
 
@@ -151,7 +168,7 @@ export class AwesomeLogger {
 
     const renderedLines = prompt.render().allLines();
 
-    this.renderScrollWindow(renderedLines, prompt.scrollAmount);
+    this.renderScrollWindow(renderedLines, prompt.scrollAmount, prompt.needsScroll());
 
     this._lastRenderedLines = renderedLines;
     prompt.init();
