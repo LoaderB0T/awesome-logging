@@ -72,6 +72,6 @@ setInterval(() => {
   checklistLogger.changeState(Math.round(Math.random() * 9), 'partiallySucceeded');
 }, 100);
 
-setInterval(() => {
-  AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });
-}, 200);
+// setInterval(() => {
+//   AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });
+// }, 200);

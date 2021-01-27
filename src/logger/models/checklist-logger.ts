@@ -44,6 +44,11 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     if (!item) {
       throw new Error('item index out of range');
     }
+
+    if (item.state === state && (!newText || item.text === newText)) {
+      return;
+    }
+
     item.state = state;
     if (newText) {
       item.text = newText!;

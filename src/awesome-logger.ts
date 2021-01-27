@@ -140,14 +140,24 @@ export class AwesomeLogger {
       throw new Error('This logger is not active anymore');
     }
 
-    if (AwesomeLogger.restrictedLogging) {
-      return;
-    }
-
     HIDE_CURSOR();
 
     const renderedLines = this.activeLogger!.render().allLines();
     if (!renderedLines) {
+      return;
+    }
+
+    if (AwesomeLogger.restrictedLogging) {
+      for (let i = 0; i < renderedLines.length; i++) {
+        const line = renderedLines[i];
+        const changedLine = line.toLineString(this._lastRenderedLines?.[i]);
+        if (changedLine) {
+          console.log(line.toLineString());
+        }
+        if (this._lastRenderedLines) {
+          this._lastRenderedLines[i] = line;
+        }
+      }
       return;
     }
 

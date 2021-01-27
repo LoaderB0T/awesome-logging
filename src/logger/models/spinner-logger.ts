@@ -1,3 +1,4 @@
+import { AwesomeLogger } from '../../awesome-logger';
 import { TextObject, TextValue } from '../../models/text-object';
 import { AwesomeLoggerBase } from '../models/logger-base';
 import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner';
@@ -21,13 +22,15 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
       spinnerDelay: options?.spinnerDelay ?? 500,
       spinnerColor: options?.spinnerColor ?? 'WHITE'
     };
-    this._animationInterval = setInterval(() => {
-      this._animationIndex++;
-      if (this._animationIndex >= this._options.spinnerFrames.length) {
-        this._animationIndex = 0;
-      }
-      this.changed();
-    }, this._options.spinnerDelay);
+    if (!AwesomeLogger.restrictedLogging) {
+      this._animationInterval = setInterval(() => {
+        this._animationIndex++;
+        if (this._animationIndex >= this._options.spinnerFrames.length) {
+          this._animationIndex = 0;
+        }
+        this.changed();
+      }, this._options.spinnerDelay);
+    }
   }
 
   public hasChanges(): boolean {
