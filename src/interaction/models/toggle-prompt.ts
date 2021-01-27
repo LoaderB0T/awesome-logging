@@ -13,10 +13,11 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
   private readonly _toggles: boolean[];
 
   constructor(config: Partial<AwesomePromptToggleConfig>) {
-    const lines = config.options?.map(() => {
-      const newline = new AwesomeTextLogger({ text: '' });
-      return newline;
-    }) ?? [];
+    const lines =
+      config.options?.map(() => {
+        const newline = new AwesomeTextLogger({ text: '' });
+        return newline;
+      }) ?? [];
     super(lines);
     this._lines = lines;
     this._currentHighlightedRow = 0;
@@ -53,7 +54,10 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightdLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (this._currentHighlightedRow - this.scrollAmount > AwesomeLogger.maxLinesInTerminal - 2 && this.scrollAmount < this._options.length - AwesomeLogger.maxLinesInTerminal) {
+        if (
+          this._currentHighlightedRow - this.scrollAmount > AwesomeLogger.maxLinesInTerminal - 2 &&
+          this.scrollAmount < this._options.length - AwesomeLogger.maxLinesInTerminal
+        ) {
           this.scrollAmount++;
         }
         this.renderLine(prevHighlightdLine);

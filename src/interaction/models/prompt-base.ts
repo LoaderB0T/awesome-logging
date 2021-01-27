@@ -3,7 +3,6 @@ import { AwesomeLoggerBase } from '../../logger/models/logger-base';
 import { AwesomeMultiLogger } from '../../logger/models/multi-logger';
 import { TextObject } from '../../models/text-object';
 
-
 export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   protected _hasChanges: boolean = true;
   private _readStream: NodeJS.ReadStream;
@@ -66,7 +65,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     stdin.setRawMode(true);
     stdin.resume();
     stdin.setEncoding('utf8');
-    this._readStream = stdin.on('data', (key) => {
+    this._readStream = stdin.on('data', key => {
       // ctrl-c ( end of text )
       if (key.toString() === '\u0003') {
         process.exit();

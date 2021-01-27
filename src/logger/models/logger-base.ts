@@ -34,7 +34,6 @@ export abstract class AwesomeLoggerBase {
   }
 
   public clean(): void {
-
     if (!this._lastLine) {
       return;
     }
@@ -49,5 +48,4 @@ export abstract class AwesomeLoggerBase {
   private static visibleLineCount(allLines: TextObject[]): number {
     return Math.min(allLines.length, AwesomeLogger.maxLinesInTerminal);
   }
-
 }

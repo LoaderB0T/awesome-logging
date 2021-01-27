@@ -4,5 +4,4 @@ export interface AwesomePromptToggleConfig {
   options: string[];
 }
 
-export interface AwesomePromptToggleControl extends AwesomePromptBaseControl<string[]> {
-}
+export interface AwesomePromptToggleControl extends AwesomePromptBaseControl<string[]> {}

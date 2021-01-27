@@ -21,7 +21,6 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     }
 
     this._multiLine = AwesomeLogger.create('multi', { children: lineChildren }) as AwesomeMultiLogger;
-
   }
 
   public hasChanges(): boolean {
@@ -80,5 +79,4 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
         return new TextObject('?', 'GRAY');
     }
   }
-
 }

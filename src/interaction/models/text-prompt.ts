@@ -21,7 +21,11 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     super([questionLogger, answerLogger]);
     this._text = config.text ?? '';
     this._currentAnswer = '';
-    this._autoComplete = config.autoComplete ? Array.isArray(config.autoComplete) ? config.autoComplete : [config.autoComplete] : [];
+    this._autoComplete = config.autoComplete
+      ? Array.isArray(config.autoComplete)
+        ? config.autoComplete
+        : [config.autoComplete]
+      : [];
     this._fuzzyAutoComplete = config.fuzzyAutoComplete ?? false;
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
@@ -48,7 +52,6 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   private getAnswerText(): TextObject {
     let autoCompleteMatch: TextObject | null = null;
     let cursorRendered = false;
-
 
     if (this._fuzzyAutoComplete && this._autoComplete.length > 0) {
       const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
@@ -79,11 +82,12 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     } else {
       // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end.
       // If fuzzy match is activated there is text rendered after the actual user input. To prevent it from jumping around the additional space char is always rendered.
-      const currentAnswer = `${this._currentAnswer}${this._cursorPos === this._currentAnswer.length || this._fuzzyAutoComplete ? ' ' : ''}`;
+      const currentAnswer = `${this._currentAnswer}${
+        this._cursorPos === this._currentAnswer.length || this._fuzzyAutoComplete ? ' ' : ''
+      }`;
       textObject = new TextObject(currentAnswer.substring(0, this._cursorPos));
       textObject.append(currentAnswer.substring(this._cursorPos, this._cursorPos + 1), 'BLACK', 'WHITE');
       textObject.append(currentAnswer.substring(this._cursorPos + 1));
-
     }
     if (autoCompleteMatch) {
       textObject.append(autoCompleteMatch);
@@ -107,7 +111,8 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     } else if (key === '\b') {
       if (this._currentAnswer.length > 0) {
         if (this._cursorPos > 0) {
-          this._currentAnswer = this._currentAnswer.substr(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
+          this._currentAnswer =
+            this._currentAnswer.substr(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
           this._cursorPos--;
         }
       }
@@ -118,7 +123,8 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
         this._cursorPos = this._currentAnswer.length;
       }
     } else if (!key.includes(CONTROL_PREFIX) && key.match(/^.+$/)) {
-      this._currentAnswer = this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
+      this._currentAnswer =
+        this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
       this._cursorPos += key.length;
     } else if (key === KEY_ARROW_LEFT) {
       if (this._cursorPos > 0) {

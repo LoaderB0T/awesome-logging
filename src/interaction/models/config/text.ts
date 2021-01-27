@@ -8,5 +8,4 @@ export interface AwesomePromptTextConfig {
   fuzzyAutoComplete: boolean;
 }
 
-export interface AwesomePromptTextControl extends AwesomePromptBaseControl<string> {
-}
+export interface AwesomePromptTextControl extends AwesomePromptBaseControl<string> {}

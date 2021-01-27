@@ -8,14 +8,10 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\lib\\test.js",
       "preLaunchTask": "tsc: build - tsconfig.json",
-      "outFiles": [
-        "${workspaceFolder}/lib/**/*.js"
-      ],
+      "outFiles": ["${workspaceFolder}/lib/**/*.js"],
       "console": "integratedTerminal"
     }
   ]

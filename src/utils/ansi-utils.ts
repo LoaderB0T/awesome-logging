@@ -6,8 +6,8 @@ export const CONTROL_PREFIX: string = '\u001b[';
 let cursorVisible = true;
 
 export const MOVE_LEFT = () => process.stdout.write(`${CONTROL_PREFIX}1000D`);
-export const MOVE_UP = (i: number) => i > 0 ? process.stdout.write(`${CONTROL_PREFIX}${i}A`) : {};
-export const MOVE_DOWN = (i: number) => i > 0 ? process.stdout.write(`${CONTROL_PREFIX}${i}B`) : {};
+export const MOVE_UP = (i: number) => (i > 0 ? process.stdout.write(`${CONTROL_PREFIX}${i}A`) : {});
+export const MOVE_DOWN = (i: number) => (i > 0 ? process.stdout.write(`${CONTROL_PREFIX}${i}B`) : {});
 export const INSERT_LINE = () => process.stdout.write('\n');
 export const INSERT_NEW_LINE = () => process.stdout.write(`${CONTROL_PREFIX}1L`);
 export const DELETE_LINE = () => process.stdout.write(`${CONTROL_PREFIX}1M`);

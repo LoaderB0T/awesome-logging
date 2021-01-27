@@ -46,8 +46,8 @@ export class TextObject {
     return { text: text.text, color: text.color, bgColor: text.bgColor };
   }
 
-  public append(text: TextObject): TextObject
-  public append(text: string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject
+  public append(text: TextObject): TextObject;
+  public append(text: string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject;
   public append(text: TextObject | string, color?: AwesomeLoggerColor, bgColor?: AwesomeLoggerColor): TextObject {
     const newChild = typeof text === 'string' ? new TextObject(text, color, bgColor) : text;
     newChild._values.forEach(v => {

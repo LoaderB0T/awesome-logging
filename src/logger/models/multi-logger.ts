@@ -19,7 +19,7 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
   }
 
   public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
-    return (calledFrom === this || this._children.some(x => x.canBeCalledFrom(calledFrom)));
+    return calledFrom === this || this._children.some(x => x.canBeCalledFrom(calledFrom));
   }
 
   public getChild<T extends AwesomeLoggerBase>(index: number): T {

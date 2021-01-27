@@ -4,10 +4,9 @@ import { AwesomeProgressLoggerConfig, AwesomeProgressLoggerControl } from '../mo
 import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from '../models/config/spinner';
 import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from '../models/config/text';
 
-
 export type AwesomeLoggerDefinitions =
-  { type: 'text', config: AwesomeLoggerTextConfig, returnValue: AwesomeLoggerTextControl } |
-  { type: 'progress', config: AwesomeProgressLoggerConfig, returnValue: AwesomeProgressLoggerControl } |
-  { type: 'spinner', config: AwesomeLoggerSpinnerConfig, returnValue: AwesomeLoggerSpinnerControl } |
-  { type: 'multi', config: AwesomeLoggerMultiConfig, returnValue: AwesomeLoggerMultiControl } |
-  { type: 'checklist', config: AwesomeChecklistLoggerConfig, returnValue: AwesomeChecklistLoggerControl };
+  | { type: 'text'; config: AwesomeLoggerTextConfig; returnValue: AwesomeLoggerTextControl }
+  | { type: 'progress'; config: AwesomeProgressLoggerConfig; returnValue: AwesomeProgressLoggerControl }
+  | { type: 'spinner'; config: AwesomeLoggerSpinnerConfig; returnValue: AwesomeLoggerSpinnerControl }
+  | { type: 'multi'; config: AwesomeLoggerMultiConfig; returnValue: AwesomeLoggerMultiControl }
+  | { type: 'checklist'; config: AwesomeChecklistLoggerConfig; returnValue: AwesomeChecklistLoggerControl };

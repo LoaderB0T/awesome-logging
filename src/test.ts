@@ -1,5 +1,3 @@
-
-
 // AwesomeLogger.log('text', { text: { text: 'awd', color: 'CYAN' } });
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
 // AwesomeLogger.logText({ text: 'awd', color: 'GREEN' });
@@ -17,6 +15,8 @@
 
 import { AwesomeLogger } from './awesome-logger';
 import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
+
+AwesomeLogger.restrictedLogging = true;
 
 // const multi1 = AwesomeLogger.log('multi', { children: [line1, line2, prog1, spin1] });
 // const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
@@ -63,7 +63,9 @@ import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 // });
 
 const checklistLogger = AwesomeLogger.log('checklist', {
-  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => { return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState }; })
+  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
+    return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
+  })
 });
 
 setInterval(() => {

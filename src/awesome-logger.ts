@@ -18,6 +18,7 @@ export class AwesomeLogger {
   private static _lastRenderedLines: TextObject[] | undefined;
   private static _lastScrollAmount: number = 0;
   public static maxLinesInTerminal: number = 25;
+  public static restrictedLogging: boolean = false;
 
   public static logText(text: string | TextValue): AwesomeLoggerTextControl {
     return this.log('text', { text });
@@ -27,17 +28,32 @@ export class AwesomeLogger {
     let logger: AwesomeLoggerBase | undefined = undefined;
 
     switch (type) {
-      case 'text': { logger = new AwesomeTextLogger(config); break; }
-      case 'progress': { logger = new AwesomeProgressLogger(config); break; }
-      case 'spinner': { logger = new AwesomeSpinnerLogger(config); break; }
-      case 'multi': { logger = new AwesomeMultiLogger(config); break; }
-      case 'checklist': { logger = new AwesomeChecklistLogger(config); break; }
+      case 'text': {
+        logger = new AwesomeTextLogger(config);
+        break;
+      }
+      case 'progress': {
+        logger = new AwesomeProgressLogger(config);
+        break;
+      }
+      case 'spinner': {
+        logger = new AwesomeSpinnerLogger(config);
+        break;
+      }
+      case 'multi': {
+        logger = new AwesomeMultiLogger(config);
+        break;
+      }
+      case 'checklist': {
+        logger = new AwesomeChecklistLogger(config);
+        break;
+      }
     }
 
     if (!logger) {
       throw new Error(`Logger type '${type}' not found`);
     }
-    return logger as any as LoggerReturnType<T>;
+    return (logger as any) as LoggerReturnType<T>;
   }
 
   private static visibleLineCount(allLines: TextObject[]): number {
@@ -62,7 +78,9 @@ export class AwesomeLogger {
       if (preDots && i === 0) {
         process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[0]));
       } else if (postDots && i === visibleLineCount - 1) {
-        process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1]));
+        process.stdout.write(
+          new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1])
+        );
       } else {
         const line = allLines[i + scrollAmount];
         process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
@@ -97,7 +115,7 @@ export class AwesomeLogger {
       return;
     }
 
-    const logger = this.create(type, config) as any as AwesomeLoggerBase;
+    const logger = (this.create(type, config) as any) as AwesomeLoggerBase;
     const interruptText = logger.render().toString();
     if (!interruptText) {
       return;
@@ -105,9 +123,14 @@ export class AwesomeLogger {
 
     this._lastRenderedLines = undefined;
     const renderedLines = this.activeLogger.render().allLines();
-    this.activeLogger.clean();
+
+    if (!AwesomeLogger.restrictedLogging) {
+      this.activeLogger.clean();
+    }
     console.log(interruptText);
-    this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount, this.activeLogger.needsScroll());
+    if (!AwesomeLogger.restrictedLogging) {
+      this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount, this.activeLogger.needsScroll());
+    }
     this._lastRenderedLines = renderedLines;
   }
 
@@ -115,6 +138,10 @@ export class AwesomeLogger {
     const validCaller = this.activeLogger!.canBeCalledFrom(calledFrom);
     if (!validCaller) {
       throw new Error('This logger is not active anymore');
+    }
+
+    if (AwesomeLogger.restrictedLogging) {
+      return;
     }
 
     HIDE_CURSOR();
@@ -156,8 +183,14 @@ export class AwesomeLogger {
     let prompt: AwesomePromptBase<any> | undefined = undefined;
 
     switch (type) {
-      case 'text': { prompt = new AwesomeTextPromt(config); break; }
-      case 'toggle': { prompt = new AwesomeTogglePromt(config); break; }
+      case 'text': {
+        prompt = new AwesomeTextPromt(config);
+        break;
+      }
+      case 'toggle': {
+        prompt = new AwesomeTogglePromt(config);
+        break;
+      }
     }
 
     if (!prompt) {
@@ -165,6 +198,10 @@ export class AwesomeLogger {
     }
 
     this.activeLogger = prompt;
+
+    if (AwesomeLogger.restrictedLogging) {
+      throw new Error('Restricted logging is enabled. Cannot use propmts');
+    }
 
     const renderedLines = prompt.render().allLines();
 
@@ -174,6 +211,6 @@ export class AwesomeLogger {
     prompt.init();
     prompt.waitForUserInput();
 
-    return prompt as any as PromptReturnType<T>;
+    return (prompt as any) as PromptReturnType<T>;
   }
 }

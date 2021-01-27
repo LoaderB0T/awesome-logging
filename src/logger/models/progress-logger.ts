@@ -36,7 +36,7 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
 
   public getNextLine(): TextObject {
     const totalLength: number = Math.min(process.stdout.columns - 2, this._options.maxWidth);
-    const finnishedLength = Math.round(this._currentProgress / this._options.totalProgress * totalLength);
+    const finnishedLength = Math.round((this._currentProgress / this._options.totalProgress) * totalLength);
     const unFinnishedLength = totalLength - finnishedLength;
     return new TextObject(this._options.borderChar, this._options.borderColor)
       .append(this._options.filledChar.repeat(finnishedLength), this._options.filledColor)
@@ -50,5 +50,4 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
       this.changed();
     }
   }
-
 }

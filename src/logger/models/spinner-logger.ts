@@ -56,11 +56,13 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
       }
     }
 
-    return new TextObject(this._options.spinnerFrames[this._animationIndex], this._options.spinnerColor)
-      .append(this._text.text, this._text.color);
+    return new TextObject(this._options.spinnerFrames[this._animationIndex], this._options.spinnerColor).append(
+      this._text.text,
+      this._text.color
+    );
   }
 
-  stop(options: { succeeded?: boolean, removeLine?: boolean, text?: string }): void {
+  stop(options: { succeeded?: boolean; removeLine?: boolean; text?: string }): void {
     clearInterval(this._animationInterval);
     this._stopped = true;
 

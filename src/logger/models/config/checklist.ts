@@ -4,14 +4,14 @@ export interface AwesomeChecklistLoggerItem {
 }
 
 export type AwesomeChecklistLoggerState =
-  'unknown' |
-  'pending' |
-  'inProgress' |
-  'done' |
-  'succeeded' |
-  'failed' |
-  'skipped' |
-  'partiallySucceeded';
+  | 'unknown'
+  | 'pending'
+  | 'inProgress'
+  | 'done'
+  | 'succeeded'
+  | 'failed'
+  | 'skipped'
+  | 'partiallySucceeded';
 
 export interface AwesomeChecklistLoggerConfig {
   items: AwesomeChecklistLoggerItem[];
