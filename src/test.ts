@@ -16,7 +16,7 @@
 import { AwesomeLogger } from './awesome-logger';
 import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 
-AwesomeLogger.restrictedLogging = true;
+// AwesomeLogger.restrictedLogging = true;
 
 // const multi1 = AwesomeLogger.log('multi', { children: [line1, line2, prog1, spin1] });
 // const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
@@ -50,7 +50,12 @@ AwesomeLogger.restrictedLogging = true;
 //   i3++;
 // }, 5000);
 
-// AwesomeLogger.prompt('text', { text: 'yeeeeeeeeeee', autoComplete: ['yeeeeee', 'awdware', 'nice story'], fuzzyAutoComplete: true });
+AwesomeLogger.prompt('text', {
+  text: 'yeeeeeeeeeee',
+  autoComplete: ['yeeeeee', 'awdware', 'nice story'],
+  fuzzyAutoComplete: true,
+  validator: (a: string) => a.endsWith('yee')
+});
 // const a = AwesomeLogger.prompt('toggle', {
 //   options: [
 //     'first', 'second', 'third', 'fourth', 'fifth', 'sixth',
@@ -62,15 +67,15 @@ AwesomeLogger.restrictedLogging = true;
 //   console.log(x[0]);
 // });
 
-const checklistLogger = AwesomeLogger.log('checklist', {
-  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
-    return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
-  })
-});
+// const checklistLogger = AwesomeLogger.log('checklist', {
+//   items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
+//     return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
+//   })
+// });
 
-setInterval(() => {
-  checklistLogger.changeState(Math.round(Math.random() * 9), 'partiallySucceeded');
-}, 100);
+// setInterval(() => {
+//   checklistLogger.changeState(Math.round(Math.random() * 9), 'partiallySucceeded');
+// }, 100);
 
 // setInterval(() => {
 //   AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });

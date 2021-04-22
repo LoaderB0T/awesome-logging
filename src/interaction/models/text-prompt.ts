@@ -12,6 +12,8 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   private readonly _caseInsensitive: boolean;
   private readonly _autoComplete: string[];
   private readonly _fuzzyAutoComplete: boolean;
+  private readonly _default: string;
+  private readonly _validator: (v: any) => boolean | Promise<boolean>;
   private _currentAnswer: string;
   private _cursorPos: number;
 
@@ -29,6 +31,8 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     this._fuzzyAutoComplete = config.fuzzyAutoComplete ?? false;
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
+    this._validator = config.validator ?? (() => true);
+    this._default = config.default ?? '';
     this._cursorPos = 0;
   }
 
@@ -106,7 +110,13 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
 
   protected gotKey(key: string): void {
     if (key.match(/^[\r\n]+$/)) {
-      this.inputFinished(this._currentAnswer);
+      if (this._validator(this._currentAnswer)) {
+        this.inputFinished(this._currentAnswer);
+      } else {
+        const ans = this.getAnswerText();
+        ans.append(' (invalid)', 'RED');
+        this._answerLogger.setText(ans);
+      }
       return;
     } else if (key === '\b') {
       if (this._currentAnswer.length > 0) {
@@ -139,7 +149,7 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   }
 
   protected resetViewAndShowResult(): void {
-    const resultLog = new TextObject(' - Entered Text: ', 'GRAY');
+    const resultLog = new TextObject(' - Input: ', 'GRAY');
     resultLog.append(this._currentAnswer, 'GREEN');
     this.multiLogger.getChild<AwesomeLoggerTextControl>(0).setText(resultLog);
   }
