@@ -5,7 +5,7 @@ import { AwesomeMultiLogger } from './logger/models/multi-logger';
 import { AwesomeProgressLogger } from './logger/models/progress-logger';
 import { AwesomeSpinnerLogger } from './logger/models/spinner-logger';
 import { AwesomeTextLogger } from './logger/models/text-logger';
-import { INSERT_LINE, MOVE_UP, DELETE_LINE, HIDE_CURSOR } from './utils/ansi-utils';
+import { INSERT_LINE, MOVE_UP, DELETE_LINE, HIDE_CURSOR, MOVE_LEFT } from './utils/ansi-utils';
 import { AwesomeLoggerTextControl } from './logger/models/config/text';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './interaction/types/prompt-type';
 import { AwesomeTextPromt } from './interaction/models/text-prompt';
@@ -17,8 +17,17 @@ export class AwesomeLogger {
   private static activeLogger?: AwesomeLoggerBase;
   private static _lastRenderedLines: TextObject[] | undefined;
   private static _lastScrollAmount: number = 0;
-  public static maxLinesInTerminal: number = 25;
+  private static _maxLinesInTerminal: number = 25;
   public static restrictedLogging: boolean = false;
+
+  public static get maxLinesInTerminal(): number {
+    const terminalSize = process.stdout.getWindowSize();
+    return Math.min(terminalSize[1], this._maxLinesInTerminal);
+  }
+
+  public static set maxLinesInTerminal(value: number) {
+    this._maxLinesInTerminal = value;
+  }
 
   public static logText(text: string | TextValue): AwesomeLoggerTextControl {
     return this.log('text', { text });
@@ -56,7 +65,7 @@ export class AwesomeLogger {
     return (logger as any) as LoggerReturnType<T>;
   }
 
-  private static visibleLineCount(allLines: TextObject[]): number {
+  public static visibleLineCount(allLines: TextObject[]): number {
     return Math.min(allLines.length, this.maxLinesInTerminal);
   }
 
@@ -72,20 +81,22 @@ export class AwesomeLogger {
     }
 
     const preDots = scrollAmount > 0;
-    const postDots = scrollAmount < allLines.length - this.maxLinesInTerminal;
+    const postDots = scrollAmount <= allLines.length - this.maxLinesInTerminal;
     const visibleLineCount = this.visibleLineCount(allLines);
     for (let i = 0; i < visibleLineCount; i++) {
       if (preDots && i === 0) {
         process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[0]));
+        INSERT_LINE();
       } else if (postDots && i === visibleLineCount - 1) {
         process.stdout.write(
           new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1])
         );
+        MOVE_LEFT();
       } else {
         const line = allLines[i + scrollAmount];
         process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
+        INSERT_LINE();
       }
-      INSERT_LINE();
     }
     this._lastScrollAmount = scrollAmount;
   }

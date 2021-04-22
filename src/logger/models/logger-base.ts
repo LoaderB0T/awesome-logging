@@ -38,14 +38,10 @@ export abstract class AwesomeLoggerBase {
       return;
     }
 
-    const visibleLines = AwesomeLoggerBase.visibleLineCount(this._lastLine.allLines() ?? []);
+    const visibleLines = AwesomeLogger.visibleLineCount(this._lastLine.allLines() ?? []);
     for (let i = 0; i < visibleLines; i++) {
       MOVE_UP(1);
       DELETE_LINE();
     }
-  }
-
-  private static visibleLineCount(allLines: TextObject[]): number {
-    return Math.min(allLines.length, AwesomeLogger.maxLinesInTerminal);
   }
 }
