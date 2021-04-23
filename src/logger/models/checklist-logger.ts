@@ -54,7 +54,13 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
       item.text = newText!;
     }
 
-    this.scrollAmount = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
+    let firstUnfinishedOptionIndex = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
+    const maxScrollAmount = this._options.items.length - AwesomeLogger.maxLinesInTerminal;
+    if (firstUnfinishedOptionIndex === -1) {
+      firstUnfinishedOptionIndex = maxScrollAmount;
+    }
+
+    this.scrollAmount = Math.min(firstUnfinishedOptionIndex, maxScrollAmount);
 
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
   }

@@ -83,21 +83,23 @@ export class AwesomeLogger {
 
     const preDots = scrollAmount > 0;
     const postDots = scrollAmount <= allLines.length - this.maxLinesInTerminal;
-    const visibleLineCount = this.visibleLineCount(allLines);
+    const visibleLineCount = this.visibleLineCount(allLines) - (preDots ? 1 : 0) - (postDots ? 1 : 0);
+
+    if (preDots) {
+      process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[0]));
+      INSERT_LINE();
+    }
+
     for (let i = 0; i < visibleLineCount; i++) {
-      if (preDots && i === 0) {
-        process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[0]));
-        INSERT_LINE();
-      } else if (postDots && i === visibleLineCount - 1) {
-        process.stdout.write(
-          new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1])
-        );
-        MOVE_LEFT();
-      } else {
-        const line = allLines[i + scrollAmount - (preDots ? 1 : 0)];
-        process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
-        INSERT_LINE();
-      }
+      const line = allLines[i + scrollAmount];
+      process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
+      INSERT_LINE();
+    }
+    if (postDots) {
+      process.stdout.write(
+        new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1])
+      );
+      MOVE_LEFT();
     }
     this._lastScrollAmount = scrollAmount;
   }
