@@ -81,6 +81,10 @@ export class AwesomeLogger {
       return;
     }
 
+    if (AwesomeLogger.restrictedLogging) {
+      scrollAmount = 0;
+    }
+
     const preDots = scrollAmount > 0;
     const postDots = scrollAmount <= allLines.length - this.maxLinesInTerminal;
     const visibleLineCount = this.visibleLineCount(allLines) - (preDots ? 1 : 0) - (postDots ? 1 : 0);
