@@ -68,14 +68,14 @@ import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 // });
 
 const checklistLogger = AwesomeLogger.log('checklist', {
-  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
+  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(x => {
     return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
   })
 });
 
 setInterval(() => {
-  checklistLogger.changeState(Math.round(Math.random() * 9), 'partiallySucceeded');
-}, 100);
+  checklistLogger.changeState(Math.round(Math.random() * 19), 'partiallySucceeded');
+}, 1000);
 
 // setInterval(() => {
 //   AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });

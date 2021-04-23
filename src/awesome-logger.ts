@@ -94,7 +94,7 @@ export class AwesomeLogger {
         );
         MOVE_LEFT();
       } else {
-        const line = allLines[i + scrollAmount];
+        const line = allLines[i + scrollAmount - (preDots ? 1 : 0)];
         process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
         INSERT_LINE();
       }

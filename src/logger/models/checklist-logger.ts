@@ -54,6 +54,8 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
       item.text = newText!;
     }
 
+    this.scrollAmount = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
+
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
   }
 
@@ -67,21 +69,21 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
   private getPrefix(state: AwesomeChecklistLoggerState): TextObject {
     switch (state) {
       case 'done':
-        return new TextObject('√', 'GREEN');
+        return new TextObject(' √', 'GREEN');
       case 'failed':
-        return new TextObject('X', 'RED');
+        return new TextObject(' X', 'RED');
       case 'inProgress':
-        return new TextObject('>', 'BLUE');
+        return new TextObject(' >', 'BLUE');
       case 'partiallySucceeded':
-        return new TextObject('!', 'YELLOW');
+        return new TextObject(' !', 'YELLOW');
       case 'skipped':
-        return new TextObject('■', 'GREEN');
+        return new TextObject(' ■', 'GREEN');
       case 'pending':
-        return new TextObject('■', 'GRAY');
+        return new TextObject(' ■', 'GRAY');
       case 'succeeded':
-        return new TextObject('√', 'GREEN');
+        return new TextObject(' √', 'GREEN');
       default:
-        return new TextObject('?', 'GRAY');
+        return new TextObject(' ?', 'GRAY');
     }
   }
 }
