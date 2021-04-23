@@ -22,7 +22,7 @@ export class AwesomeLogger {
   public static restrictedLogging: boolean = false;
 
   public static get maxLinesInTerminal(): number {
-    const terminalSize = terminalSizeModule.size();
+    const terminalSize = terminalSizeModule.get();
     return Math.min(terminalSize?.height ?? this._maxLinesInTerminal, this._maxLinesInTerminal);
   }
 
