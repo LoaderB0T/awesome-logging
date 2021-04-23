@@ -1,3 +1,4 @@
+const terminalSizeModule = require('window-size');
 import { TextObject, TextValue } from './models/text-object';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/types/logger-type';
 import { AwesomeLoggerBase } from './logger/models/logger-base';
@@ -21,8 +22,8 @@ export class AwesomeLogger {
   public static restrictedLogging: boolean = false;
 
   public static get maxLinesInTerminal(): number {
-    const terminalSize = process.stdout.getWindowSize();
-    return Math.min(terminalSize[1], this._maxLinesInTerminal);
+    const terminalSize = terminalSizeModule.size();
+    return Math.min(terminalSize?.height ?? this._maxLinesInTerminal, this._maxLinesInTerminal);
   }
 
   public static set maxLinesInTerminal(value: number) {
