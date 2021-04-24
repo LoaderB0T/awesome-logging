@@ -3,13 +3,40 @@ import { TextObject } from '../../models/text-object';
 import { DELETE_LINE, HIDE_CURSOR, MOVE_UP } from '../../utils/ansi-utils';
 
 export abstract class AwesomeLoggerBase {
+  private static currentKeyListener?: (value: string) => any;
+  public static isInitialized = false;
+
   public scrollAmount: number = 0;
   private _lastLine: TextObject;
   protected _hasChanges: boolean = true;
+  private readonly _readStream: NodeJS.ReadStream;
 
   constructor() {
     this._lastLine = new TextObject('');
     HIDE_CURSOR();
+    if (!AwesomeLoggerBase.isInitialized) {
+      AwesomeLoggerBase.isInitialized = true;
+      const stdin = process.stdin;
+      stdin.setRawMode(true);
+      stdin.resume();
+      stdin.setEncoding('utf8');
+      this._readStream = stdin.on('data', key => {
+        // ctrl-c ( end of text )
+        if (key.toString() === '\u0003') {
+          process.exit();
+        }
+        AwesomeLoggerBase.currentKeyListener?.(key.toString());
+      });
+    }
+  }
+
+  public static changeKeyListener(listener?: (val: string) => any) {
+    this.currentKeyListener = listener;
+    if (!this.currentKeyListener) {
+      process.stdin.pause();
+    } else {
+      process.stdin.resume();
+    }
   }
 
   public abstract getNextLine(): TextObject;
