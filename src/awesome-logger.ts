@@ -1,4 +1,3 @@
-const terminalSizeModule = require('window-size');
 import { TextObject, TextValue } from './models/text-object';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/types/logger-type';
 import { AwesomeLoggerBase } from './logger/models/logger-base';
@@ -17,7 +16,6 @@ import { AwesomeChecklistLogger } from './logger/models/checklist-logger';
 export class AwesomeLogger {
   private static activeLogger?: AwesomeLoggerBase;
   private static _lastRenderedLines: TextObject[] | undefined;
-  private static _lastScrollAmount: number = 0;
   private static _maxLinesInTerminal: number = 25;
   public static restrictedLogging: boolean = false;
 
@@ -71,41 +69,50 @@ export class AwesomeLogger {
   }
 
   private static renderScrollWindow(allLines: TextObject[], scrollAmount: number, needsScroll: boolean) {
+    if (this.maxLinesInTerminal > allLines.length) {
+      needsScroll = false;
+    }
     if (!needsScroll) {
       for (let i = 0; i < allLines.length; i++) {
         const line = allLines[i];
         process.stdout.write(line.toLineString(this._lastRenderedLines?.[i]));
         INSERT_LINE();
       }
-      this._lastScrollAmount = scrollAmount;
       return;
     }
 
-    if (AwesomeLogger.restrictedLogging) {
-      scrollAmount = 0;
+    const maxScrollAmount = allLines.length - this.maxLinesInTerminal + 1;
+    if (scrollAmount > maxScrollAmount && maxScrollAmount > 0) {
+      scrollAmount = maxScrollAmount;
     }
+
+    const acutalLines = new Array<TextObject>(this.maxLinesInTerminal);
 
     const preDots = scrollAmount > 0;
     const postDots = scrollAmount <= allLines.length - this.maxLinesInTerminal;
-    const visibleLineCount = this.visibleLineCount(allLines) - (preDots ? 1 : 0) - (postDots ? 1 : 0);
-
+    const lineRenderCount = this.maxLinesInTerminal - (preDots ? 1 : 0) - (postDots ? 1 : 0);
     if (preDots) {
-      process.stdout.write(new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[0]));
-      INSERT_LINE();
-    }
-
-    for (let i = 0; i < visibleLineCount; i++) {
-      const line = allLines[i + scrollAmount];
-      process.stdout.write(line.toLineString(this._lastRenderedLines?.[i + this._lastScrollAmount]));
-      INSERT_LINE();
+      acutalLines[0] = new TextObject('...', 'GRAY');
     }
     if (postDots) {
-      process.stdout.write(
-        new TextObject('...', 'GRAY').toLineString(this._lastRenderedLines?.[this._lastRenderedLines.length - 1])
-      );
-      MOVE_LEFT();
+      acutalLines[acutalLines.length - 1] = new TextObject('...', 'GRAY');
     }
-    this._lastScrollAmount = scrollAmount;
+    for (let i = 0; i < lineRenderCount; i++) {
+      const line = allLines[i + scrollAmount];
+      acutalLines[i + (preDots ? 1 : 0)] = line;
+    }
+
+    for (let i = 0; i < acutalLines.length; i++) {
+      const line = acutalLines[i];
+      process.stdout.write(line.toLineString(this._lastRenderedLines?.[i]));
+      if (i < acutalLines.length - 1) {
+        INSERT_LINE();
+      } else {
+        MOVE_LEFT();
+      }
+    }
+
+    this._lastRenderedLines = acutalLines;
   }
 
   public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
@@ -204,7 +211,6 @@ export class AwesomeLogger {
     MOVE_UP(this.visibleLineCount(renderedLines));
 
     this.renderScrollWindow(renderedLines, this.activeLogger!.scrollAmount, this.activeLogger!.needsScroll());
-    this._lastRenderedLines = renderedLines;
   }
 
   public static prompt<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {
