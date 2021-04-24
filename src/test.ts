@@ -57,22 +57,7 @@ import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 //   validator: (a: string) => a.endsWith('yee')
 // });
 const a = AwesomeLogger.prompt('toggle', {
-  options: [
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    'sixth',
-    'first',
-    'second',
-    'third',
-    'fourth',
-    'fifth',
-    'sixth',
-    'first',
-    'second'
-  ]
+  options: ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'nineth', 'tenth']
 });
 
 a.result.then(x => {
