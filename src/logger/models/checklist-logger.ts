@@ -54,17 +54,19 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
       item.text = newText!;
     }
 
-    const maxScrollAmount = this._options.items.length - AwesomeLogger.maxLinesInTerminal;
-    if (maxScrollAmount > 0) {
-      let firstUnfinishedOptionIndex = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
-      if (firstUnfinishedOptionIndex === -1) {
-        firstUnfinishedOptionIndex = maxScrollAmount;
-      }
-
-      this.scrollAmount = Math.min(firstUnfinishedOptionIndex, maxScrollAmount);
+    let scroll = 0;
+    const firstUnfinishedOptionIndex = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
+    if (firstUnfinishedOptionIndex !== -1) {
+      scroll = firstUnfinishedOptionIndex;
     } else {
-      this.scrollAmount = 0;
+      // This is "too far" but the scrollwindow will handle this gracefully
+      scroll = this._options.items.length;
     }
+
+    this.scrollAmount = scroll;
+
+    // todo: interrupt with already finished items that are scrolled away
+
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
   }
 

@@ -21,7 +21,8 @@ export class AwesomeLogger {
 
   public static get maxLinesInTerminal(): number {
     const terminalSize = process.stdout?.getWindowSize?.();
-    return Math.min(terminalSize?.[1] ?? this._maxLinesInTerminal, this._maxLinesInTerminal);
+    const maxPrintHeight = terminalSize?.[1] ?? this._maxLinesInTerminal;
+    return Math.min(maxPrintHeight, this._maxLinesInTerminal);
   }
 
   public static set maxLinesInTerminal(value: number) {
@@ -74,11 +75,20 @@ export class AwesomeLogger {
     }
     if (!needsScroll) {
       for (let i = 0; i < allLines.length; i++) {
+        if (i !== 0) {
+          INSERT_LINE();
+        } else {
+          MOVE_LEFT();
+        }
         const line = allLines[i];
         process.stdout.write(line.toLineString(this._lastRenderedLines?.[i]));
-        INSERT_LINE();
       }
+      this._lastRenderedLines = allLines;
       return;
+    }
+
+    if (scrollAmount === 1) {
+      scrollAmount = 0;
     }
 
     const maxScrollAmount = allLines.length - this.maxLinesInTerminal + 1;
@@ -86,16 +96,16 @@ export class AwesomeLogger {
       scrollAmount = maxScrollAmount;
     }
 
-    const acutalLines = new Array<TextObject>(this.maxLinesInTerminal);
-
     const preDots = scrollAmount > 0;
     const postDots = scrollAmount <= allLines.length - this.maxLinesInTerminal;
+
+    const acutalLines = new Array<TextObject>(this.maxLinesInTerminal);
     const lineRenderCount = this.maxLinesInTerminal - (preDots ? 1 : 0) - (postDots ? 1 : 0);
     if (preDots) {
-      acutalLines[0] = new TextObject('...', 'GRAY');
+      acutalLines[0] = new TextObject(' ↑  ...', 'GRAY');
     }
     if (postDots) {
-      acutalLines[acutalLines.length - 1] = new TextObject('...', 'GRAY');
+      acutalLines[acutalLines.length - 1] = new TextObject(' ↓  ...', 'GRAY');
     }
     for (let i = 0; i < lineRenderCount; i++) {
       const line = allLines[i + scrollAmount];
@@ -104,12 +114,13 @@ export class AwesomeLogger {
 
     for (let i = 0; i < acutalLines.length; i++) {
       const line = acutalLines[i];
-      process.stdout.write(line.toLineString(this._lastRenderedLines?.[i]));
-      if (i < acutalLines.length - 1) {
-        INSERT_LINE();
-      } else {
-        MOVE_LEFT();
-      }
+      // if (i !== 0) {
+      INSERT_LINE();
+      // } else {
+      //   MOVE_LEFT();
+      // }
+      const text = line.toLineString(this._lastRenderedLines?.[i]);
+      process.stdout.write(text);
     }
 
     this._lastRenderedLines = acutalLines;
@@ -120,8 +131,6 @@ export class AwesomeLogger {
     const logger = loggerReturnType as AwesomeLoggerBase;
     const renderedLines = logger.render().allLines();
     this.renderScrollWindow(renderedLines, logger.scrollAmount, logger.needsScroll());
-
-    this._lastRenderedLines = renderedLines;
     this.activeLogger = logger;
     return loggerReturnType;
   }
@@ -152,11 +161,11 @@ export class AwesomeLogger {
     if (!AwesomeLogger.restrictedLogging) {
       this.activeLogger.clean();
     }
-    console.log(interruptText);
+    INSERT_LINE();
+    process.stdout.write(interruptText);
     if (!AwesomeLogger.restrictedLogging) {
       this.renderScrollWindow(renderedLines, this.activeLogger.scrollAmount, this.activeLogger.needsScroll());
     }
-    this._lastRenderedLines = renderedLines;
   }
 
   public static loggerChanged(calledFrom: AwesomeLoggerBase) {
@@ -201,14 +210,15 @@ export class AwesomeLogger {
     if (newLineCount < this.maxLinesInTerminal) {
       const lessLines = lastLineCount - newLineCount;
       if (lessLines > 0) {
-        MOVE_UP(lessLines);
+        MOVE_UP(lessLines - 1);
         for (let i = 0; i < lessLines; i++) {
           DELETE_LINE();
         }
+        MOVE_UP(1);
       }
     }
 
-    MOVE_UP(this.visibleLineCount(renderedLines));
+    MOVE_UP(this.visibleLineCount(renderedLines) - 1);
 
     this.renderScrollWindow(renderedLines, this.activeLogger!.scrollAmount, this.activeLogger!.needsScroll());
   }
@@ -240,8 +250,6 @@ export class AwesomeLogger {
     const renderedLines = prompt.render().allLines();
 
     this.renderScrollWindow(renderedLines, prompt.scrollAmount, prompt.needsScroll());
-
-    this._lastRenderedLines = renderedLines;
     prompt.init();
     prompt.waitForUserInput();
 

@@ -27,6 +27,7 @@ export abstract class AwesomeLoggerBase {
         }
         AwesomeLoggerBase.currentKeyListener?.(key.toString());
       });
+      process.stdin.pause();
     }
   }
 
@@ -67,8 +68,8 @@ export abstract class AwesomeLoggerBase {
 
     const visibleLines = AwesomeLogger.visibleLineCount(this._lastLine.allLines() ?? []);
     for (let i = 0; i < visibleLines; i++) {
-      MOVE_UP(1);
       DELETE_LINE();
+      MOVE_UP(1);
     }
   }
 }
