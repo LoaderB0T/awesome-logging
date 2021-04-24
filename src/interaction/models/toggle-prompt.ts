@@ -54,10 +54,7 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightdLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (
-          this._currentHighlightedRow - this.scrollAmount > AwesomeLogger.maxLinesInTerminal - 2 &&
-          this.scrollAmount < this._options.length - AwesomeLogger.maxLinesInTerminal
-        ) {
+        if (this._currentHighlightedRow - this.scrollAmount > AwesomeLogger.maxLinesInTerminal - 4) {
           this.scrollAmount++;
         }
         this.renderLine(prevHighlightdLine);
@@ -84,8 +81,6 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
   }
 
   protected resetViewAndShowResult(): void {
-    const resultLog = new TextObject(' - Selected option(s): ', 'GRAY');
-
     const result = new Array<string>();
     for (let i = 0; i < this._options.length; i++) {
       const option = this._options[i];
@@ -94,6 +89,7 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
         result.push(option);
       }
     }
+    const resultLog = new TextObject(` - Selected option${result.length > 1 ? 's' : ''}: `, 'GRAY');
     resultLog.append(result.join(', '), 'GREEN');
     this.multiLogger.getChild<AwesomeLoggerTextControl>(0).setText(resultLog);
   }
