@@ -70,27 +70,27 @@ import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
 // });
 // res.result.then(r => AwesomeLogger.logText({ text: r, color: 'RED' }));
 
-// const a = AwesomeLogger.prompt('toggle', {
-//   options: ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'nineth', 'tenth']
-// });
-
-// a.result.then(x => {
-//   AwesomeLogger.logText(x[0]);
-// });
-
-const checklistLogger = AwesomeLogger.log('checklist', {
-  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
-    return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
-  })
+const a = AwesomeLogger.prompt('toggle', {
+  options: ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'nineth', 'tenth']
 });
 
-setInterval(() => {
-  checklistLogger.changeState(Math.round(Math.random() * 9), 'succeeded');
-}, 100);
+a.result.then(x => {
+  AwesomeLogger.logText(x[0]);
+});
 
-setInterval(() => {
-  AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });
-}, 200);
+// const checklistLogger = AwesomeLogger.log('checklist', {
+//   items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
+//     return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
+//   })
+// });
+
+// setInterval(() => {
+//   checklistLogger.changeState(Math.round(Math.random() * 9), 'succeeded');
+// }, 100);
+
+// setInterval(() => {
+//   AwesomeLogger.interrupt('text', { text: { text: 'hi\nthis\nis\na\ntest' } });
+// }, 200);
 
 // let i = 0;
 // const prog = AwesomeLogger.log('progress', {

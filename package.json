@@ -19,8 +19,7 @@
     "restore-cursor": "^3.1.0",
     "slice-ansi": "^4.0.0",
     "string-width": "^4.2.0",
-    "strip-ansi": "^6.0.0",
-    "window-size": "^1.1.1"
+    "strip-ansi": "^6.0.0"
   },
   "devDependencies": {
     "@awdware/eslint-config-nodejs": "^0.0.6",

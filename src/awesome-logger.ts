@@ -114,11 +114,11 @@ export class AwesomeLogger {
 
     for (let i = 0; i < acutalLines.length; i++) {
       const line = acutalLines[i];
-      // if (i !== 0) {
-      INSERT_LINE();
-      // } else {
-      //   MOVE_LEFT();
-      // }
+      if (i !== 0) {
+        INSERT_LINE();
+      } else {
+        MOVE_LEFT();
+      }
       const text = line.toLineString(this._lastRenderedLines?.[i]);
       process.stdout.write(text);
     }
