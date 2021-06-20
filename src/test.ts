@@ -1,19 +1,15 @@
 import chalk from 'chalk';
-import { StringRenderer } from './render/string-renderer';
+import { AwesomeLogger } from './awesome-logger';
 
-console.log();
-console.log();
-console.log();
-console.log();
-console.log();
-console.log('--');
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.green(' yaaas\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\n\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven one more') });
+// AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven \none \nmore') });
+// AwesomeLogger.log('text', { text: chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd') });
 
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.green(' yaaas\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yeees\nnext line\n\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven one more'));
-StringRenderer.renderString(chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven \none \nmore'));
-StringRenderer.renderString(chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd'));
+const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
+ctrl.setText('nope');

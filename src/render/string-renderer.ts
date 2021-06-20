@@ -1,13 +1,14 @@
 import stripAnsi from 'strip-ansi';
 import sliceAnsi from 'slice-ansi';
 import { DELETE_LINE, MOVE_UP } from '../utils/ansi-utils';
+import { ConsoleLog } from '../utils/console-log';
 
 export class StringRenderer {
   public static lastString: string = '';
 
-  public static renderString(val: string) {
-    const lastLines = this.lastString.split(/[\r\n]+/g);
-    this.lastString = val;
+  public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean) {
+    const lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
+    this.lastString = interruptLog ? '' : val;
     const newLines = val.split(/[\r\n]+/g);
 
     const lengthDifference = newLines.length - lastLines.length;
@@ -26,7 +27,7 @@ export class StringRenderer {
       const oldLine = lastLines[i] ?? '';
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
-      console.log();
+      ConsoleLog.log();
       process.stdout.write(lineToPrint);
     }
   }
