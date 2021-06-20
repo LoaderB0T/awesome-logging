@@ -1,5 +1,7 @@
 import stripAnsi from 'strip-ansi';
 import sliceAnsi from 'slice-ansi';
+import ansiRegex from 'ansi-regex';
+
 import { DELETE_LINE, MOVE_UP } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 
@@ -45,14 +47,13 @@ export class StringRenderer {
       cleanNewString += ' ';
       newStrLen++;
     }
-    let lastDifferentIndex = 0;
-    for (let i = 0; i < newStrLen; i++) {
-      const oldCharAtI = sliceAnsi(oldVal, i, i + 1);
-      const newCharAtI = sliceAnsi(newVal, i, i + 1);
+    for (let i = newStrLen - 1; i >= 0; i--) {
+      const oldCharAtI = cleanOldString.substr(i, 1);
+      const newCharAtI = cleanNewString.substr(i, 1);
       if (oldCharAtI !== newCharAtI) {
-        lastDifferentIndex = i + 1;
+        return sliceAnsi(newVal, 0, i + 1);
       }
     }
-    return sliceAnsi(newVal, 0, lastDifferentIndex);
+    return '';
   }
 }
