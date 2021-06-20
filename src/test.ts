@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
-import { AwesomeChecklistLoggerState } from './logger/models/config/checklist';
+import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
@@ -30,7 +30,7 @@ ctrl.setText('nope');
 
 const checklistLogger = AwesomeLogger.log('checklist', {
   items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
-    return { text: `item${x}`, state: 'pending' as AwesomeChecklistLoggerState };
+    return { text: `item${x}`, state: 'pending' } as AwesomeChecklistLoggerItem;
   })
 });
 
