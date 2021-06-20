@@ -1,6 +1,5 @@
 import stripAnsi from 'strip-ansi';
 import sliceAnsi from 'slice-ansi';
-import ansiRegex from 'ansi-regex';
 
 import { DELETE_LINE, MOVE_UP } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
