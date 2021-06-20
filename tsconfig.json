@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "ES2019",
+    "module": "CommonJS",
     "baseUrl": "./",
-    "lib": ["es6", "es2015", "dom"],
+    "lib": ["ES2019", "ESNext"],
     "declaration": true,
     "outDir": "lib",
     "rootDir": "./src",
