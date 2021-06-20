@@ -1,8 +1,8 @@
-import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl } from '../models/config/checklist';
-import { AwesomeLoggerMultiConfig, AwesomeLoggerMultiControl } from '../models/config/multi';
-import { AwesomeProgressLoggerConfig, AwesomeProgressLoggerControl } from '../models/config/progress';
-import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from '../models/config/spinner';
-import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from '../models/config/text';
+import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl } from './models/config/checklist';
+import { AwesomeLoggerMultiConfig, AwesomeLoggerMultiControl } from './models/config/multi';
+import { AwesomeProgressLoggerConfig, AwesomeProgressLoggerControl } from './models/config/progress';
+import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './models/config/spinner';
+import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from './models/config/text';
 
 export type AwesomeLoggerDefinitions =
   | { type: 'text'; config: AwesomeLoggerTextConfig; returnValue: AwesomeLoggerTextControl }

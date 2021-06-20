@@ -1,13 +1,12 @@
-import { TextObject, TextValue } from '../../models/text-object';
-import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from './config/text';
 
 export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLoggerTextControl {
-  private _text: TextObject;
+  private _text: string;
 
   constructor(config?: Partial<AwesomeLoggerTextConfig>) {
     super();
-    this._text = config?.text ? TextObject.create(config.text) : new TextObject('');
+    this._text = config?.text ?? '';
   }
 
   public hasChanges(): boolean {
@@ -22,13 +21,13 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     return calledFrom === this;
   }
 
-  getNextLine(): TextObject {
+  getNextLine(): string {
     return this._text;
   }
 
-  public setText(text: string | TextValue | TextObject) {
+  public setText(text: string) {
     if (text !== this._text) {
-      this._text = TextObject.create(text);
+      this._text = text;
       this.changed();
     }
   }

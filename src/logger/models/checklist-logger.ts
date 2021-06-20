@@ -1,6 +1,6 @@
+import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger';
-import { TextObject } from '../../models/text-object';
-import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl, AwesomeChecklistLoggerState } from './config/checklist';
 import { AwesomeMultiLogger } from './multi-logger';
 import { AwesomeTextLogger } from './text-logger';
@@ -31,7 +31,7 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     return calledFrom === this || this._multiLine.canBeCalledFrom(calledFrom);
   }
 
-  public getNextLine(): TextObject {
+  public getNextLine(): string {
     return this._multiLine.getNextLine();
   }
 
@@ -70,31 +70,30 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
   }
 
-  private calculateLine(index: number): TextObject {
+  private calculateLine(index: number): string {
     const item = this._options.items[index];
-    const prefix = this.getPrefix(item.state);
-    prefix.append(` ${item.text}`);
+    const prefix = `${this.getPrefix(item.state)} ${item.text}`;
     return prefix;
   }
 
-  private getPrefix(state: AwesomeChecklistLoggerState): TextObject {
+  private getPrefix(state: AwesomeChecklistLoggerState): string {
     switch (state) {
       case 'done':
-        return new TextObject(' √', 'GREEN');
+        return chalk.green(' √');
       case 'failed':
-        return new TextObject(' X', 'RED');
+        return chalk.red(' X');
       case 'inProgress':
-        return new TextObject(' >', 'BLUE');
+        return chalk.blue(' >');
       case 'partiallySucceeded':
-        return new TextObject(' !', 'YELLOW');
+        return chalk.yellow(' !');
       case 'skipped':
-        return new TextObject(' ■', 'GREEN');
+        return chalk.green(' ■');
       case 'pending':
-        return new TextObject(' ■', 'GRAY');
+        return chalk.gray(' ■');
       case 'succeeded':
-        return new TextObject(' √', 'GREEN');
+        return chalk.green(' √');
       default:
-        return new TextObject(' ?', 'GRAY');
+        return chalk.gray(' ?');
     }
   }
 }

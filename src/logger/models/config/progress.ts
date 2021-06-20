@@ -1,11 +1,10 @@
-import { TextObject, TextValue } from '../../../models/text-object';
-import { AwesomeLoggerColor } from '../../../types/logger-color';
-import { AwesomeLoggerBase } from '../logger-base';
+import { AwesomeLoggerColor } from '../../../utils/logger-color';
+import { AwesomeLoggerBase } from '../../logger-base';
 
 export interface AwesomeProgressLoggerConfig {
   totalProgress: number;
-  text: string | TextValue;
-  completedText: string | TextValue;
+  text: string;
+  completedText: string;
   unfilledChar: string;
   filledChar: string;
   borderChar: string;
@@ -16,5 +15,5 @@ export interface AwesomeProgressLoggerConfig {
 }
 
 export interface AwesomeProgressLoggerControl extends AwesomeLoggerBase {
-  setProgress(progress: number, text?: string | TextValue | TextObject): void;
+  setProgress(progress: number, text?: string): void;
 }

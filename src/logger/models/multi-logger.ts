@@ -1,5 +1,4 @@
-import { TextObject } from '../../models/text-object';
-import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeLoggerMultiControl, AwesomeLoggerMultiConfig } from './config/multi';
 
 export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLoggerMultiControl {
@@ -26,17 +25,8 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
     return this._children[index] as T;
   }
 
-  public getNextLine(): TextObject {
-    const res: TextObject = this._children[0].render();
-    let latestChild: TextObject = this._children[0].render();
-    let first = true;
-    this._children.forEach(child => {
-      if (!first) {
-        latestChild = latestChild.appendLine(child.render());
-      } else {
-        first = false;
-      }
-    });
+  public getNextLine(): string {
+    const res = this._children.map(c => c.render()).join('\n');
     return res;
   }
 }

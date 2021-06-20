@@ -1,26 +1,25 @@
+import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger';
-import { TextObject, TextValue } from '../../models/text-object';
-import { AwesomeLoggerBase } from '../models/logger-base';
+import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;
-  private readonly _text: TextValue;
-  private readonly _animationInterval: NodeJS.Timer;
+  private readonly _text: string;
+  private readonly _animationInterval?: NodeJS.Timer;
   private _animationIndex: number = 0;
-  private _stopped: boolean;
-  private _cleared: boolean;
+  private _stopped: boolean = false;
+  private _cleared: boolean = false;
   private _succeed?: boolean;
   private _stoppedText?: string;
 
   constructor(options?: Partial<AwesomeLoggerSpinnerConfig>) {
     super();
-    this._text = options?.text ? TextObject.ensureTextValue(options.text) : { text: '' };
+    this._text = options?.text ?? '';
     this._options = {
       text: '',
       spinnerFrames: options?.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
-      spinnerDelay: options?.spinnerDelay ?? 500,
-      spinnerColor: options?.spinnerColor ?? 'WHITE'
+      spinnerDelay: options?.spinnerDelay ?? 500
     };
     if (!AwesomeLogger.restrictedLogging) {
       this._animationInterval = setInterval(() => {
@@ -45,28 +44,27 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     return false;
   }
 
-  public getNextLine(): TextObject {
+  public getNextLine(): string {
     if (this._stopped) {
       if (this._cleared) {
-        return TextObject.empty;
+        return '';
       }
       if (this._succeed === true) {
-        return new TextObject('√', 'GREEN').append(this._stoppedText ?? this._text.text, this._text.color);
+        return chalk.green('√') + this._stoppedText ?? this._text;
       } else if (this._succeed === false) {
-        return new TextObject('X', 'RED').append(this._stoppedText ?? this._text.text, this._text.color);
+        return chalk.red('X') + this._stoppedText ?? this._text;
       } else {
-        return new TextObject(this._stoppedText ?? this._text.text, this._text.color);
+        return this._stoppedText ?? this._text;
       }
     }
 
-    return new TextObject(this._options.spinnerFrames[this._animationIndex], this._options.spinnerColor).append(
-      this._text.text,
-      this._text.color
-    );
+    return this._options.spinnerFrames[this._animationIndex] + this._text;
   }
 
   stop(options: { succeeded?: boolean; removeLine?: boolean; text?: string }): void {
-    clearInterval(this._animationInterval);
+    if (this._animationInterval) {
+      clearInterval(this._animationInterval);
+    }
     this._stopped = true;
 
     if (options.removeLine) {

@@ -1,12 +1,9 @@
-import { TextValue } from '../../../models/text-object';
-import { AwesomeLoggerColor } from '../../../types/logger-color';
-import { AwesomeLoggerBase } from '../logger-base';
+import { AwesomeLoggerBase } from '../../logger-base';
 
 export interface AwesomeLoggerSpinnerConfig {
   spinnerFrames: string[];
-  text: string | TextValue;
+  text: string;
   spinnerDelay: number;
-  spinnerColor: AwesomeLoggerColor;
 }
 
 export interface AwesomeLoggerSpinnerControl extends AwesomeLoggerBase {

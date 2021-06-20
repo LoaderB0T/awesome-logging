@@ -1,5 +1,5 @@
-import { TextObject } from '../../models/text-object';
-import { AwesomeLoggerBase } from '../models/logger-base';
+import { colorize } from '../../utils/logger-color';
+import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress';
 
 export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeProgressLoggerControl {
@@ -19,10 +19,10 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
       unfilledChar: options?.unfilledChar ?? '·',
       filledChar: options?.filledChar ?? '■',
       borderChar: options?.borderChar ?? '▮',
+      maxWidth: options?.maxWidth ?? 999999,
       borderColor: options?.borderColor ?? 'GRAY',
       unfilledColor: options?.unfilledColor ?? 'GRAY',
-      filledColor: options?.filledColor ?? 'WHITE',
-      maxWidth: options?.maxWidth ?? 999999
+      filledColor: options?.filledColor ?? 'WHITE'
     };
   }
 
@@ -34,14 +34,17 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
     return calledFrom === this;
   }
 
-  public getNextLine(): TextObject {
+  public getNextLine(): string {
     const totalLength: number = Math.min(process.stdout.columns - 2, this._options.maxWidth);
     const finnishedLength = Math.round((this._currentProgress / this._options.totalProgress) * totalLength);
     const unFinnishedLength = totalLength - finnishedLength;
-    return new TextObject(this._options.borderChar, this._options.borderColor)
-      .append(this._options.filledChar.repeat(finnishedLength), this._options.filledColor)
-      .append(this._options.unfilledChar.repeat(unFinnishedLength), this._options.unfilledColor)
-      .append(this._options.borderChar, this._options.borderColor);
+
+    const res =
+      colorize(this._options.borderColor)(this._options.borderChar) +
+      colorize(this._options.filledColor)(this._options.filledChar.repeat(finnishedLength)) +
+      colorize(this._options.unfilledColor)(this._options.unfilledChar.repeat(unFinnishedLength)) +
+      colorize(this._options.borderColor)(this._options.borderChar);
+    return res;
   }
 
   public setProgress(progress: number) {

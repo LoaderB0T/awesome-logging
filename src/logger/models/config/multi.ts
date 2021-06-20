@@ -1,4 +1,4 @@
-import { AwesomeLoggerBase } from '../logger-base';
+import { AwesomeLoggerBase } from '../../logger-base';
 
 export interface AwesomeLoggerMultiConfig {
   children: AwesomeLoggerBase[];
