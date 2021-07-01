@@ -29,7 +29,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   }
 
   public canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean {
-    return this._logger.canBeCalledFrom(calledFrom);
+    return this === calledFrom || this._logger.canBeCalledFrom(calledFrom);
   }
 
   protected abstract prepareResultLogger(): void;

@@ -4,6 +4,7 @@ import { HIDE_CURSOR } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 import { AwesomeLoggerBase } from './logger-base';
 import { AwesomePromptBase } from '../prompt/models/prompt-base';
+import { AwesomeLogger } from '../awesome-logger';
 
 export class LoggerManager {
   private static _instance: LoggerManager;
@@ -15,7 +16,7 @@ export class LoggerManager {
   constructor() {
     ConsoleLog.log = console.log;
     console.log = (message?: any) => {
-      throw new Error('console.log cannot be used');
+      AwesomeLogger.log('text', { text: message });
     };
     HIDE_CURSOR();
     if (!AwesomeLoggerBase.isInitialized) {

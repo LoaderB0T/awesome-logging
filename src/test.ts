@@ -70,4 +70,4 @@ import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 // }, 100);
 
 const a = AwesomeLogger.prompt('text', { text: 'yee' });
-a.result.then(console.log);
+a.result.then(x => console.log('result = ' + x));
