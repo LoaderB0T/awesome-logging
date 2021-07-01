@@ -1,7 +1,8 @@
-import { AwesomeLoggerBase } from './logger/logger-base';
 import { LoggerCreator } from './logger/logger-creator';
 import { LoggerManager } from './logger/logger-manager';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logger-type';
+import { PromptCreator } from './prompt/prompt-creator';
+import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt/prompt-type';
 
 LoggerManager.getInstance();
 export class AwesomeLogger {
@@ -13,9 +14,14 @@ export class AwesomeLogger {
   }
 
   public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
-    const loggerReturnType = LoggerCreator.create(type, config);
-    const logger = loggerReturnType as AwesomeLoggerBase;
+    const logger = LoggerCreator.create(type, config);
     LoggerManager.getInstance().log(logger);
-    return loggerReturnType;
+    return logger;
+  }
+
+  public static prompt<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {
+    const prompt = PromptCreator.create(type, config);
+    LoggerManager.getInstance().prompt(prompt);
+    return prompt;
   }
 }

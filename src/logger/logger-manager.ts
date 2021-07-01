@@ -3,6 +3,7 @@ import { StringRenderer } from '../render/string-renderer';
 import { HIDE_CURSOR } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 import { AwesomeLoggerBase } from './logger-base';
+import { AwesomePromptBase } from '../prompt/models/prompt-base';
 
 export class LoggerManager {
   private static _instance: LoggerManager;
@@ -30,7 +31,6 @@ export class LoggerManager {
         }
         this._currentKeyListener?.(key.toString());
       });
-      process.stdin.pause();
     }
   }
 
@@ -87,5 +87,14 @@ export class LoggerManager {
     const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
     StringRenderer.renderString(trimmedLines, false, true);
     this._activeLogger = logger;
+  }
+
+  prompt(prompt: AwesomePromptBase<any>) {
+    const renderedLines = prompt.render();
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
+    this._activeLogger = prompt;
+    prompt.init();
+    this.changeKeyListener(key => prompt.gotKey(key));
+    StringRenderer.renderString(trimmedLines, false, true);
   }
 }

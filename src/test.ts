@@ -14,34 +14,34 @@ import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven \none \nmore') });
 // AwesomeLogger.log('text', { text: chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd') });
 
-const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
+// const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
 
-setInterval(() => {
-  ctrl.setText(
-    `1
-2
-3
-4
-5
-6
-7
-8
-9`
-  );
-  setTimeout(() => {
-    ctrl.setText(
-      `A
-B
-C
-D
-E
-F
-G
-H
-I`
-    );
-  }, 500);
-}, 1000);
+// setInterval(() => {
+//   ctrl.setText(
+//     `1
+// 2
+// 3
+// 4
+// 5
+// 6
+// 7
+// 8
+// 9`
+//   );
+//   setTimeout(() => {
+//     ctrl.setText(
+//       `A
+// B
+// C
+// D
+// E
+// F
+// G
+// H
+// I`
+//     );
+//   }, 500);
+// }, 1000);
 
 // const spin1 = AwesomeLogger.create('spinner', {
 //   text: ' My text',
@@ -68,3 +68,6 @@ I`
 //   checklistLogger.changeState(Math.round(Math.random() * 9), 'succeeded');
 //   ctrl.setText(`nope${Math.random()}`);
 // }, 100);
+
+const a = AwesomeLogger.prompt('text', { text: 'yee' });
+a.result.then(console.log);

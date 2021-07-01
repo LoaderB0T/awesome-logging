@@ -36,6 +36,6 @@ export class LoggerCreator {
     if (!logger) {
       throw new Error(`Logger type '${type}' not found`);
     }
-    return (logger as any) as LoggerReturnType<T>;
+    return logger as LoggerReturnType<T>;
   }
 }
