@@ -1,3 +1,4 @@
+import { StringTrimmer } from '../render/string-trimmer';
 import { StringRenderer } from '../render/string-renderer';
 import { HIDE_CURSOR } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
@@ -76,12 +77,15 @@ export class LoggerManager {
     //   return;
     // }
 
-    StringRenderer.renderString(renderedLines, false, false);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
+
+    StringRenderer.renderString(trimmedLines, false, false);
   }
 
   log(logger: AwesomeLoggerBase) {
     const renderedLines = logger.render();
-    StringRenderer.renderString(renderedLines, false, true);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
+    StringRenderer.renderString(trimmedLines, false, true);
     this._activeLogger = logger;
   }
 }

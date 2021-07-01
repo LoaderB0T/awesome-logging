@@ -4,6 +4,6 @@ export interface AwesomeLoggerMultiConfig {
   children: AwesomeLoggerBase[];
 }
 
-export interface AwesomeLoggerMultiControl {
+export interface AwesomeLoggerMultiControl extends AwesomeLoggerBase {
   getChild<T extends AwesomeLoggerBase>(index: number): T;
 }

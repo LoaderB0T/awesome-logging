@@ -2,6 +2,8 @@ import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
 import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 
+// const sendkeys = require('sendkeys');
+
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.green(' yaaas\nnext line\neven one more') });
@@ -13,7 +15,33 @@ import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 // AwesomeLogger.log('text', { text: chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd') });
 
 const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
-ctrl.setText('nope');
+
+setInterval(() => {
+  ctrl.setText(
+    `1
+2
+3
+4
+5
+6
+7
+8
+9`
+  );
+  setTimeout(() => {
+    ctrl.setText(
+      `A
+B
+C
+D
+E
+F
+G
+H
+I`
+    );
+  }, 500);
+}, 1000);
 
 // const spin1 = AwesomeLogger.create('spinner', {
 //   text: ' My text',
@@ -28,12 +56,15 @@ ctrl.setText('nope');
 //   prog1.setProgress(Math.random() * 100);
 // }, 100);
 
-const checklistLogger = AwesomeLogger.log('checklist', {
-  items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
-    return { text: `item${x}`, state: 'pending' } as AwesomeChecklistLoggerItem;
-  })
-});
+// const checklistLogger = AwesomeLogger.create('checklist', {
+//   items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => {
+//     return { text: `item${x}`, state: 'pending' } as AwesomeChecklistLoggerItem;
+//   })
+// });
 
-setInterval(() => {
-  checklistLogger.changeState(Math.round(Math.random() * 9), 'succeeded');
-}, 100);
+// AwesomeLogger.log('multi', { children: [checklistLogger, ctrl] });
+
+// setInterval(() => {
+//   checklistLogger.changeState(Math.round(Math.random() * 9), 'succeeded');
+//   ctrl.setText(`nope${Math.random()}`);
+// }, 100);

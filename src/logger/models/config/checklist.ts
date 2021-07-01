@@ -1,3 +1,5 @@
+import { AwesomeLoggerBase } from '../../logger-base';
+
 export interface AwesomeChecklistLoggerItem {
   state: AwesomeChecklistLoggerState;
   text: string;
@@ -17,6 +19,6 @@ export interface AwesomeChecklistLoggerConfig {
   items: AwesomeChecklistLoggerItem[];
 }
 
-export interface AwesomeChecklistLoggerControl {
+export interface AwesomeChecklistLoggerControl extends AwesomeLoggerBase {
   changeState(index: number, state: AwesomeChecklistLoggerState, newText?: string): void;
 }
