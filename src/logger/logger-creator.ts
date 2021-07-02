@@ -6,6 +6,7 @@ import { AwesomeProgressLogger } from './models/progress-logger';
 import { AwesomeSpinnerLogger } from './models/spinner-logger';
 import { AwesomeTextLogger } from './models/text-logger';
 
+// @internal
 export class LoggerCreator {
   public static create<T extends AwesomeLoggerType>(type: T, config?: LoggerConfig<T>): LoggerReturnType<T> {
     let logger: AwesomeLoggerBase | undefined = undefined;
