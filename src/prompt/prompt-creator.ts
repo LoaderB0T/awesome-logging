@@ -17,6 +17,10 @@ export class PromptCreator {
         prompt = new AwesomeTogglePromt(config);
         break;
       }
+      case 'choice': {
+        prompt = new AwesomeChoicePromt(config);
+        break;
+      }
     }
 
     if (!prompt) {
