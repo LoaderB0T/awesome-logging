@@ -1,14 +1,31 @@
 import stripAnsi from 'strip-ansi';
 import sliceAnsi from 'slice-ansi';
 
-import { DELETE_LINE, MOVE_UP } from '../utils/ansi-utils';
+import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
+import { TerminalSize } from '../utils/terminal-size';
 
 export class StringRenderer {
   public static lastString: string = '';
+  private static lastTerminalHeight: number = TerminalSize.terminalHeight;
 
   public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean) {
-    const lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
+    let lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
+
+    if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
+      this.lastTerminalHeight = TerminalSize.terminalHeight;
+      // When the terminal is resized, we try do delete everything and re-print everything.
+      // Deleting lines that are out of scroll view is not possible in some terminals (powershell, cmd, and more on windows for example)
+      // We still try to do so, but when reducing the height in the terminal some lines will get "stuck" in the history
+      for (let i = 0; i < lastLines.length; i++) {
+        DELETE_LINE();
+        MOVE_UP();
+      }
+      // resetting lastString & lastLine to make it reprint everything
+      this.lastString = '';
+      lastLines = [];
+    }
+
     this.lastString = interruptLog ? '' : val;
     const newLines = val.split(/[\r\n]+/g);
 
@@ -22,13 +39,21 @@ export class StringRenderer {
       }
     }
 
-    MOVE_UP(lastLines.length - lessLines);
+    let moveUpAmount = lastLines.length - lessLines - 1;
+    if (moveUpAmount < 0) {
+      moveUpAmount = 0;
+    }
+
+    MOVE_UP(moveUpAmount);
+    MOVE_LEFT();
 
     for (let i = 0; i < newLines.length; i++) {
       const oldLine = lastLines[i] ?? '';
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
-      ConsoleLog.log();
+      if (i !== 0) {
+        ConsoleLog.log();
+      }
       process.stdout.write(lineToPrint);
     }
   }
