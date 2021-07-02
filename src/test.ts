@@ -9,7 +9,9 @@ const promptForLog = () => {
   a.result.then(x => {
     const logger = createExampleLogger(x)!;
     AwesomeLogger.log(logger);
-    promptForLog();
+    setTimeout(() => {
+      promptForLog();
+    }, 1000);
   });
 };
 
