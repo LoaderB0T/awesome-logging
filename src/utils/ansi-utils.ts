@@ -4,6 +4,7 @@ restoreCursor();
 export const CONTROL_PREFIX: string = '\u001b[';
 
 let cursorVisible = true;
+let debug = true;
 
 export const MOVE_LEFT = () => process.stdout.write(`${CONTROL_PREFIX}1000D`);
 export const MOVE_UP = (i: number = 1) => (i > 0 ? process.stdout.write(`${CONTROL_PREFIX}${i}A`) : {});
@@ -14,6 +15,9 @@ export const DELETE_LINE = () => process.stdout.write(`${CONTROL_PREFIX}1M`);
 export const CLEAR_LINE = () => process.stdout.write(`${CONTROL_PREFIX}0K`);
 
 export const HIDE_CURSOR = () => {
+  if (debug) {
+    return;
+  }
   if (cursorVisible) {
     process.stdout.write(`${CONTROL_PREFIX}?25l`);
     cursorVisible = false;

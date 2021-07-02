@@ -2,6 +2,25 @@ import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
 import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 
+const line1 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
+const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+const spin1 = AwesomeLogger.create('spinner', {
+  text: ' My text',
+  spinnerDelay: 75,
+  spinnerFrames: [chalk.magenta('▄'), chalk.magenta('■'), chalk.magenta('▀'), chalk.magenta('▀'), chalk.magenta('■')]
+});
+const line2 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
+const prog2 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+const spin2 = AwesomeLogger.create('spinner', {
+  text: ' My text',
+  spinnerDelay: 75,
+  spinnerFrames: ['▄', '■', '▀', '▀', '■']
+});
+
+const multi1 = AwesomeLogger.create('multi', { children: [spin1, line1, line2, prog1] });
+const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
+const multi = AwesomeLogger.log('multi', { children: [multi1, multi2] });
+
 // const sendkeys = require('sendkeys');
 
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yaaas\nnext line\neven one more') });
@@ -69,5 +88,5 @@ import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 //   ctrl.setText(`nope${Math.random()}`);
 // }, 100);
 
-const a = AwesomeLogger.prompt('text', { text: 'yee' });
-a.result.then(x => console.log('result = ' + x));
+// const a = AwesomeLogger.prompt('text', { text: 'yee' });
+// a.result.then(x => console.log('result = ' + x));
