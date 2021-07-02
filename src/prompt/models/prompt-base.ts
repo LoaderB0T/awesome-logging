@@ -16,10 +16,6 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     });
   }
 
-  public render(): string {
-    return this._logger.render();
-  }
-
   public getNextLine(): string {
     return this._logger.getNextLine();
   }

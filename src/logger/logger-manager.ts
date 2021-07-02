@@ -12,6 +12,7 @@ export class LoggerManager {
   private readonly _readStream?: NodeJS.ReadStream;
   private _currentKeyListener?: (value: string) => any;
   private _activeLogger?: AwesomeLoggerBase;
+  private _cangeDetection: boolean = true;
 
   constructor() {
     ConsoleLog.log = console.log;
@@ -52,6 +53,10 @@ export class LoggerManager {
   }
 
   public loggerChanged(calledFrom: AwesomeLoggerBase) {
+    if (!this._cangeDetection) {
+      return;
+    }
+
     const validCaller = this._activeLogger!.canBeCalledFrom(calledFrom);
     if (!validCaller) {
       throw new Error('This logger is not active anymore');
@@ -91,11 +96,19 @@ export class LoggerManager {
   }
 
   prompt(prompt: AwesomePromptBase<any>) {
+    this.runWithoutChangeDetection(() => {
+      prompt.init();
+    });
     const renderedLines = prompt.render();
     const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
     this._activeLogger = prompt;
-    prompt.init();
     this.changeKeyListener(key => prompt.gotKey(key));
     StringRenderer.renderString(trimmedLines, false, true);
+  }
+
+  runWithoutChangeDetection(run: () => void) {
+    this._cangeDetection = false;
+    run();
+    this._cangeDetection = true;
   }
 }
