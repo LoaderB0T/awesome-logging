@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomeLoggerMultiControl } from '../../logger/models/config/multi';
 import { AwesomeTextLogger } from '../../logger/models/text-logger';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
 import { TerminalSize } from '../../utils/terminal-size';
@@ -11,7 +10,6 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
   private _currentHighlightedRow: number;
   private readonly _options: string[];
   private readonly _lines: AwesomeTextLogger[];
-  private readonly _multiLogger: AwesomeLoggerMultiControl;
   private readonly _toggles: boolean[];
 
   constructor(config: Partial<AwesomePromptToggleConfig>) {
@@ -23,7 +21,6 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
     const multi = AwesomeLogger.create('multi', { children: lines });
     super(multi);
     this._lines = lines;
-    this._multiLogger = multi;
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
     this._toggles = this._options.map(() => false);
