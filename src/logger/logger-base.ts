@@ -11,6 +11,7 @@ export abstract class AwesomeLoggerBase {
 
   constructor() {}
 
+  public abstract end(): void;
   public abstract getNextLine(): string;
   public abstract hasChanges(): boolean;
   public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;

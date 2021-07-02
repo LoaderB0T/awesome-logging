@@ -16,6 +16,10 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     });
   }
 
+  public end(): void {
+    throw new Error('prompts cannot be ended at the moment');
+  }
+
   public getNextLine(): string {
     return this._logger.getNextLine();
   }
@@ -40,6 +44,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     LoggerManager.getInstance().changeKeyListener(undefined);
     this.prepareResultLogger();
     this.changed();
+    LoggerManager.getInstance().clearLogger();
     this._promptFinished(result);
   }
 }

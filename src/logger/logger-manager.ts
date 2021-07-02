@@ -6,6 +6,7 @@ import { AwesomeLoggerBase } from './logger-base';
 import { AwesomePromptBase } from '../prompt/models/prompt-base';
 import { AwesomeLogger } from '../awesome-logger';
 
+// @internal
 export class LoggerManager {
   private static _instance: LoggerManager;
 
@@ -85,30 +86,34 @@ export class LoggerManager {
 
     const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
 
-    StringRenderer.renderString(trimmedLines, false, false);
+    StringRenderer.renderString(trimmedLines, false, false, false);
   }
 
-  log(logger: AwesomeLoggerBase) {
+  public log(logger: AwesomeLoggerBase) {
+    this._activeLogger?.end();
+
     const renderedLines = logger.render();
     const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
-    StringRenderer.renderString(trimmedLines, false, true);
+    StringRenderer.renderString(trimmedLines, false, true, true);
     this._activeLogger = logger;
   }
 
-  prompt(prompt: AwesomePromptBase<any>) {
+  public prompt(prompt: AwesomePromptBase<any>) {
     this.runWithoutChangeDetection(() => {
       prompt.init();
     });
-    const renderedLines = prompt.render();
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
-    this._activeLogger = prompt;
     this.changeKeyListener(key => prompt.gotKey(key));
-    StringRenderer.renderString(trimmedLines, false, true);
+
+    this.log(prompt);
   }
 
-  runWithoutChangeDetection(run: () => void) {
+  public runWithoutChangeDetection(run: () => void) {
     this._cangeDetection = false;
     run();
     this._cangeDetection = true;
+  }
+
+  public clearLogger() {
+    this._activeLogger = undefined;
   }
 }

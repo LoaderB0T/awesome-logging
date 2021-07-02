@@ -9,6 +9,8 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     this._text = config?.text ?? '';
   }
 
+  public end(): void {}
+
   public hasChanges(): boolean {
     return this._hasChanges;
   }

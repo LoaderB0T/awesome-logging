@@ -6,10 +6,6 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
   private readonly _options: AwesomeProgressLoggerConfig;
   private _currentProgress: number = 0;
 
-  public needsScroll() {
-    return false;
-  }
-
   constructor(options?: Partial<AwesomeProgressLoggerConfig>) {
     super();
     this._options = {
@@ -24,6 +20,12 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
       unfilledColor: options?.unfilledColor ?? 'GRAY',
       filledColor: options?.filledColor ?? 'WHITE'
     };
+  }
+
+  public end(): void {}
+
+  public needsScroll() {
+    return false;
   }
 
   public hasChanges(): boolean {

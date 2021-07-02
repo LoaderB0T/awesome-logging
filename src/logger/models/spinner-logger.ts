@@ -32,6 +32,13 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     }
   }
 
+  public end(): void {
+    if (this._animationInterval) {
+      clearInterval(this._animationInterval);
+    }
+    this._stopped = true;
+  }
+
   public hasChanges(): boolean {
     return this._hasChanges;
   }
@@ -62,10 +69,7 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
   }
 
   stop(options: { succeeded?: boolean; removeLine?: boolean; text?: string }): void {
-    if (this._animationInterval) {
-      clearInterval(this._animationInterval);
-    }
-    this._stopped = true;
+    this.end();
 
     if (options.removeLine) {
       this._cleared = true;
