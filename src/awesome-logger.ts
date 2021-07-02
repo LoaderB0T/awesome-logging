@@ -1,3 +1,4 @@
+import { AwesomeLoggerBase } from './logger/logger-base';
 import { LoggerCreator } from './logger/logger-creator';
 import { LoggerManager } from './logger/logger-manager';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logger-type';
@@ -13,8 +14,10 @@ export class AwesomeLogger {
     return loggerReturnType;
   }
 
-  public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T> {
-    const logger = LoggerCreator.create(type, config);
+  public static log<T extends AwesomeLoggerType>(logger: LoggerReturnType<T>): LoggerReturnType<T>;
+  public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T>;
+  public static log<T extends AwesomeLoggerType>(param1: T | LoggerReturnType<T>, param2?: LoggerConfig<T>): LoggerReturnType<T> {
+    const logger = typeof param1 === 'string' ? LoggerCreator.create(param1, param2!) : param1;
     LoggerManager.getInstance().log(logger);
     return logger;
   }
