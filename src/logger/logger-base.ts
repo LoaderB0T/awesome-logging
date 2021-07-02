@@ -4,8 +4,10 @@ export abstract class AwesomeLoggerBase {
   public static isInitialized = false;
 
   private _lastLine: string = '';
+  // @internal
   public scrollAmount: number = 0;
   protected _hasChanges: boolean = true;
+  private _clean: boolean = false;
 
   constructor() {}
 
@@ -19,7 +21,13 @@ export abstract class AwesomeLoggerBase {
     LoggerManager.getInstance().loggerChanged(this);
   }
 
+  // @internal
   public render(): string {
+    if (this._clean) {
+      this._clean = false;
+      this._lastLine = '';
+      return '';
+    }
     if (!this.hasChanges()) {
       return this._lastLine;
     }
@@ -30,15 +38,11 @@ export abstract class AwesomeLoggerBase {
     return newLine;
   }
 
-  // public clean(): void {
-  //   if (!this._lastLine) {
-  //     return;
-  //   }
-
-  //   const visibleLines = AwesomeLogger.visibleLineCount(this._lastLine.allLines() ?? []);
-  //   for (let i = 0; i < visibleLines; i++) {
-  //     DELETE_LINE();
-  //     MOVE_UP(1);
-  //   }
-  // }
+  public clean(): void {
+    if (!this._lastLine) {
+      return;
+    }
+    this._clean = true;
+    this.changed();
+  }
 }
