@@ -1,5 +1,7 @@
+import { AwesomeChoicePromt } from './models/choice-prompt';
 import { AwesomePromptBase } from './models/prompt-base';
 import { AwesomeTextPromt } from './models/text-prompt';
+import { AwesomeTogglePromt } from './models/toggle-prompt';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt-type';
 
 export class PromptCreator {
@@ -11,10 +13,10 @@ export class PromptCreator {
         prompt = new AwesomeTextPromt(config);
         break;
       }
-      // case 'toggle': {
-      //   prompt = new AwesomeTogglePromt(config);
-      //   break;
-      // }
+      case 'toggle': {
+        prompt = new AwesomeTogglePromt(config);
+        break;
+      }
     }
 
     if (!prompt) {
