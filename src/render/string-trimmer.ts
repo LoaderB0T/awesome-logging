@@ -1,18 +1,8 @@
 import sliceAnsi from 'slice-ansi';
 import stripAnsi from 'strip-ansi';
+import { TerminalSize } from '../utils/terminal-size';
 
 export class StringTrimmer {
-  private static get terminalSize() {
-    return process.stdout?.getWindowSize?.() ?? [150, 10];
-  }
-
-  private static get terminalHeight() {
-    return this.terminalSize[1];
-  }
-  private static get terminalWidth() {
-    return this.terminalSize[0];
-  }
-
   public static ensureConsoleFit(val: string): string {
     const rowsTrimmed = this.ensureRowsLength(val);
     const rowCount = this.ensureRowsCount(rowsTrimmed);
@@ -20,7 +10,7 @@ export class StringTrimmer {
   }
 
   static ensureRowsCount(rowsTrimmed: string[]) {
-    return rowsTrimmed.slice(0, this.terminalHeight).join('\n');
+    return rowsTrimmed.slice(0, TerminalSize.terminalHeight).join('\n');
   }
 
   private static ensureRowsLength(val: string): string[] {
@@ -28,14 +18,13 @@ export class StringTrimmer {
     const predefinedLines = val.split(/\r?\n/);
     const actualLines = predefinedLines
       .map(preLine => {
-        const cleanLine = stripAnsi(preLine);
-        let rest = cleanLine;
+        let rest = preLine;
         const res: string[] = [];
         // If the forced line is longer that the maximal width of our terminal, split it up into sections that do fit
-        while (rest.length > this.terminalWidth) {
-          const maxLengthString = sliceAnsi(rest, 0, this.terminalWidth);
+        while (stripAnsi(rest).length > TerminalSize.terminalWidth) {
+          const maxLengthString = sliceAnsi(rest, 0, TerminalSize.terminalWidth);
           res.push(maxLengthString);
-          rest = sliceAnsi(rest, this.terminalWidth);
+          rest = sliceAnsi(rest, TerminalSize.terminalWidth);
         }
         if (rest) {
           res.push(rest);
