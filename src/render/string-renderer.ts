@@ -9,7 +9,7 @@ export class StringRenderer {
   public static lastString: string = '';
   private static lastTerminalHeight: number = TerminalSize.terminalHeight;
 
-  public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean) {
+  public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean, newLog: boolean) {
     let lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
 
     if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
@@ -51,7 +51,7 @@ export class StringRenderer {
       const oldLine = lastLines[i] ?? '';
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
-      if (i !== 0) {
+      if (i !== 0 || newLog) {
         ConsoleLog.log();
       }
       process.stdout.write(lineToPrint);
