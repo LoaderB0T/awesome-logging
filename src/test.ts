@@ -1,25 +1,67 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
-import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
 
-const line1 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
-const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-const spin1 = AwesomeLogger.create('spinner', {
-  text: ' My text',
-  spinnerDelay: 75,
-  spinnerFrames: [chalk.magenta('▄'), chalk.magenta('■'), chalk.magenta('▀'), chalk.magenta('▀'), chalk.magenta('■')]
-});
-const line2 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
-const prog2 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-const spin2 = AwesomeLogger.create('spinner', {
-  text: ' My text',
-  spinnerDelay: 75,
-  spinnerFrames: ['▄', '■', '▀', '▀', '■']
-});
+const promptForLog = () => {
+  const a = AwesomeLogger.prompt('choice', {
+    options: ['text', 'spinner', 'progressbar']
+  });
 
-const multi1 = AwesomeLogger.create('multi', { children: [spin1, line1, line2, prog1] });
-const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
-const multi = AwesomeLogger.log('multi', { children: [multi1, multi2] });
+  a.result.then(x => {
+    const logger = createExampleLogger(x)!;
+    AwesomeLogger.log(logger);
+    promptForLog();
+  });
+};
+
+promptForLog();
+
+const createExampleLogger = (type: string) => {
+  switch (type) {
+    case 'text': {
+      return AwesomeLogger.create('text', { text: chalk.red('Example text') });
+    }
+    case 'spinner': {
+      return AwesomeLogger.create('spinner', {
+        text: ' My text',
+        spinnerDelay: 75,
+        spinnerFrames: [
+          chalk.magenta('■'),
+          chalk.magenta('▄'),
+          chalk.magenta('■'),
+          chalk.magenta('▀'),
+          chalk.magenta('▀'),
+          chalk.yellow('■'),
+          chalk.yellow('▄'),
+          chalk.yellow('■'),
+          chalk.yellow('▀'),
+          chalk.yellow('▀')
+        ]
+      });
+    }
+    case 'progressbar': {
+      return AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+    }
+  }
+};
+
+// const line1 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
+// const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+// const spin1 = AwesomeLogger.create('spinner', {
+//   text: ' My text',
+//   spinnerDelay: 75,
+//   spinnerFrames: [chalk.magenta('▄'), chalk.magenta('■'), chalk.magenta('▀'), chalk.magenta('▀'), chalk.magenta('■')]
+// });
+// const line2 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
+// const prog2 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+// const spin2 = AwesomeLogger.create('spinner', {
+//   text: ' My text',
+//   spinnerDelay: 75,
+//   spinnerFrames: ['▄', '■', '▀', '▀', '■']
+// });
+
+// const multi1 = AwesomeLogger.create('multi', { children: [spin1, line1, line2, prog1] });
+// const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
+// const multi = AwesomeLogger.log('multi', { children: [multi1, multi2] });
 
 // const sendkeys = require('sendkeys');
 
