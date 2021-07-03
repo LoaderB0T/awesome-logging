@@ -107,6 +107,14 @@ export class LoggerManager {
     this.log(prompt);
   }
 
+  public interrupt(text: string) {
+    StringRenderer.renderString(text, true, false, false);
+    const activeLoggerText = this._activeLogger?.render();
+    if (activeLoggerText) {
+      StringRenderer.renderString(activeLoggerText, false, false, true);
+    }
+  }
+
   public runWithoutChangeDetection(run: () => void) {
     this._cangeDetection = false;
     run();

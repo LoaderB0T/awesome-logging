@@ -27,4 +27,8 @@ export class AwesomeLogger {
     LoggerManager.getInstance().prompt(prompt);
     return prompt;
   }
+
+  public static interrupt(text: string) {
+    LoggerManager.getInstance().interrupt(text);
+  }
 }
