@@ -11,7 +11,7 @@ const promptForLog = () => {
     AwesomeLogger.log(logger);
     setTimeout(() => {
       promptForLog();
-    }, 1000);
+    }, 2000);
   });
 };
 
