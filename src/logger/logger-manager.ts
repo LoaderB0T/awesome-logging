@@ -10,7 +10,6 @@ import { AwesomeLogger } from '../awesome-logger';
 export class LoggerManager {
   private static _instance: LoggerManager;
 
-  private readonly _readStream?: NodeJS.ReadStream;
   private _currentKeyListener?: (value: string) => any;
   private _activeLogger?: AwesomeLoggerBase;
   private _cangeDetection: boolean = true;
@@ -24,11 +23,12 @@ export class LoggerManager {
     if (!AwesomeLoggerBase.isInitialized) {
       AwesomeLoggerBase.isInitialized = true;
       const stdin = process.stdin;
-      stdin.setRawMode(true);
-      stdin.resume();
       stdin.setEncoding('utf8');
-      this._readStream = stdin.on('data', key => {
-        // ctrl-c ( end of text )
+      this.changeKeyListener(undefined);
+
+      stdin.on('data', (key: string) => {
+        // ctrl-c / SIGINT ( end of text ) does not work with rawMode, so we handle it manually here
+        //See https://nodejs.org/api/tty.html#tty_readstream_setrawmode_mode
         if (key.toString() === '\u0003') {
           process.exit();
         }
@@ -40,8 +40,10 @@ export class LoggerManager {
   public changeKeyListener(listener?: (val: string) => any) {
     this._currentKeyListener = listener;
     if (!this._currentKeyListener) {
+      process.stdin.setRawMode(false);
       process.stdin.pause();
     } else {
+      process.stdin.setRawMode(true);
       process.stdin.resume();
     }
   }
