@@ -45,6 +45,8 @@ export class StringTrimmer {
         const res: string[] = [];
         // If the forced line is longer that the maximal width of our terminal, split it up into sections that do fit
         while (stripAnsi(rest).length > TerminalSize.terminalWidth) {
+          // The line length is limited to two characters less than the actual length
+          // so that the scroll indicators can be printed, if needed
           const maxLengthString = sliceAnsi(rest, 0, TerminalSize.terminalWidth - 2);
           res.push(maxLengthString);
           rest = sliceAnsi(rest, TerminalSize.terminalWidth);
