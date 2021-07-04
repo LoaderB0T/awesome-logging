@@ -4,7 +4,6 @@ import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logg
 import { PromptCreator } from './prompt/prompt-creator';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt/prompt-type';
 
-LoggerManager.getInstance();
 export class AwesomeLogger {
   public static restrictedLogging = false;
 
