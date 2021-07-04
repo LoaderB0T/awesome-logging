@@ -70,7 +70,7 @@ export class LoggerManager {
       return;
     }
 
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true, this._activeLogger!.scrollAmount);
 
     StringRenderer.renderString(trimmedLines, false, false, false);
   }
@@ -83,7 +83,7 @@ export class LoggerManager {
     this._activeLogger?.end();
 
     const renderedLines = logger.render();
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true, logger.scrollAmount);
     StringRenderer.renderString(trimmedLines, false, true, true);
     this._activeLogger = logger;
   }
@@ -101,7 +101,8 @@ export class LoggerManager {
     StringRenderer.renderString(text, true, false, false);
     const activeLoggerText = this._activeLogger?.render();
     if (activeLoggerText) {
-      StringRenderer.renderString(activeLoggerText, false, false, true);
+      const trimmedLines = StringTrimmer.ensureConsoleFit(activeLoggerText, true, this._activeLogger!.scrollAmount);
+      StringRenderer.renderString(trimmedLines, false, false, true);
     }
   }
 

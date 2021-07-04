@@ -14,7 +14,7 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
       completedText: options?.completedText ?? '',
       unfilledChar: options?.unfilledChar ?? '·',
       filledChar: options?.filledChar ?? '■',
-      borderChar: options?.borderChar ?? '▮',
+      borderChar: options?.borderChar ?? '■',
       maxWidth: options?.maxWidth ?? 999999,
       borderColor: options?.borderColor ?? 'GRAY',
       unfilledColor: options?.unfilledColor ?? 'GRAY',

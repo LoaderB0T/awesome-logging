@@ -9,7 +9,7 @@ setInterval(() => {
 
 const promptForLog = () => {
   const a = AwesomeLogger.prompt('choice', {
-    options: ['text', 'spinner', 'progressbar']
+    options: ['text', 'spinner', 'progressbar', 'placeholder1', 'placeholder2', 'placeholder3', 'placeholder4', 'placeholder5']
   });
 
   a.result.then(x => {
