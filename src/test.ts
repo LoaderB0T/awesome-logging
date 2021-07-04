@@ -1,7 +1,35 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
 
-AwesomeLogger.log('this is awesome logging!');
+AwesomeLogger.log('');
+AwesomeLogger.log('');
+AwesomeLogger.log('');
+AwesomeLogger.log('');
+AwesomeLogger.log('');
+AwesomeLogger.log('');
+
+// setTimeout(() => {
+//   const textA = 'One line of text...';
+//   const textB = 'Multiple\nLines\nof Text!';
+//   let state = true;
+//   const logControl = AwesomeLogger.log(textA);
+//   setInterval(() => {
+//     state = !state;
+//     logControl.setText(state ? textA : textB);
+//   }, 1000);
+// }, 3000);
+
+// const logProgressControl = AwesomeLogger.log('progress', {
+//   totalProgress: 100,
+//   text: 'Very important progress:'
+// });
+// let i = 0;
+// const interval = setInterval(() => {
+//   logProgressControl.setProgress(i++);
+//   if (i === 100) {
+//     clearInterval(interval);
+//   }
+// }, 500);
 
 // setInterval(() => {
 //   AwesomeLogger.interrupt('interrupt' + Math.random());
@@ -52,13 +80,24 @@ AwesomeLogger.log('this is awesome logging!');
 //   }
 // };
 
-// const line1 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
-// const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+// const line0 = AwesomeLogger.create('text', { text: chalk.yellow('Multiple lines, all changing:') });
+// const line1 = AwesomeLogger.create('text', { text: chalk.blue('Important Information') });
+// const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 50 });
 // const spin1 = AwesomeLogger.create('spinner', {
-//   text: ' My text',
+//   text: 'Loading Animation',
 //   spinnerDelay: 75,
 //   spinnerFrames: [chalk.magenta('▄'), chalk.magenta('■'), chalk.magenta('▀'), chalk.magenta('▀'), chalk.magenta('■')]
 // });
+// let textState = true;
+// setInterval(() => {
+//   textState = !textState;
+//   line1.setText(textState ? chalk.blue('Important Information') : chalk.green('Green text, because why not?'));
+// }, 1000);
+// let i = 0;
+// setInterval(() => {
+//   i += 1;
+//   prog1.setProgress(i);
+// }, 300);
 // const line2 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
 // const prog2 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
 // const spin2 = AwesomeLogger.create('spinner', {
@@ -67,7 +106,7 @@ AwesomeLogger.log('this is awesome logging!');
 //   spinnerFrames: ['▄', '■', '▀', '▀', '■']
 // });
 
-// const multi1 = AwesomeLogger.create('multi', { children: [spin1, line1, line2, prog1] });
+// const multi1 = AwesomeLogger.log('multi', { children: [line0, spin1, line1, prog1] });
 // const multi2 = AwesomeLogger.create('multi', { children: [line2, prog2, spin2] });
 // const multi = AwesomeLogger.log('multi', { children: [multi1, multi2] });
 
