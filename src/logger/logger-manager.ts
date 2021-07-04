@@ -38,12 +38,15 @@ export class LoggerManager {
   }
 
   public changeKeyListener(listener?: (val: string) => any) {
+    if (AwesomeLogger.restrictedLogging) {
+      return;
+    }
     this._currentKeyListener = listener;
     if (!this._currentKeyListener) {
-      process.stdin.setRawMode(false);
+      process.stdin.setRawMode?.(false);
       process.stdin.pause();
     } else {
-      process.stdin.setRawMode(true);
+      process.stdin.setRawMode?.(true);
       process.stdin.resume();
     }
   }
