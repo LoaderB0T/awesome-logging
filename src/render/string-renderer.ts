@@ -5,6 +5,7 @@ import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 import { TerminalSize } from '../utils/terminal-size';
 
+// @internal
 export class StringRenderer {
   public static lastString: string = '';
   private static lastTerminalHeight: number = TerminalSize.terminalHeight;

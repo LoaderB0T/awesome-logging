@@ -4,7 +4,7 @@ import { AwesomeTextLogger } from '../../logger/models/text-logger';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
 import { TerminalSize } from '../../utils/terminal-size';
 import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle';
-import { AwesomePromptBase } from './prompt-base';
+import { AwesomePromptBase } from '../prompt-base';
 
 export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {
   private _currentHighlightedRow: number;

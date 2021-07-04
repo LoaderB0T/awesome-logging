@@ -3,7 +3,7 @@ import { StringRenderer } from '../render/string-renderer';
 import { HIDE_CURSOR } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 import { AwesomeLoggerBase } from './logger-base';
-import { AwesomePromptBase } from '../prompt/models/prompt-base';
+import { AwesomePromptBase } from '../prompt/prompt-base';
 import { AwesomeLogger } from '../awesome-logger';
 
 // @internal

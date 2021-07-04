@@ -2,6 +2,7 @@ import sliceAnsi from 'slice-ansi';
 import stripAnsi from 'strip-ansi';
 import { TerminalSize } from '../utils/terminal-size';
 
+// @internal
 export class StringTrimmer {
   public static ensureConsoleFit(val: string, limitRowCount: boolean, scollAmount: number): string {
     const rowsTrimmed = this.ensureRowsLength(val);

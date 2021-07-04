@@ -15,7 +15,8 @@
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "stripInternal": true
   },
   "include": ["src"]
 }

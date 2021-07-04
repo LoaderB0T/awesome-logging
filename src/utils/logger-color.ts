@@ -27,7 +27,7 @@ const colorizeBg = (bgColor?: AwesomeLoggerColor) => {
   }
 };
 
-export const colorizeFg = (color?: AwesomeLoggerColor) => {
+const colorizeFg = (color?: AwesomeLoggerColor) => {
   switch (color) {
     case 'WHITE':
       return chalk.white as (val: string) => string;

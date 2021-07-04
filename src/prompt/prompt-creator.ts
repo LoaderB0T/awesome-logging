@@ -1,5 +1,5 @@
 import { AwesomeChoicePromt } from './models/choice-prompt';
-import { AwesomePromptBase } from './models/prompt-base';
+import { AwesomePromptBase } from './prompt-base';
 import { AwesomeTextPromt } from './models/text-prompt';
 import { AwesomeTogglePromt } from './models/toggle-prompt';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt-type';
