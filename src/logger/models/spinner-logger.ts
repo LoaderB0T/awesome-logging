@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from '../../awesome-logger';
 import { AwesomeLoggerBase } from '../logger-base';
 import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner';
 
@@ -55,15 +54,15 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
         return '';
       }
       if (this._succeed === true) {
-        return chalk.green('√') + this._stoppedText ?? this._text;
+        return chalk.green('√ ') + this._stoppedText ?? this._text;
       } else if (this._succeed === false) {
-        return chalk.red('X') + this._stoppedText ?? this._text;
+        return chalk.red('X ') + this._stoppedText ?? this._text;
       } else {
         return this._stoppedText ?? this._text;
       }
     }
 
-    return this._options.spinnerFrames[this._animationIndex] + this._text;
+    return `${this._options.spinnerFrames[this._animationIndex]} ${this._text}`;
   }
 
   stop(options: { succeeded?: boolean; removeLine?: boolean; text?: string }): void {
