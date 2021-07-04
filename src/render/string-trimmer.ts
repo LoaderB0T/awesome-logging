@@ -15,7 +15,9 @@ export class StringTrimmer {
     if (maxRowCount >= actualRowCount) {
       return rowsTrimmed;
     }
-    if (scrollAmount > actualRowCount - maxRowCount) {
+    if (scrollAmount < 0) {
+      scrollAmount = 0;
+    } else if (scrollAmount > actualRowCount - maxRowCount) {
       scrollAmount = actualRowCount - maxRowCount;
     }
     const visibleRows = rowsTrimmed.slice(scrollAmount, scrollAmount + maxRowCount);
