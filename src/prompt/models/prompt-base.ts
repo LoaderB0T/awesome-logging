@@ -1,3 +1,4 @@
+import { AwesomeLogger } from '../../awesome-logger';
 import { AwesomeLoggerBase } from '../../logger/logger-base';
 import { LoggerManager } from '../../logger/logger-manager';
 
@@ -8,6 +9,9 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   public readonly result: Promise<T>;
 
   constructor(initialPromptLogger: AwesomeLoggerBase) {
+    if (AwesomeLogger.restrictedLogging) {
+      throw new Error('Prompts cannot be used when restricted logging is enabled');
+    }
     super();
     this._logger = initialPromptLogger;
     this.result = new Promise<T>((resolve, reject) => {
