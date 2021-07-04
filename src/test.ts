@@ -3,54 +3,54 @@ import { AwesomeLogger } from './awesome-logger';
 
 AwesomeLogger.log('this is awesome logging!');
 
-setInterval(() => {
-  AwesomeLogger.interrupt('interrupt' + Math.random());
-}, 4000);
+// setInterval(() => {
+//   AwesomeLogger.interrupt('interrupt' + Math.random());
+// }, 4000);
 
-const promptForLog = () => {
-  const a = AwesomeLogger.prompt('choice', {
-    options: ['text', 'spinner', 'progressbar', 'placeholder1', 'placeholder2', 'placeholder3', 'placeholder4', 'placeholder5']
-  });
+// const promptForLog = () => {
+//   const a = AwesomeLogger.prompt('choice', {
+//     options: ['text', 'spinner', 'progressbar', 'placeholder1', 'placeholder2', 'placeholder3', 'placeholder4', 'placeholder5']
+//   });
 
-  a.result.then(x => {
-    const logger = createExampleLogger(x)!;
-    AwesomeLogger.log(logger);
-    setTimeout(() => {
-      promptForLog();
-    }, 2000);
-  });
-};
+//   a.result.then(x => {
+//     const logger = createExampleLogger(x)!;
+//     AwesomeLogger.log(logger);
+//     setTimeout(() => {
+//       promptForLog();
+//     }, 2000);
+//   });
+// };
 
-promptForLog();
+// promptForLog();
 
-const createExampleLogger = (type: string) => {
-  switch (type) {
-    case 'text': {
-      return AwesomeLogger.create('text', { text: chalk.red('Example text') });
-    }
-    case 'spinner': {
-      return AwesomeLogger.create('spinner', {
-        text: ' My text',
-        spinnerDelay: 75,
-        spinnerFrames: [
-          chalk.magenta('■'),
-          chalk.magenta('▄'),
-          chalk.magenta('■'),
-          chalk.magenta('▀'),
-          chalk.magenta('▀'),
-          chalk.yellow('■'),
-          chalk.yellow('▄'),
-          chalk.yellow('■'),
-          chalk.yellow('▀'),
-          chalk.yellow('▀')
-        ]
-      });
-    }
-    case 'progressbar': {
-      return AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-    }
-  }
-};
+// const createExampleLogger = (type: string) => {
+//   switch (type) {
+//     case 'text': {
+//       return AwesomeLogger.create('text', { text: chalk.red('Example text') });
+//     }
+//     case 'spinner': {
+//       return AwesomeLogger.create('spinner', {
+//         text: ' My text',
+//         spinnerDelay: 75,
+//         spinnerFrames: [
+//           chalk.magenta('■'),
+//           chalk.magenta('▄'),
+//           chalk.magenta('■'),
+//           chalk.magenta('▀'),
+//           chalk.magenta('▀'),
+//           chalk.yellow('■'),
+//           chalk.yellow('▄'),
+//           chalk.yellow('■'),
+//           chalk.yellow('▀'),
+//           chalk.yellow('▀')
+//         ]
+//       });
+//     }
+//     case 'progressbar': {
+//       return AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+//     }
+//   }
+// };
 
 // const line1 = AwesomeLogger.create('text', { text: chalk.green('awd\nawd2awd3') });
 // const prog1 = AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });

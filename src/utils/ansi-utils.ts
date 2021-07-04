@@ -5,7 +5,7 @@ restoreCursor();
 export const CONTROL_PREFIX: string = '\u001b[';
 
 let cursorVisible = true;
-let debug = false;
+const debug = false;
 
 // @internal
 export const MOVE_LEFT = () => process.stdout.write(`${CONTROL_PREFIX}1000D`);

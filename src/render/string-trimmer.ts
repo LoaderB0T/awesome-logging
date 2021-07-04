@@ -27,11 +27,11 @@ export class StringTrimmer {
     for (let i = 0; i < visibleRows.length; i++) {
       let visibleRow = visibleRows[i];
       if (i === 0 && scrollAmount > 0) {
-        visibleRow = '↑ ' + visibleRow;
+        visibleRow = `↑ ${visibleRow}`;
       } else if (i === maxRowCount - 1 && scrollAmount < actualRowCount - maxRowCount) {
-        visibleRow = '↓ ' + visibleRow;
+        visibleRow = `↓ ${visibleRow}`;
       } else {
-        visibleRow = '| ' + visibleRow;
+        visibleRow = `| ${visibleRow}`;
       }
       visibleRowsWithScrollPrefix.push(visibleRow);
     }

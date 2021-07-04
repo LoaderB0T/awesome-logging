@@ -1,4 +1,3 @@
-import { AwesomeLoggerBase } from './logger/logger-base';
 import { LoggerCreator } from './logger/logger-creator';
 import { LoggerManager } from './logger/logger-manager';
 import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logger-type';
@@ -24,7 +23,7 @@ export class AwesomeLogger {
     const logger =
       typeof param1 === 'object'
         ? param1
-        : !!param2
+        : param2
         ? LoggerCreator.create(param1 as T, param2!)
         : (AwesomeLogger.create('text', { text: param1 }) as LoggerReturnType<T>);
 

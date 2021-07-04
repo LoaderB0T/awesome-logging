@@ -1,13 +1,10 @@
 {
   "extends": ["@awdware/eslint-config-nodejs"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": ["*test.ts"],
   "rules": {
-    "switch-colon-spacing": "warn",
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ]
+    "switch-colon-spacing": "warn"
   }
 }
