@@ -100,6 +100,11 @@ export class LoggerManager {
   }
 
   public interrupt(text: string) {
+    if (AwesomeLogger.restrictedLogging) {
+      // We dont re-print anything if restricted logging is enables
+      this.logRestricted(text);
+      return;
+    }
     StringRenderer.renderString(text, true, false, false);
     const activeLoggerText = this._activeLogger?.render();
     if (activeLoggerText) {
