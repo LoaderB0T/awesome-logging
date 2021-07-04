@@ -7,9 +7,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "test.ts",
       "skipFiles": ["<node_internals>/**", "${workspaceRoot}/node_modules/**"],
       "program": "${workspaceFolder}\\lib\\test.js",
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "outFiles": ["${workspaceFolder}/lib/**/*.js"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test-restricted.ts",
+      "skipFiles": ["<node_internals>/**", "${workspaceRoot}/node_modules/**"],
+      "program": "${workspaceFolder}\\lib\\test-restricted.js",
       "preLaunchTask": "tsc: build - tsconfig.json",
       "outFiles": ["${workspaceFolder}/lib/**/*.js"],
       "console": "integratedTerminal"

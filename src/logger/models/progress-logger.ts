@@ -53,6 +53,7 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
     if (progress !== this._currentProgress) {
       this._currentProgress = progress;
       this.changed();
+      this.restrictedChanged(this.getNextLine());
     }
   }
 }

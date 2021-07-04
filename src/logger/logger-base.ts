@@ -1,3 +1,4 @@
+import { AwesomeLogger } from '../awesome-logger';
 import { LoggerManager } from './logger-manager';
 
 export abstract class AwesomeLoggerBase {
@@ -18,8 +19,19 @@ export abstract class AwesomeLoggerBase {
   public abstract needsScroll(): boolean;
 
   protected changed() {
+    if (AwesomeLogger.restrictedLogging) {
+      return;
+    }
     this._hasChanges = true;
     LoggerManager.getInstance().loggerChanged(this);
+  }
+
+  protected restrictedChanged(text: string) {
+    if (!AwesomeLogger.restrictedLogging) {
+      return;
+    }
+    this._hasChanges = true;
+    LoggerManager.getInstance().logRestricted(text);
   }
 
   // @internal

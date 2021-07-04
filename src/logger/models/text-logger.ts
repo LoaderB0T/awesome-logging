@@ -31,6 +31,7 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     if (text !== this._text) {
       this._text = text;
       this.changed();
+      this.restrictedChanged(text);
     }
   }
 }

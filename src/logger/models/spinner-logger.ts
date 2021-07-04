@@ -21,15 +21,13 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
       spinnerFrames: options?.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
       spinnerDelay: options?.spinnerDelay ?? 500
     };
-    if (!AwesomeLogger.restrictedLogging) {
-      this._animationInterval = setInterval(() => {
-        this._animationIndex++;
-        if (this._animationIndex >= this._options.spinnerFrames.length) {
-          this._animationIndex = 0;
-        }
-        this.changed();
-      }, this._options.spinnerDelay);
-    }
+    this._animationInterval = setInterval(() => {
+      this._animationIndex++;
+      if (this._animationIndex >= this._options.spinnerFrames.length) {
+        this._animationIndex = 0;
+      }
+      this.changed();
+    }, this._options.spinnerDelay);
   }
 
   public end(): void {
@@ -80,5 +78,6 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     this._stoppedText = options.text;
 
     this.changed();
+    this.restrictedChanged(this.getNextLine());
   }
 }

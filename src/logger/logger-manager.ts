@@ -70,30 +70,20 @@ export class LoggerManager {
       return;
     }
 
-    // if (AwesomeLogger.restrictedLogging) {
-    //   for (let i = 0; i < renderedLines.length; i++) {
-    //     const line = renderedLines[i];
-    //     const changedLine = line.toLineString(this._lastRenderedLines?.[i]);
-    //     if (changedLine) {
-    //       console.log(line.toLineString());
-    //     }
-    //     if (this._lastRenderedLines) {
-    //       this._lastRenderedLines[i] = line;
-    //     }
-    //   }
-    //   return;
-    // }
-
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true);
 
     StringRenderer.renderString(trimmedLines, false, false, false);
+  }
+
+  public logRestricted(text: string) {
+    StringRenderer.renderString(text, true, true, true);
   }
 
   public log(logger: AwesomeLoggerBase) {
     this._activeLogger?.end();
 
     const renderedLines = logger.render();
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true);
     StringRenderer.renderString(trimmedLines, false, true, true);
     this._activeLogger = logger;
   }

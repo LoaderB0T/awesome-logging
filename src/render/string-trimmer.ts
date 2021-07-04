@@ -3,14 +3,14 @@ import stripAnsi from 'strip-ansi';
 import { TerminalSize } from '../utils/terminal-size';
 
 export class StringTrimmer {
-  public static ensureConsoleFit(val: string): string {
+  public static ensureConsoleFit(val: string, limitRowCount: boolean): string {
     const rowsTrimmed = this.ensureRowsLength(val);
-    const rowCount = this.ensureRowsCount(rowsTrimmed);
-    return rowCount;
+    const rowCount = limitRowCount ? this.ensureRowsCount(rowsTrimmed) : rowsTrimmed;
+    return rowCount.join('\n');
   }
 
   static ensureRowsCount(rowsTrimmed: string[]) {
-    return rowsTrimmed.slice(0, TerminalSize.terminalHeight).join('\n');
+    return rowsTrimmed.slice(0, TerminalSize.terminalHeight);
   }
 
   private static ensureRowsLength(val: string): string[] {

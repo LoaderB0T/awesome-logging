@@ -70,6 +70,7 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     // todo: interrupt with already finished items that are scrolled away
 
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
+    // No need to call restrictedChanged here, because the textlogger does already handle that.
   }
 
   private calculateLine(index: number): string {
