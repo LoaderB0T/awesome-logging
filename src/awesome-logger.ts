@@ -14,10 +14,20 @@ export class AwesomeLogger {
     return loggerReturnType;
   }
 
+  public static log<T extends 'text'>(text: string): LoggerReturnType<T>;
   public static log<T extends AwesomeLoggerType>(logger: LoggerReturnType<T>): LoggerReturnType<T>;
   public static log<T extends AwesomeLoggerType>(type: T, config: LoggerConfig<T>): LoggerReturnType<T>;
-  public static log<T extends AwesomeLoggerType>(param1: T | LoggerReturnType<T>, param2?: LoggerConfig<T>): LoggerReturnType<T> {
-    const logger = typeof param1 === 'string' ? LoggerCreator.create(param1, param2!) : param1;
+  public static log<T extends AwesomeLoggerType>(
+    param1: T | LoggerReturnType<T> | string,
+    param2?: LoggerConfig<T>
+  ): LoggerReturnType<T> {
+    const logger =
+      typeof param1 === 'object'
+        ? param1
+        : !!param2
+        ? LoggerCreator.create(param1 as T, param2!)
+        : (AwesomeLogger.create('text', { text: param1 }) as LoggerReturnType<T>);
+
     LoggerManager.getInstance().log(logger);
     return logger;
   }

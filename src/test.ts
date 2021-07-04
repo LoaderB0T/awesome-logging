@@ -1,6 +1,12 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
 
+AwesomeLogger.log('this is awesome logging!');
+
+setInterval(() => {
+  AwesomeLogger.interrupt('interrupt' + Math.random());
+}, 4000);
+
 const promptForLog = () => {
   const a = AwesomeLogger.prompt('choice', {
     options: ['text', 'spinner', 'progressbar']
