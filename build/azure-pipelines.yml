@@ -28,13 +28,7 @@ steps:
   - task: Yarn@3
     inputs:
       arguments: 'run build'
-    displayName: "\U0001F6E0 Build shared"
-
-  - task: Yarn@3
-    inputs:
-      arguments: 'link'
-      projectDirectory: 'shared'
-    displayName: "\U0001F503 link shared"
+    displayName: "\U0001F6E0 Build"
 
   # - task: Yarn@3
   #   inputs:

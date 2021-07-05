@@ -5,4 +5,4 @@ node_modules
 tsconfig.json
 azure-pipelines.yml
 src
-!assets/**/src
+.git
