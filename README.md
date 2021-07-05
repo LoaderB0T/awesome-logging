@@ -1,5 +1,5 @@
 # Awesome Logging
-![npm](https://img.shields.io/npm/v/awesome-logging?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/awesome-logging?style=for-the-badge) ![Azure DevOps builds](https://img.shields.io/azure-devops/build/loaderb0t/7dce405f-9e33-4681-90c6-b067f1880cb0/30?style=for-the-badge)
 
 **awesome-logging** is a collection of fancy text outputs and inputs for CLI tools written in NodeJS.
 No matter what you want to log to the terminal or what information you need from the user, **awesome-logging** will help you do so.
