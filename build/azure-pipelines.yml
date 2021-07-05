@@ -59,9 +59,3 @@ steps:
       publishLocation: 'pipeline'
     displayName: "\U0001F680 Publish"
 
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(Build.SourcesDirectory)/build'
-      artifact: 'build'
-      publishLocation: 'pipeline'
-    displayName: "\U0001F680 Publish CI/CD Stuff"
