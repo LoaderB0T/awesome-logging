@@ -1,0 +1,67 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.x'
+    displayName: "\U0001F4E5 Install Node.js"
+
+  - task: YarnInstaller@3
+    inputs:
+      versionSpec: '1.x'
+    displayName: "\U0001F4E5 Install Yarn"
+
+  - task: Yarn@3
+    inputs:
+      arguments: 'install'
+    displayName: "\U0001F4E6 Install packages"
+
+  - task: Yarn@3
+    inputs:
+      arguments: 'run build'
+    displayName: "\U0001F6E0 Build shared"
+
+  - task: Yarn@3
+    inputs:
+      arguments: 'link'
+      projectDirectory: 'shared'
+    displayName: "\U0001F503 link shared"
+
+  # - task: Yarn@3
+  #   inputs:
+  #     arguments: 'run test'
+  #     projectDirectory: 'test'
+  #   displayName: "\U0001F52C Run tests"
+
+  # - task: PublishTestResults@2
+  #   inputs:
+  #     testResultsFormat: 'JUnit'
+  #     testResultsFiles: '*.xml'
+  #     searchFolder: '$(Build.SourcesDirectory)/test/results'
+  #     testRunTitle: 'Gah tests'
+  #     publishRunAttachments: true
+  #   displayName: "\U0001F680 Publish test results"
+  #   condition: true
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)'
+      artifact: 'awesome-logging'
+      publishLocation: 'pipeline'
+    displayName: "\U0001F680 Publish"
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/build'
+      artifact: 'build'
+      publishLocation: 'pipeline'
+    displayName: "\U0001F680 Publish CI/CD Stuff"
