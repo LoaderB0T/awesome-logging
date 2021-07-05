@@ -1,4 +1,5 @@
 import stripAnsi from 'strip-ansi';
+import { AwesomeLogger } from '../awesome-logger';
 
 import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
@@ -11,41 +12,42 @@ export class StringRenderer {
 
   public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean, newLog: boolean) {
     let lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
-
-    if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
-      this.lastTerminalHeight = TerminalSize.terminalHeight;
-      // When the terminal is resized, we try do delete everything and re-print everything.
-      // Deleting lines that are out of scroll view is not possible in some terminals (powershell, cmd, and more on windows for example)
-      // We still try to do so, but when reducing the height in the terminal some lines will get "stuck" in the history
-      for (let i = 0; i < lastLines.length; i++) {
-        DELETE_LINE();
-        MOVE_UP();
-      }
-      // resetting lastString & lastLine to make it reprint everything
-      this.lastString = '';
-      lastLines = [];
-    }
-
     this.lastString = interruptLog ? '' : val;
     const newLines = val.split(/[\r\n]+/g);
 
-    const lengthDifference = newLines.length - lastLines.length;
-    const lessLines = lengthDifference < 0 ? lengthDifference * -1 : 0;
-
-    if (lengthDifference < 0) {
-      for (let i = 0; i < lessLines; i++) {
-        DELETE_LINE();
-        MOVE_UP();
+    if (!AwesomeLogger.restrictedLogging) {
+      if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
+        this.lastTerminalHeight = TerminalSize.terminalHeight;
+        // When the terminal is resized, we try do delete everything and re-print everything.
+        // Deleting lines that are out of scroll view is not possible in some terminals (powershell, cmd, and more on windows for example)
+        // We still try to do so, but when reducing the height in the terminal some lines will get "stuck" in the history
+        for (let i = 0; i < lastLines.length; i++) {
+          DELETE_LINE();
+          MOVE_UP();
+        }
+        // resetting lastString & lastLine to make it reprint everything
+        this.lastString = '';
+        lastLines = [];
       }
-    }
 
-    let moveUpAmount = lastLines.length - lessLines - 1;
-    if (moveUpAmount < 0) {
-      moveUpAmount = 0;
-    }
+      const lengthDifference = newLines.length - lastLines.length;
+      const lessLines = lengthDifference < 0 ? lengthDifference * -1 : 0;
 
-    MOVE_UP(moveUpAmount);
-    MOVE_LEFT();
+      if (lengthDifference < 0) {
+        for (let i = 0; i < lessLines; i++) {
+          DELETE_LINE();
+          MOVE_UP();
+        }
+      }
+
+      let moveUpAmount = lastLines.length - lessLines - 1;
+      if (moveUpAmount < 0) {
+        moveUpAmount = 0;
+      }
+
+      MOVE_UP(moveUpAmount);
+      MOVE_LEFT();
+    }
 
     for (let i = 0; i < newLines.length; i++) {
       const oldLine = lastLines[i] ?? '';
