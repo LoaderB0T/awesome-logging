@@ -1,6 +1,6 @@
 import { StringTrimmer } from '../render/string-trimmer';
 import { StringRenderer } from '../render/string-renderer';
-import { HIDE_CURSOR } from '../utils/ansi-utils';
+import { CONTROL_PREFIX_FIRST_CHAR, HIDE_CURSOR } from '../utils/ansi-utils';
 import { ConsoleLog } from '../utils/console-log';
 import { AwesomeLoggerBase } from './logger-base';
 import { AwesomePromptBase } from '../prompt/prompt-base';
@@ -25,6 +25,8 @@ export class LoggerManager {
       const stdin = process.stdin;
       stdin.setEncoding('utf8');
       this.changeKeyListener(undefined);
+      let isIncomplete = false;
+      let incompletePart = '';
 
       stdin.on('data', (key: string) => {
         // ctrl-c / SIGINT ( end of text ) does not work with rawMode, so we handle it manually here
@@ -32,7 +34,26 @@ export class LoggerManager {
         if (key.toString() === '\u0003') {
           process.exit();
         }
-        this._currentKeyListener?.(key.toString());
+
+        // This incomplete logic is a workaround for stackblitz
+        // where data is triggered on a per-character basis
+        // This only happens in strange terminals like on stackblitz
+        if (isIncomplete) {
+          incompletePart += key;
+          return;
+        }
+        if (key.toString() === CONTROL_PREFIX_FIRST_CHAR) {
+          isIncomplete = true;
+          incompletePart = CONTROL_PREFIX_FIRST_CHAR;
+          setTimeout(() => {
+            this._currentKeyListener?.(incompletePart);
+            isIncomplete = false;
+            incompletePart = '';
+          }, 10);
+          // Workaround End
+        } else {
+          this._currentKeyListener?.(key.toString());
+        }
       });
     }
   }

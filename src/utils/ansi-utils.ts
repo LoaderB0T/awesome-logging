@@ -2,7 +2,8 @@ import restoreCursor from 'restore-cursor';
 restoreCursor();
 
 // @internal
-export const CONTROL_PREFIX: string = '\u001b[';
+export const CONTROL_PREFIX_FIRST_CHAR: string = '\u001b';
+export const CONTROL_PREFIX: string = `${CONTROL_PREFIX_FIRST_CHAR}[`;
 
 let cursorVisible = true;
 const debug = false;
