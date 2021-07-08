@@ -1,0 +1,47 @@
+import { Terminal } from 'node-terminal-emulator';
+import { AwesomeLogger } from '../src/index';
+import { stdout } from '../src/render/stdout-write';
+
+describe('', () => {
+  let t: Terminal;
+
+  beforeEach(() => {
+    t = new Terminal([100, 6]);
+    stdout.write = (str: string) => t.write(str);
+  });
+
+  test('spinner successful with text', () => {
+    const c = AwesomeLogger.log('spinner', { text: 'spinner' });
+    expect(t.text).toStrictEqual(['', '.   spinner']);
+    c.stop({ succeeded: true, text: 'done' });
+    expect(t.text).toStrictEqual(['', '√ done     ']);
+  });
+
+  test('spinner unsuccessful with text', () => {
+    const c = AwesomeLogger.log('spinner', { text: 'spinner' });
+    expect(t.text).toStrictEqual(['', '.   spinner']);
+    c.stop({ succeeded: false, text: 'done' });
+    expect(t.text).toStrictEqual(['', 'X done     ']);
+  });
+
+  test('spinner with text', () => {
+    const c = AwesomeLogger.log('spinner', { text: 'spinner' });
+    expect(t.text).toStrictEqual(['', '.   spinner']);
+    c.stop({ text: 'done' });
+    expect(t.text).toStrictEqual(['', 'done       ']);
+  });
+
+  test('spinner stop', () => {
+    const c = AwesomeLogger.log('spinner', { text: 'spinner' });
+    expect(t.text).toStrictEqual(['', '.   spinner']);
+    c.stop({});
+    expect(t.text).toStrictEqual(['', 'spinner    ']);
+  });
+
+  test('spinner removeline', () => {
+    const c = AwesomeLogger.log('spinner', { text: 'spinner' });
+    expect(t.text).toStrictEqual(['', '.   spinner']);
+    c.stop({ removeLine: true });
+    expect(t.text).toStrictEqual(['']);
+  });
+});
