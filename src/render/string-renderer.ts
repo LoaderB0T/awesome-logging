@@ -2,8 +2,8 @@ import stripAnsi from 'strip-ansi';
 import { AwesomeLogger } from '../awesome-logger';
 
 import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
-import { ConsoleLog } from '../utils/console-log';
 import { TerminalSize } from '../utils/terminal-size';
+import { stdout } from './stdout-write';
 
 // @internal
 export class StringRenderer {
@@ -54,9 +54,9 @@ export class StringRenderer {
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
       if (i !== 0 || newLog) {
-        ConsoleLog.log();
+        stdout.write('\n');
       }
-      process.stdout.write(lineToPrint);
+      stdout.write(lineToPrint);
     }
   }
 
