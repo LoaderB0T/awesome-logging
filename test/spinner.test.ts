@@ -1,13 +1,16 @@
 import { Terminal } from 'node-terminal-emulator';
 import { AwesomeLogger } from '../src/index';
-import { stdout } from '../src/render/stdout-write';
 
 describe('', () => {
   let t: Terminal;
 
   beforeEach(() => {
     t = new Terminal([100, 6]);
-    stdout.write = (str: string) => t.write(str);
+    t.redirectStdout();
+  });
+
+  afterEach(() => {
+    t.restoreStdout();
   });
 
   test('spinner successful with text', () => {

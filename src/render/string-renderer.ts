@@ -3,7 +3,6 @@ import { AwesomeLogger } from '../awesome-logger';
 
 import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
 import { TerminalSize } from '../utils/terminal-size';
-import { stdout } from './stdout-write';
 
 // @internal
 export class StringRenderer {
@@ -54,9 +53,9 @@ export class StringRenderer {
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
       if (i !== 0 || newLog) {
-        stdout.write('\n');
+        process.stdout.write('\n');
       }
-      stdout.write(lineToPrint);
+      process.stdout.write(lineToPrint);
     }
   }
 
