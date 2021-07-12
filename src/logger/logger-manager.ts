@@ -8,7 +8,7 @@ import { AwesomeLogger } from '../awesome-logger';
 
 // @internal
 export class LoggerManager {
-  private static _instance: LoggerManager;
+  private static _instance?: LoggerManager;
 
   private _currentKeyListener?: (value: string) => any;
   private _activeLogger?: AwesomeLoggerBase;
@@ -92,7 +92,7 @@ export class LoggerManager {
     HIDE_CURSOR();
 
     const renderedLines = this._activeLogger!.render();
-    if (!renderedLines) {
+    if (renderedLines === undefined) {
       return;
     }
 

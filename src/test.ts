@@ -35,50 +35,53 @@ AwesomeLogger.log('');
 //   AwesomeLogger.interrupt('interrupt' + Math.random());
 // }, 4000);
 
-const promptForLog = () => {
-  const a = AwesomeLogger.prompt('choice', {
-    options: ['text', 'spinner', 'progressbar', 'placeholder1', 'placeholder2', 'placeholder3', 'placeholder4', 'placeholder5']
-  });
+// const promptForLog = () => {
+//   const a = AwesomeLogger.prompt('choice', {
+//     options: ['text', 'spinner', 'progressbar', 'placeholder1', 'placeholder2', 'placeholder3', 'placeholder4', 'placeholder5']
+//   });
 
-  a.result.then(x => {
-    const logger = createExampleLogger(x)!;
-    AwesomeLogger.log(logger);
-    setTimeout(() => {
-      promptForLog();
-    }, 2000);
-  });
-};
+//   a.result.then(x => {
+//     const logger = createExampleLogger(x)!;
+//     AwesomeLogger.log(logger);
+//     setTimeout(() => {
+//       promptForLog();
+//     }, 2000);
+//   });
+// };
 
-promptForLog();
+// promptForLog();
 
-const createExampleLogger = (type: string) => {
-  switch (type) {
-    case 'text': {
-      return AwesomeLogger.create('text', { text: chalk.red('Example text') });
-    }
-    case 'spinner': {
-      return AwesomeLogger.create('spinner', {
-        text: ' My text',
-        spinnerDelay: 75,
-        spinnerFrames: [
-          chalk.magenta('■'),
-          chalk.magenta('▄'),
-          chalk.magenta('■'),
-          chalk.magenta('▀'),
-          chalk.magenta('▀'),
-          chalk.yellow('■'),
-          chalk.yellow('▄'),
-          chalk.yellow('■'),
-          chalk.yellow('▀'),
-          chalk.yellow('▀')
-        ]
-      });
-    }
-    case 'progressbar': {
-      return AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
-    }
-  }
-};
+// const createExampleLogger = (type: string) => {
+//   switch (type) {
+//     case 'text': {
+//       return AwesomeLogger.create('text', { text: chalk.red('Example text') });
+//     }
+//     case 'spinner': {
+//       return AwesomeLogger.create('spinner', {
+//         text: ' My text',
+//         spinnerDelay: 75,
+//         spinnerFrames: [
+//           chalk.magenta('■'),
+//           chalk.magenta('▄'),
+//           chalk.magenta('■'),
+//           chalk.magenta('▀'),
+//           chalk.magenta('▀'),
+//           chalk.yellow('■'),
+//           chalk.yellow('▄'),
+//           chalk.yellow('■'),
+//           chalk.yellow('▀'),
+//           chalk.yellow('▀')
+//         ]
+//       });
+//     }
+//     case 'progressbar': {
+//       return AwesomeLogger.create('progress', { totalProgress: 100, filledColor: 'GREEN', maxWidth: 100 });
+//     }
+//   }
+// };
+
+AwesomeLogger.log('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15');
+AwesomeLogger.log('next text');
 
 // const line0 = AwesomeLogger.create('text', { text: chalk.yellow('Multiple lines, all changing:') });
 // const line1 = AwesomeLogger.create('text', { text: chalk.blue('Important Information') });

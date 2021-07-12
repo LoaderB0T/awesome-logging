@@ -1,13 +1,13 @@
 import { Terminal } from 'node-terminal-emulator';
 import { AwesomeLogger } from '../src/index';
 import { Stdout } from '../src/render/stdout';
+import { TestInit } from './reset';
 
 describe('', () => {
   let t: Terminal;
 
   beforeEach(() => {
-    t = new Terminal([100, 6]);
-    t.redirectStdout(Stdout.getInstance());
+    t = TestInit.getTerminal();
   });
 
   afterEach(() => {
@@ -23,10 +23,29 @@ describe('', () => {
     expect(t.text).toStrictEqual(['', 'hello', 'line 2', 'line 3', 'line 4']);
   });
 
-  // todo
-  test.skip('log many lines', () => {
+  test('log many lines', () => {
     AwesomeLogger.log('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15');
-    expect(t.text).toStrictEqual(['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']);
+    expect(t.text).toStrictEqual(['', '| 1', '| 2', '| 3', '| 4', '| 5', '↓ 6']);
+    AwesomeLogger.log('next text');
+    expect(t.text).toStrictEqual([
+      '',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+      'next text'
+    ]);
   });
 
   test('overwrite text', () => {
@@ -35,7 +54,7 @@ describe('', () => {
     c.setText('overwrite');
     expect(t.text).toStrictEqual(['', 'overwrite']);
     c.setText('multi\nline\noverwrite');
-    expect(t.text).toStrictEqual(['', 'multi    ', 'line', 'overwrite']);
+    expect(t.text).toStrictEqual(['', 'multi', 'line', 'overwrite']);
     c.setText('back to one line');
     expect(t.text).toStrictEqual(['', 'back to one line']);
   });
