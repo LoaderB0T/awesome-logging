@@ -27,7 +27,9 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
     }
   }
 
-  public end(): void {}
+  public end(): boolean {
+    return true;
+  }
 
   public needsScroll() {
     return false;

@@ -20,7 +20,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     });
   }
 
-  public end(): void {
+  public end(): boolean {
     throw new Error('prompts cannot be ended at the moment');
   }
 

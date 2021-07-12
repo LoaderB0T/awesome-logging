@@ -23,7 +23,9 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     this._multiLine = AwesomeLogger.create('multi', { children: lineChildren }) as AwesomeMultiLogger;
   }
 
-  public end(): void {}
+  public end(): boolean {
+    return true;
+  }
 
   public hasChanges(): boolean {
     return this._multiLine.hasChanges();

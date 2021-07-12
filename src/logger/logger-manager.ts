@@ -105,8 +105,12 @@ export class LoggerManager {
     StringRenderer.renderString(text, true, true, true);
   }
 
+  public logEndOfLastLogger(text: string) {
+    StringRenderer.renderString(text, true, true, false);
+  }
+
   public log(logger: AwesomeLoggerBase) {
-    this._activeLogger?.end();
+    this._activeLogger?.internalEnd();
 
     const renderedLines = logger.render();
     const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true, logger.scrollAmount);

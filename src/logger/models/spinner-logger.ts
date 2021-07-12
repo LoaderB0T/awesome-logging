@@ -29,11 +29,12 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     }, this._options.spinnerDelay);
   }
 
-  public end(): void {
+  public end(): boolean {
     if (this._animationInterval) {
       clearInterval(this._animationInterval);
     }
     this._stopped = true;
+    return true;
   }
 
   public hasChanges(): boolean {

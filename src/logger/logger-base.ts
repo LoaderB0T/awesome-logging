@@ -12,7 +12,15 @@ export abstract class AwesomeLoggerBase {
 
   constructor() {}
 
-  public abstract end(): void;
+  public internalEnd(): void {
+    if (this.end() && this._lastLine) {
+      this._clean = true;
+      this.changed();
+      LoggerManager.getInstance().logEndOfLastLogger(this.render());
+    }
+  }
+
+  public abstract end(): boolean;
   public abstract getNextLine(): string;
   public abstract hasChanges(): boolean;
   public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;

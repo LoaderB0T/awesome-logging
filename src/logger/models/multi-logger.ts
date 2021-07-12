@@ -9,8 +9,9 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
     this._children = config?.children ?? [];
   }
 
-  public end(): void {
+  public end(): boolean {
     this._children.forEach(x => x.end());
+    return true;
   }
 
   public needsScroll() {
