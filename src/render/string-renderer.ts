@@ -3,13 +3,17 @@ import { AwesomeLogger } from '../awesome-logger';
 
 import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils';
 import { TerminalSize } from '../utils/terminal-size';
+import { Stdout } from './stdout';
 
 // @internal
 export class StringRenderer {
   public static lastString: string = '';
-  private static lastTerminalHeight: number = TerminalSize.terminalHeight;
+  private static lastTerminalHeight?: number;
 
   public static renderString(val: string, interruptLog: boolean, ignoreLastLine: boolean, newLog: boolean) {
+    // The first time this method is calle,d the current terminal height is set
+    this.lastTerminalHeight ??= TerminalSize.terminalHeight;
+
     let lastLines = this.lastString && !ignoreLastLine ? this.lastString.split(/[\r\n]+/g) : [];
     this.lastString = interruptLog ? '' : val;
     const newLines = val.split(/[\r\n]+/g);
@@ -53,9 +57,9 @@ export class StringRenderer {
       const newLine = newLines[i];
       const lineToPrint = this.getLineStringToPrint(oldLine, newLine);
       if (i !== 0 || newLog) {
-        process.stdout.write('\n');
+        Stdout.getInstance().write('\n');
       }
-      process.stdout.write(lineToPrint);
+      Stdout.getInstance().write(lineToPrint);
     }
   }
 

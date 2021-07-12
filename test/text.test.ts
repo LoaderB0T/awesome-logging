@@ -1,16 +1,17 @@
 import { Terminal } from 'node-terminal-emulator';
 import { AwesomeLogger } from '../src/index';
+import { Stdout } from '../src/render/stdout';
 
 describe('', () => {
   let t: Terminal;
 
   beforeEach(() => {
     t = new Terminal([100, 6]);
-    t.redirectStdout();
+    t.redirectStdout(Stdout.getInstance());
   });
 
   afterEach(() => {
-    t.restoreStdout();
+    t.restoreStdout(Stdout.getInstance());
   });
 
   test('log text', () => {

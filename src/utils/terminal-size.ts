@@ -1,6 +1,8 @@
+import { Stdout } from '../render/stdout';
+
 export class TerminalSize {
   private static get terminalSize() {
-    return process.stdout?.getWindowSize?.() ?? [150, 10];
+    return Stdout.getInstance()?.getWindowSize?.() ?? [150, 10];
   }
 
   public static get terminalHeight() {
