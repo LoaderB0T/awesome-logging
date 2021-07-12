@@ -8,12 +8,8 @@ import { AwesomePromptBase } from '../prompt-base';
 export class AwesomeTextPromt extends AwesomePromptBase<string> implements AwesomePromptTextControl {
   private readonly _questionLogger: AwesomeLoggerTextControl;
   private readonly _answerLogger: AwesomeLoggerTextControl;
-  private readonly _text: string;
-  private readonly _caseInsensitive: boolean;
-  private readonly _autoComplete: string[];
-  private readonly _fuzzyAutoComplete: boolean;
-  private readonly _default: string;
-  private readonly _validator: (v: any) => boolean | Promise<boolean>;
+  private readonly _cfg: AwesomePromptTextConfig;
+  private readonly _hints: string[];
   private _currentAnswer: string;
   private _cursorPos: number;
 
@@ -22,34 +18,35 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     const answerLogger = AwesomeLogger.create('text');
     const multiLogger = AwesomeLogger.create('multi', { children: [questionLogger, answerLogger] });
     super(multiLogger);
-    this._text = config.text ?? '';
+    this._cfg = {
+      allowOnlyHints: config.allowOnlyHints ?? false,
+      text: config.text ?? '',
+      caseInsensitive: config.caseInsensitive ?? false,
+      default: config.default ?? '',
+      fuzzyAutoComplete: config.fuzzyAutoComplete ?? false,
+      hints: config.hints ? (Array.isArray(config.hints) ? config.hints : [config.hints]) : [],
+      validator: config.validator ?? (() => true)
+    };
+    this._hints = this._cfg.hints as string[];
+
     this._currentAnswer = '';
-    this._autoComplete = config.autoComplete
-      ? Array.isArray(config.autoComplete)
-        ? config.autoComplete
-        : [config.autoComplete]
-      : [];
-    this._fuzzyAutoComplete = config.fuzzyAutoComplete ?? false;
-    this._caseInsensitive = config.caseInsensitive ?? false;
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
-    this._validator = config.validator ?? (() => true);
-    this._default = config.default ?? '';
     this._cursorPos = 0;
   }
 
   private fuzzyMatch(possibleValue: string, input: string) {
     const regexPattern = `.*${input.split('').join('.*')}.*`;
-    const re = new RegExp(regexPattern, this._caseInsensitive ? 'i' : undefined);
+    const re = new RegExp(regexPattern, this._cfg.caseInsensitive ? 'i' : undefined);
     return re.test(possibleValue);
   }
 
   private findPartialMatch(input: string, possibilities: string[]) {
-    if (this._fuzzyAutoComplete) {
+    if (this._cfg.fuzzyAutoComplete) {
       return possibilities.find(x => this.fuzzyMatch(x, input));
     }
 
-    if (this._caseInsensitive) {
+    if (this._cfg.caseInsensitive) {
       return possibilities.find(x => x.toLowerCase().startsWith(input.toLowerCase()));
     }
     return possibilities.find(x => x.startsWith(input));
@@ -59,13 +56,13 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     let autoCompleteMatch: string | null = null;
     let cursorRendered = false;
 
-    if (this._fuzzyAutoComplete && this._autoComplete.length > 0) {
-      const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
+    if (this._cfg.fuzzyAutoComplete && this._hints.length > 0) {
+      const match = this.findPartialMatch(this._currentAnswer, this._hints);
       if (match && this._currentAnswer !== match) {
         autoCompleteMatch = chalk.gray(` (${match})`);
       }
-    } else if (this._autoComplete.length > 0) {
-      const match = this.findPartialMatch(this._currentAnswer, this._autoComplete);
+    } else if (this._hints.length > 0) {
+      const match = this.findPartialMatch(this._currentAnswer, this._hints);
       if (match) {
         if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
           autoCompleteMatch = chalk.gray(match.substr(this._currentAnswer.length));
@@ -89,13 +86,13 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
       // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end.
       // If fuzzy match is activated there is text rendered after the actual user input. To prevent it from jumping around the additional space char is always rendered.
       const currentAnswer = `${this._currentAnswer}${
-        this._cursorPos === this._currentAnswer.length || this._fuzzyAutoComplete ? ' ' : ''
+        this._cursorPos === this._currentAnswer.length || this._cfg.fuzzyAutoComplete ? ' ' : ''
       }`;
 
       answerText = chalk.gray(
-        `${currentAnswer.substring(0, this._cursorPos)}${chalk.bgWhite(
-          currentAnswer.substring(this._cursorPos, this._cursorPos + 1)
-        )}${currentAnswer.substring(this._cursorPos + 1)}`
+        currentAnswer.substring(0, this._cursorPos) +
+          chalk.bgWhite(currentAnswer.substring(this._cursorPos, this._cursorPos + 1)) +
+          currentAnswer.substring(this._cursorPos + 1)
       );
     }
 
@@ -106,17 +103,30 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   }
 
   public init() {
-    this._questionLogger.setText(this._text);
-    if (this._autoComplete.length > 0) {
+    this._questionLogger.setText(this._cfg.text);
+    if (this._hints.length > 0) {
       this._answerLogger.setText(this.getAnswerText());
     } else {
       this._answerLogger.setText(chalk.gray('type your answer here...'));
     }
   }
 
+  private isValid(ans: string): boolean {
+    if (this._cfg.allowOnlyHints) {
+      if (!this._hints.some(x => x === ans)) {
+        return false;
+      }
+    }
+    if (!this._cfg.validator(ans)) {
+      return false;
+    }
+
+    return true;
+  }
+
   public gotKey(key: string): void {
     if (key.match(/^[\r\n]+$/)) {
-      if (this._validator(this._currentAnswer)) {
+      if (this.isValid(this._currentAnswer)) {
         this.inputFinished(this._currentAnswer);
       } else {
         const ans = `${this.getAnswerText()} ${chalk.red('(invalid)')}`;
@@ -132,7 +142,7 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
         }
       }
     } else if (key === '\t') {
-      const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._autoComplete);
+      const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._hints);
       if (fittingAutocomplete) {
         this._currentAnswer = fittingAutocomplete;
         this._cursorPos = this._currentAnswer.length;

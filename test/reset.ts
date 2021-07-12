@@ -6,7 +6,7 @@ export class TestInit {
   static getTerminal(): Terminal {
     const t = new Terminal([100, 6]);
     t.redirectStdout(Stdout.getInstance());
-    LoggerManager['_instance'] = undefined;
+    LoggerManager.getInstance()._reset();
     return t;
   }
 }

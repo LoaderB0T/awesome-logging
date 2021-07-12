@@ -2,8 +2,8 @@ import { AwesomePromptBaseControl } from './base';
 
 export interface AwesomePromptTextConfig {
   text: string;
-  autoComplete: string | string[];
-  hasToBeFromAutoComplete: boolean;
+  hints: string | string[];
+  allowOnlyHints: boolean;
   caseInsensitive: boolean;
   fuzzyAutoComplete: boolean;
   validator: (val: any) => boolean | Promise<boolean>;

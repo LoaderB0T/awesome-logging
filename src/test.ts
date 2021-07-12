@@ -80,8 +80,8 @@ AwesomeLogger.log('');
 //   }
 // };
 
-AwesomeLogger.log('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15');
-AwesomeLogger.log('next text');
+const c = AwesomeLogger.prompt('text', { text: 'enter text', hints: ['abcdefg', 'abc123', 'abc111'] });
+c.result.then(r => {});
 
 // const line0 = AwesomeLogger.create('text', { text: chalk.yellow('Multiple lines, all changing:') });
 // const line1 = AwesomeLogger.create('text', { text: chalk.blue('Important Information') });

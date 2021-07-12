@@ -3,7 +3,7 @@ import { AwesomeLogger } from '../src/index';
 import { Stdout } from '../src/render/stdout';
 import { TestInit } from './reset';
 
-describe('', () => {
+describe('Spinner Logger', () => {
   let t: Terminal;
 
   beforeEach(() => {

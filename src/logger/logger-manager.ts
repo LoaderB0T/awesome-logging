@@ -28,7 +28,7 @@ export class LoggerManager {
       let isIncomplete = false;
       let incompletePart = '';
 
-      stdin.on('data', (key: string) => {
+      stdin.on('data', (key: Buffer) => {
         // ctrl-c / SIGINT ( end of text ) does not work with rawMode, so we handle it manually here
         //See https://nodejs.org/api/tty.html#tty_readstream_setrawmode_mode
         if (key.toString() === '\u0003') {
@@ -56,6 +56,13 @@ export class LoggerManager {
         }
       });
     }
+  }
+
+  // @internal
+  public _reset() {
+    this._currentKeyListener = undefined;
+    this._activeLogger = undefined;
+    this._cangeDetection = true;
   }
 
   public changeKeyListener(listener?: (val: string) => any) {
