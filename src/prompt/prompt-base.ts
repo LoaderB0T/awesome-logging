@@ -39,6 +39,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   protected abstract prepareResultLogger(): void;
   public abstract gotKey(key: string): void;
   public abstract init(): void;
+  public abstract getCurrentAnswer(): T | undefined;
 
   protected setLogger(logger: AwesomeLoggerBase) {
     this._logger = logger;

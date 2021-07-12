@@ -39,6 +39,10 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
     }
   }
 
+  public getCurrentAnswer(): string[] | undefined {
+    return this.calculateResult();
+  }
+
   public gotKey(key: string): void {
     if (key === KEY_ARROW_UP) {
       if (this._currentHighlightedRow > 0) {
@@ -64,16 +68,21 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       this._toggles[this._currentHighlightedRow] = !this._toggles[this._currentHighlightedRow];
       this.renderLine(this._currentHighlightedRow);
     } else if (key.match(/^[\r\n]+$/)) {
-      const result = new Array<string>();
-      for (let i = 0; i < this._options.length; i++) {
-        const option = this._options[i];
-        const toggle = this._toggles[i];
-        if (toggle) {
-          result.push(option);
-        }
-      }
+      const result = this.calculateResult();
       this.inputFinished(result);
     }
+  }
+
+  private calculateResult() {
+    const result = new Array<string>();
+    for (let i = 0; i < this._options.length; i++) {
+      const option = this._options[i];
+      const toggle = this._toggles[i];
+      if (toggle) {
+        result.push(option);
+      }
+    }
+    return result;
   }
 
   private renderLine(i: number) {

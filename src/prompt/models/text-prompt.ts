@@ -124,6 +124,10 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     return true;
   }
 
+  public getCurrentAnswer(): string | undefined {
+    return this.isValid(this._currentAnswer) ? this._currentAnswer : undefined;
+  }
+
   public gotKey(key: string): void {
     if (key.match(/^[\r\n]+$/)) {
       if (this.isValid(this._currentAnswer)) {

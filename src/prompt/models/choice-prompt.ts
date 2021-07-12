@@ -37,6 +37,10 @@ export class AwesomeChoicePromt extends AwesomePromptBase<string> implements Awe
     }
   }
 
+  public getCurrentAnswer(): string | undefined {
+    return this._options[this._currentHighlightedRow];
+  }
+
   public gotKey(key: string): void {
     if (key === KEY_ARROW_UP) {
       if (this._currentHighlightedRow > 0) {
