@@ -30,21 +30,20 @@ steps:
       arguments: 'run build'
     displayName: "\U0001F6E0 Build"
 
-  # - task: Yarn@3
-  #   inputs:
-  #     arguments: 'run test'
-  #     projectDirectory: 'test'
-  #   displayName: "\U0001F52C Run tests"
+  - task: Yarn@3
+    inputs:
+      arguments: 'run test'
+    displayName: "\U0001F52C Run tests"
 
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFormat: 'JUnit'
-  #     testResultsFiles: '*.xml'
-  #     searchFolder: '$(Build.SourcesDirectory)/test/results'
-  #     testRunTitle: 'Gah tests'
-  #     publishRunAttachments: true
-  #   displayName: "\U0001F680 Publish test results"
-  #   condition: true
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit.xml'
+      searchFolder: '$(Build.SourcesDirectory)'
+      testRunTitle: 'awesome-logging tests'
+      publishRunAttachments: true
+    displayName: "\U0001F680 Publish test results"
+    condition: true
 
   - task: PublishPipelineArtifact@1
     inputs:
@@ -52,4 +51,3 @@ steps:
       artifact: 'awesome-logging'
       publishLocation: 'pipeline'
     displayName: "\U0001F680 Publish"
-
