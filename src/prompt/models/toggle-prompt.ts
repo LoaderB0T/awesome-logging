@@ -58,7 +58,7 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightdLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 4) {
+        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2) {
           this.scrollAmount++;
         }
         this.renderLine(prevHighlightdLine);
