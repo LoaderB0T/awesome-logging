@@ -1,7 +1,7 @@
 # Awesome Logging
 
 [![npm](https://img.shields.io/npm/v/awesome-logging?style=for-the-badge)](https://www.npmjs.com/package/awesome-logging)
-[![Azure DevOps builds](https://img.shields.io/azure-devops/build/loaderb0t/7dce405f-9e33-4681-90c6-b067f1880cb0/30?style=for-the-badge)](https://dev.azure.com/loaderb0t/awesome-logging/_build?definitionId=30&_a=summary)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/loaderb0t/awesome-logging/awesome-logging-CI/main?style=for-the-badge)
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/loaderb0t/awesome-logging/30?style=for-the-badge)
 [![Sonar Quality Gate](https://img.shields.io/sonar/alert_status/LoaderB0T_awesome-logging?server=https%3A%2F%2Fsonarcloud.io&sonarVersion=8.8&style=for-the-badge)](https://sonarcloud.io/dashboard?id=LoaderB0T_awesome-logging)
 
