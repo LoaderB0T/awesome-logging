@@ -40,7 +40,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('enter');
   });
 
-  test('10 options', done => {
+  test('10 options', async () => {
     const c = AwesomeLogger.prompt('toggle', {
       options: [
         'option 1',
@@ -58,7 +58,6 @@ describe('Toggle Prompt', () => {
     c.result.then(r => {
       expect(r).toStrictEqual(['option 3', 'option 7']);
       expect(t.text).toStrictEqual(['', ' - Selected options: option 3, option 7']);
-      done();
     });
     expect(t.text).toStrictEqual([
       '',
@@ -99,8 +98,9 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
-    t.sendText(' ');
-    t.sendText(' ');
+
+    await new Promise(r => setTimeout(r, 100));
+
     expect(t.text).toStrictEqual([
       '',
       '↑ [ ] option 5',
