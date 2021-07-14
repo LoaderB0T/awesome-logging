@@ -102,6 +102,8 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
+    t.sendText(' '); // Workaround for misterious failing test that only fails on AzureDevopsPipelines & GitHub actions, but not locally
+    t.sendText(' '); // Maybe a bug/glitch in the node-terminal-emulator?
     expect(t.text).toStrictEqual([
       '',
       '↑ [ ] option 5',
