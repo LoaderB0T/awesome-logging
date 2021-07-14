@@ -40,7 +40,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('enter');
   });
 
-  test('10 options', async () => {
+  test('10 options', done => {
     const c = AwesomeLogger.prompt('toggle', {
       options: [
         'option 1',
@@ -58,6 +58,7 @@ describe('Toggle Prompt', () => {
     c.result.then(r => {
       expect(r).toStrictEqual(['option 3', 'option 7']);
       expect(t.text).toStrictEqual(['', ' - Selected options: option 3, option 7']);
+      done();
     });
     expect(t.text).toStrictEqual([
       '',
@@ -69,6 +70,7 @@ describe('Toggle Prompt', () => {
       '↓ [ ] option 6'
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual([]);
+
     t.sendKey('down');
     t.sendKey('down');
     t.sendText(' ');
@@ -81,6 +83,7 @@ describe('Toggle Prompt', () => {
       '| [ ] option 5',
       '↓ [ ] option 6'
     ]);
+
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
@@ -95,12 +98,10 @@ describe('Toggle Prompt', () => {
       '| [X] option 7', // current selected
       '↓ [ ] option 8'
     ]);
-    t.sendKey('down');
-    t.sendKey('down');
-    t.sendKey('down');
 
-    await new Promise(r => setTimeout(r, 100));
-
+    t.sendKey('down');
+    t.sendKey('down');
+    t.sendKey('down');
     expect(t.text).toStrictEqual([
       '',
       '↑ [ ] option 5',
@@ -110,6 +111,7 @@ describe('Toggle Prompt', () => {
       '| [ ] option 9',
       '| [ ] option 10' // current selected
     ]);
+
     t.sendText(' ');
     expect(t.text).toStrictEqual([
       '',
@@ -120,6 +122,7 @@ describe('Toggle Prompt', () => {
       '| [ ] option 9',
       '| [X] option 10' // current selected
     ]);
+
     t.sendText(' ');
     // Edge case of pressing down on the last item
     t.sendKey('down');
