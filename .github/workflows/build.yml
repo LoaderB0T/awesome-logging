@@ -35,8 +35,8 @@ jobs:
         if: always()
         with:
           files: junit.xml
-#       - uses: JS-DevTools/npm-publish@v1
-#         id: publish
-#         with:
-#           token: ${{ secrets.NPM_TOKEN }}
-#         if: ${{ matrix.node-version == '14.x' && github.ref == 'refs/heads/main' }}
+      - uses: JS-DevTools/npm-publish@v1
+        id: publish
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+        if: ${{ matrix.node-version == '14.x' && github.ref == 'refs/heads/main' }}
