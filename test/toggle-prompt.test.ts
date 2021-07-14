@@ -99,6 +99,8 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
+    t.sendText(' ');
+    t.sendText(' ');
     expect(t.text).toStrictEqual([
       '',
       '↑ [ ] option 5',
