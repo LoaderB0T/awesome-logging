@@ -1,42 +1,39 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomeTextLogger } from '../../logger/models/text-logger';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
 import { TerminalSize } from '../../utils/terminal-size';
 import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle';
 import { AwesomePromptBase } from '../prompt-base';
+import { AwesomeLoggerTextControl } from '../../logger';
 
 export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {
   private _currentHighlightedRow: number;
   private readonly _options: string[];
-  private readonly _lines: AwesomeTextLogger[];
+  private readonly _lines: string[];
+  private readonly _textLogger: AwesomeLoggerTextControl;
   private readonly _toggles: boolean[];
 
   constructor(config: Partial<AwesomePromptToggleConfig>) {
-    const lines =
-      config.options?.map(() => {
-        const newline = new AwesomeTextLogger({ text: '' });
-        return newline;
-      }) ?? [];
-    const multi = AwesomeLogger.create('multi', { children: lines });
-    super(multi);
-    this._lines = lines;
+    const textLogger = AwesomeLogger.create('text', { text: '' });
+    super(textLogger);
+    this._textLogger = textLogger;
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
+    this._lines = [...this._options];
     this._toggles = this._options.map(() => false);
   }
 
-  private adjustLine(lineText: string, line: AwesomeTextLogger, highlighted: boolean, selected: boolean = false) {
+  private adjustLine(lineText: string, index: number, highlighted: boolean, selected: boolean = false) {
     const newText = `${selected ? chalk.green('[X]') : chalk.gray('[ ]')} ${(highlighted ? chalk.blue : chalk.white)(lineText)}`;
-    line.setText(newText);
+    this._lines[index] = newText;
   }
 
   public init(): void {
+    const allIndices: number[] = [];
     for (let i = 0; i < this._options.length; i++) {
-      const options = this._options[i];
-      const line = this._lines[i];
-      this.adjustLine(options, line, i === 0);
+      allIndices.push(i);
     }
+    this.renderLines(...allIndices);
   }
 
   public getCurrentAnswer(): string[] | undefined {
@@ -51,22 +48,20 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
         if (this._currentHighlightedRow - this.scrollAmount < 1 && this.scrollAmount > 0) {
           this.scrollAmount--;
         }
-        this.renderLine(prevHighlightedLine);
-        this.renderLine(this._currentHighlightedRow);
+        this.renderLines(prevHighlightedLine, this._currentHighlightedRow);
       }
     } else if (key === KEY_ARROW_DOWN) {
       if (this._currentHighlightedRow < this._lines.length - 1) {
-        const prevHighlightdLine = this._currentHighlightedRow;
+        const prevHighlightedLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
         if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2) {
           this.scrollAmount++;
         }
-        this.renderLine(prevHighlightdLine);
-        this.renderLine(this._currentHighlightedRow);
+        this.renderLines(prevHighlightedLine, this._currentHighlightedRow);
       }
     } else if (key === ' ') {
       this._toggles[this._currentHighlightedRow] = !this._toggles[this._currentHighlightedRow];
-      this.renderLine(this._currentHighlightedRow);
+      this.renderLines(this._currentHighlightedRow);
     } else if (key.match(/^[\r\n]+$/)) {
       const result = this.calculateResult();
       this.inputFinished(result);
@@ -85,8 +80,11 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
     return result;
   }
 
-  private renderLine(i: number) {
-    this.adjustLine(this._options[i], this._lines[i], i === this._currentHighlightedRow, this._toggles[i]);
+  private renderLines(...indices: number[]) {
+    indices.forEach(i => {
+      this.adjustLine(this._options[i], i, i === this._currentHighlightedRow, this._toggles[i]);
+    });
+    this._textLogger.setText(this._lines.join('\n'));
   }
 
   protected prepareResultLogger(): void {
