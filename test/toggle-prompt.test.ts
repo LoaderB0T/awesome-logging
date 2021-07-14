@@ -77,7 +77,7 @@ describe('Toggle Prompt', () => {
       '',
       '| [ ] option 1',
       '| [ ] option 2',
-      '| [X] option 3',
+      '| [X] option 3', // current selected
       '| [ ] option 4',
       '| [ ] option 5',
       '↓ [ ] option 6'
@@ -93,7 +93,7 @@ describe('Toggle Prompt', () => {
       '| [ ] option 4',
       '| [ ] option 5',
       '| [ ] option 6',
-      '| [X] option 7',
+      '| [X] option 7', // current selected
       '↓ [ ] option 8'
     ]);
     t.sendKey('down');
@@ -106,9 +106,19 @@ describe('Toggle Prompt', () => {
       '| [X] option 7',
       '| [ ] option 8',
       '| [ ] option 9',
-      '| [ ] option 10'
+      '| [ ] option 10' // current selected
     ]);
-
+    t.sendText(' ');
+    expect(t.text).toStrictEqual([
+      '',
+      '↑ [ ] option 5',
+      '| [ ] option 6',
+      '| [X] option 7',
+      '| [ ] option 8',
+      '| [ ] option 9',
+      '| [X] option 10' // current selected
+    ]);
+    t.sendText(' ');
     // Edge case of pressing down on the last item
     t.sendKey('down');
     t.sendKey('down');
@@ -120,7 +130,7 @@ describe('Toggle Prompt', () => {
       '| [X] option 7',
       '| [ ] option 8',
       '| [ ] option 9',
-      '| [ ] option 10'
+      '| [ ] option 10' // current selected
     ]);
 
     t.sendKey('enter');
