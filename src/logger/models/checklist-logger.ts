@@ -10,7 +10,7 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
   private readonly _multiLine: AwesomeMultiLogger;
 
   constructor(options?: Partial<AwesomeChecklistLoggerConfig>) {
-    super();
+    super('multi');
     if (!options?.items) {
       throw new Error('Cannot initiate AwesomeChecklistLogger without any items');
     }

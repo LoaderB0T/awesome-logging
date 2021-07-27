@@ -12,7 +12,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
     if (AwesomeLogger.restrictedLogging) {
       throw new Error('Prompts cannot be used when restricted logging is enabled');
     }
-    super();
+    super('prompt');
     this._logger = initialPromptLogger;
     this.result = new Promise<T>((resolve, reject) => {
       this._promptFinished = resolve;

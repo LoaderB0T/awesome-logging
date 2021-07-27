@@ -9,7 +9,7 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
   private _currentProgress: number = 0;
 
   constructor(options?: Partial<AwesomeProgressLoggerConfig>) {
-    super();
+    super('progress');
     this._options = {
       totalProgress: options?.totalProgress ?? 100,
       text: options?.text ?? '',

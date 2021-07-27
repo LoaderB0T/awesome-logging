@@ -5,7 +5,7 @@ export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLogg
   private readonly _children: AwesomeLoggerBase[];
 
   constructor(config?: Partial<AwesomeLoggerMultiConfig>) {
-    super();
+    super('multi');
     this._children = config?.children ?? [];
   }
 

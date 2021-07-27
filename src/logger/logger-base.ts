@@ -7,10 +7,14 @@ export abstract class AwesomeLoggerBase {
   private _lastLine: string = '';
   // @internal
   public scrollAmount: number = 0;
+  // @internal
+  public type: string;
   protected _hasChanges: boolean = true;
   private _clean: boolean = false;
 
-  constructor() {}
+  constructor(type: string) {
+    this.type = type;
+  }
 
   public internalEnd(): void {
     if (this.end() && this._lastLine) {

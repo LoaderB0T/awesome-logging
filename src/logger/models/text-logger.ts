@@ -5,7 +5,7 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
   private _text: string;
 
   constructor(config?: Partial<AwesomeLoggerTextConfig>) {
-    super();
+    super('text');
     this._text = config?.text ?? '';
   }
 
@@ -25,7 +25,7 @@ export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLogge
     return calledFrom === this;
   }
 
-  getNextLine(): string {
+  public getNextLine(): string {
     return this._text;
   }
 

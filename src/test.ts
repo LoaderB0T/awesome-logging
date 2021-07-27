@@ -1,12 +1,14 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger';
 
-AwesomeLogger.log('');
-AwesomeLogger.log('');
-AwesomeLogger.log('');
-AwesomeLogger.log('');
-AwesomeLogger.log('');
-AwesomeLogger.log('');
+AwesomeLogger.log('awd');
+AwesomeLogger.log('awd2');
+AwesomeLogger.log('awd3');
+AwesomeLogger.interrupt('awdA');
+AwesomeLogger.interrupt('awdB');
+AwesomeLogger.interrupt('awdC');
+AwesomeLogger.log('awd4');
+AwesomeLogger.log('awd5');
 
 // setTimeout(() => {
 //   const textA = 'One line of text...';

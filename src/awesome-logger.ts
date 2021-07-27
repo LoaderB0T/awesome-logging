@@ -7,6 +7,10 @@ import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt/prom
 export class AwesomeLogger {
   public static restrictedLogging = false;
 
+  public static get currentLoggerType(): string | undefined {
+    return LoggerManager.getInstance().currentLoggerType;
+  }
+
   public static create<T extends AwesomeLoggerType>(type: T, config?: LoggerConfig<T>): LoggerReturnType<T> {
     const loggerReturnType = LoggerCreator.create(type, config);
     return loggerReturnType;

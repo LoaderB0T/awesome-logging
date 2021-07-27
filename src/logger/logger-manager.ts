@@ -30,7 +30,7 @@ export class LoggerManager {
 
       stdin.on('data', (key: Buffer) => {
         // ctrl-c / SIGINT ( end of text ) does not work with rawMode, so we handle it manually here
-        //See https://nodejs.org/api/tty.html#tty_readstream_setrawmode_mode
+        // See https://nodejs.org/api/tty.html#tty_readstream_setrawmode_mode
         if (key.toString() === '\u0003') {
           process.exit();
         }
@@ -56,6 +56,10 @@ export class LoggerManager {
         }
       });
     }
+  }
+
+  public get currentLoggerType(): string | undefined {
+    return this._activeLogger?.type;
   }
 
   // @internal
@@ -140,10 +144,17 @@ export class LoggerManager {
       this.logRestricted(text);
       return;
     }
+
+    // If there is no active logger continue with a normal log
+    if (!this._activeLogger) {
+      AwesomeLogger.log(text);
+      return;
+    }
+
     StringRenderer.renderString(text, true, false, false);
-    const activeLoggerText = this._activeLogger?.render();
+    const activeLoggerText = this._activeLogger.render();
     if (activeLoggerText) {
-      const trimmedLines = StringTrimmer.ensureConsoleFit(activeLoggerText, true, this._activeLogger!.scrollAmount);
+      const trimmedLines = StringTrimmer.ensureConsoleFit(activeLoggerText, true, this._activeLogger.scrollAmount);
       StringRenderer.renderString(trimmedLines, false, false, true);
     }
   }

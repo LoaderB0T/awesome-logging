@@ -13,7 +13,7 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
   private _stoppedText?: string;
 
   constructor(options?: Partial<AwesomeLoggerSpinnerConfig>) {
-    super();
+    super('spinner');
     this._text = options?.text ?? '';
     this._options = {
       text: '',
