@@ -23,7 +23,7 @@
     "@awdware/eslint-config-base": "^1.0.0",
     "@awdware/eslint-config-nodejs": "^1.0.0",
     "@awdware/prettier-config": "^0.0.2",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.2",
     "@types/node": "^14.14.20",
     "@types/slice-ansi": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
