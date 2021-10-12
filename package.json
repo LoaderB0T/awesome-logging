@@ -17,7 +17,7 @@
     "chalk": "^4.1.1",
     "restore-cursor": "^3.1.0",
     "slice-ansi": "^4.0.0",
-    "strip-ansi": "^6.0.0"
+    "strip-ansi": "^7.0.1"
   },
   "devDependencies": {
     "@awdware/eslint-config-base": "^1.0.0",
