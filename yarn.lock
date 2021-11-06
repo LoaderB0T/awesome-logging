@@ -2541,10 +2541,10 @@ node-releases@^1.1.71:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.73.tgz#dd4e81ddd5277ff846b80b52bb40c49edf7a7b20"
   integrity sha512-uW7fodD6pyW2FZNZnp/Z3hvWKeEW1Y8R1+1CnErE8cXFXzl5blBOoVB41CvMer6P6Q0S5FXDwcHgFd1Wj0U9zg==
 
-node-terminal-emulator@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/node-terminal-emulator/-/node-terminal-emulator-0.0.14.tgz#d65a3f0a6b47260864e6d8de64844d046c8e4637"
-  integrity sha512-y2JXqn8ooHyxl9VVx5IHepgCsnvPVo0Jv1V9c+w2AuUXSCuz2zQtPQVyEFi3WrfKXUDzWBVASh8Hys85qd1+yQ==
+node-terminal-emulator@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/node-terminal-emulator/-/node-terminal-emulator-0.1.0.tgz#5f986e23aeb4e5cc7e13680577ae3457a3f57aaf"
+  integrity sha512-9YqoZR2bijG5+MlfM5sSVJubpMFd76ksrVIVt8EV/Bgu9Bf/I5QbbOnOeK01BiYozeVXCoY+2C5M6d9ekGp9bg==
 
 normalize-path@^3.0.0:
   version "3.0.0"
