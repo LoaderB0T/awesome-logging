@@ -104,45 +104,45 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
-    fail('should not be able to select option 10');
+    // fail('should not be able to select option 10');
     // t.sendText(' '); // Workaround for misterious failing test that only fails on AzureDevopsPipelines & GitHub actions, but not locally
     // t.sendText(' '); // Maybe a bug/glitch in the node-terminal-emulator?
-    // expect(t.text).toStrictEqual([
-    //   '',
-    //   '↑ [ ] option 5',
-    //   '| [ ] option 6',
-    //   '| [X] option 7',
-    //   '| [ ] option 8',
-    //   '| [ ] option 9',
-    //   '| [ ] option 10' // current selected
-    // ]);
+    expect(t.text).toStrictEqual([
+      '',
+      '↑ [ ] option 5',
+      '| [ ] option 6',
+      '| [X] option 7',
+      '| [ ] option 8',
+      '| [ ] option 9',
+      '| [ ] option 10' // current selected
+    ]);
 
-    // t.sendText(' ');
-    // expect(t.text).toStrictEqual([
-    //   '',
-    //   '↑ [ ] option 5',
-    //   '| [ ] option 6',
-    //   '| [X] option 7',
-    //   '| [ ] option 8',
-    //   '| [ ] option 9',
-    //   '| [X] option 10' // current selected
-    // ]);
+    t.sendText(' ');
+    expect(t.text).toStrictEqual([
+      '',
+      '↑ [ ] option 5',
+      '| [ ] option 6',
+      '| [X] option 7',
+      '| [ ] option 8',
+      '| [ ] option 9',
+      '| [X] option 10' // current selected
+    ]);
 
-    // t.sendText(' ');
-    // // Edge case of pressing down on the last item
-    // t.sendKey('down');
-    // t.sendKey('down');
-    // t.sendKey('down');
-    // expect(t.text).toStrictEqual([
-    //   '',
-    //   '↑ [ ] option 5',
-    //   '| [ ] option 6',
-    //   '| [X] option 7',
-    //   '| [ ] option 8',
-    //   '| [ ] option 9',
-    //   '| [ ] option 10' // current selected
-    // ]);
+    t.sendText(' ');
+    // Edge case of pressing down on the last item
+    t.sendKey('down');
+    t.sendKey('down');
+    t.sendKey('down');
+    expect(t.text).toStrictEqual([
+      '',
+      '↑ [ ] option 5',
+      '| [ ] option 6',
+      '| [X] option 7',
+      '| [ ] option 8',
+      '| [ ] option 9',
+      '| [ ] option 10' // current selected
+    ]);
 
-    // t.sendKey('enter');
+    t.sendKey('enter');
   });
 });
