@@ -33,6 +33,8 @@ jobs:
         run: yarn run lint
       - name: Test
         run: yarn run test
+        env:
+          FORCE_COLOR: 1
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
