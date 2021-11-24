@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { assert } from 'console';
 import { Terminal } from 'node-terminal-emulator';
 import { AwesomeLogger } from '../src/index';
@@ -8,6 +9,8 @@ describe('Toggle Prompt', () => {
   let t: Terminal;
 
   beforeEach(() => {
+    console.log('chalk color support:');
+    console.log(chalk.supportsColor);
     t = TestInit.getTerminal();
   });
 
