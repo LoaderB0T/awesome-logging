@@ -2,3 +2,4 @@ node_modules
 lib
 type-compat
 junit.xml
+log.txt

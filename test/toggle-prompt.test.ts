@@ -41,6 +41,7 @@ describe('Toggle Prompt', () => {
   });
 
   test('10 options', done => {
+    Terminal.logToFile('./log.txt');
     const c = AwesomeLogger.prompt('toggle', {
       options: [
         'option 1',
@@ -102,8 +103,8 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
-    t.sendText(' '); // Workaround for misterious failing test that only fails on AzureDevopsPipelines & GitHub actions, but not locally
-    t.sendText(' '); // Maybe a bug/glitch in the node-terminal-emulator?
+    // t.sendText(' '); // Workaround for misterious failing test that only fails on AzureDevopsPipelines & GitHub actions, but not locally
+    // t.sendText(' '); // Maybe a bug/glitch in the node-terminal-emulator?
     expect(t.text).toStrictEqual([
       '',
       '↑ [ ] option 5',
@@ -141,5 +142,6 @@ describe('Toggle Prompt', () => {
     ]);
 
     t.sendKey('enter');
+    Terminal.logToFile('');
   });
 });
