@@ -35,7 +35,7 @@ export class LoggerManager {
           process.exit();
         }
 
-        // This incomplete logic is a workaround for stackblitz
+        // This isIncomplete logic is a workaround for stackblitz
         // where data is triggered on a per-character basis
         // This only happens in strange terminals like on stackblitz
         if (isIncomplete) {
