@@ -45,6 +45,7 @@ jobs:
         if: ${{ matrix.node-version == '14.x' && github.ref == 'refs/heads/main' }}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
+        if: always()
         with:
           # Artifact name
           name: logFile
