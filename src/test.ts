@@ -82,21 +82,25 @@ AwesomeLogger.log('awd5');
 //   }
 // };
 
-const c = AwesomeLogger.prompt('toggle', {
-  options: [
-    'option 1',
-    'option 2',
-    'option 3',
-    'option 4',
-    'option 5',
-    'option 6',
-    'option 7',
-    'option 8',
-    'option 9',
-    'option 10'
-  ]
+// const c = AwesomeLogger.prompt('toggle', {
+//   options: [
+//     'option 1',
+//     'option 2',
+//     'option 3',
+//     'option 4',
+//     'option 5',
+//     'option 6',
+//     'option 7',
+//     'option 8',
+//     'option 9',
+//     'option 10'
+//   ]
+// });
+// c.result.then(r => {});
+
+AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r => {
+  console.log(r);
 });
-c.result.then(r => {});
 
 // const line0 = AwesomeLogger.create('text', { text: chalk.yellow('Multiple lines, all changing:') });
 // const line1 = AwesomeLogger.create('text', { text: chalk.blue('Important Information') });

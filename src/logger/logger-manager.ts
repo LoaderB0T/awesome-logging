@@ -17,6 +17,9 @@ export class LoggerManager {
   constructor() {
     ConsoleLog.log = console.log;
     console.log = (message?: any) => {
+      if (typeof message !== 'string') {
+        message = `${message}`;
+      }
       AwesomeLogger.log('text', { text: message });
     };
     HIDE_CURSOR();
