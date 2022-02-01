@@ -3048,9 +3048,9 @@ typedarray-to-buffer@^3.1.5:
     is-typedarray "^1.0.0"
 
 typescript@^4.6.0-dev.20220115:
-  version "4.6.0-dev.20220115"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.0-dev.20220115.tgz#a8571c71c2c23f9b238ef46a7106cb5cf5bb245b"
-  integrity sha512-Qq1P7qTUdXPbZ3bZHDAfTKphUsm3j/5/+vFoUKOgXMxmckAJ7ow2oyhkgvW5qzk/AWJCJSkcEqm18WFVZoxXYA==
+  version "4.6.0-dev.20220131"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.0-dev.20220131.tgz#5660d0ef3e11e7d989b9d68d51110832c498d452"
+  integrity sha512-8iguijOxKezSxnt1y2KrlRN6OAI1bpibu6FEJJPeS58XB/QzqWWlfPLUkf1eUz18TUm9w97ihbOnoy3EChmJww==
 
 universalify@^0.1.2:
   version "0.1.2"
