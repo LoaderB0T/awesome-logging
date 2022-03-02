@@ -2,7 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/awesome-logging?style=for-the-badge)](https://www.npmjs.com/package/awesome-logging)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/loaderb0t/awesome-logging/awesome-logging-CI/main?style=for-the-badge)](https://github.com/LoaderB0T/awesome-logging/actions/workflows/build.yml)
-![Azure DevOps tests](https://img.shields.io/azure-devops/tests/loaderb0t/awesome-logging/30?style=for-the-badge)
 [![Sonar Quality Gate](https://img.shields.io/sonar/alert_status/LoaderB0T_awesome-logging?server=https%3A%2F%2Fsonarcloud.io&sonarVersion=8.8&style=for-the-badge)](https://sonarcloud.io/dashboard?id=LoaderB0T_awesome-logging)
 
 **awesome-logging** is a collection of fancy text outputs and inputs for CLI tools written in NodeJS.
