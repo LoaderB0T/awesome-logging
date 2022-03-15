@@ -23,6 +23,8 @@ No matter what you want to log to the terminal or what information you need from
 
 ✅ Multi-line logging
 
+✅ Flicker-free output, even on Windows
+
 ✅ Loading animations and progress bars
 
 ✅ Interactive prompts to get user input
@@ -48,6 +50,7 @@ npm i awesome-logging
 ```
 
 ## Docs 📃
+
 Find a bit of documentation [here](https://github.com/LoaderB0T/awesome-logging/blob/main/DOCS.md).
 
 ## Usage Example 🚀
