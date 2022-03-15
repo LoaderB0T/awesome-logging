@@ -16,37 +16,37 @@ describe('Spinner Logger', () => {
 
   test('spinner successful with text', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
-    expect(t.text).toStrictEqual(['', '.   spinner']);
+    expect(t.allLines).toStrictEqual(['', '.   spinner']);
     c.stop({ succeeded: true, text: 'done' });
-    expect(t.text).toStrictEqual(['', '√ done']);
+    expect(t.allLines).toStrictEqual(['', '√ done']);
   });
 
   test('spinner unsuccessful with text', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
-    expect(t.text).toStrictEqual(['', '.   spinner']);
+    expect(t.allLines).toStrictEqual(['', '.   spinner']);
     c.stop({ succeeded: false, text: 'done' });
-    expect(t.text).toStrictEqual(['', 'X done']);
+    expect(t.allLines).toStrictEqual(['', 'X done']);
   });
 
   test('spinner with text', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
-    expect(t.text).toStrictEqual(['', '.   spinner']);
+    expect(t.allLines).toStrictEqual(['', '.   spinner']);
     c.stop({ text: 'done' });
-    expect(t.text).toStrictEqual(['', 'done']);
+    expect(t.allLines).toStrictEqual(['', 'done']);
   });
 
   test('spinner stop', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
-    expect(t.text).toStrictEqual(['', '.   spinner']);
+    expect(t.allLines).toStrictEqual(['', '.   spinner']);
     c.stop({});
-    expect(t.text).toStrictEqual(['', 'spinner']);
+    expect(t.allLines).toStrictEqual(['', 'spinner']);
   });
 
   // todo
   test.skip('spinner removeline', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
-    expect(t.text).toStrictEqual(['', '.   spinner']);
+    expect(t.allLines).toStrictEqual(['', '.   spinner']);
     c.stop({ removeLine: true });
-    expect(t.text).toStrictEqual(['']);
+    expect(t.allLines).toStrictEqual(['']);
   });
 });

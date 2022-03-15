@@ -19,20 +19,20 @@ describe('Toggle Prompt', () => {
     const c = AwesomeLogger.prompt('toggle', { options: ['option 1', 'option 2', 'option 3'] });
     c.result.then(r => {
       expect(r).toStrictEqual(['option 1', 'option 2']);
-      expect(t.text).toStrictEqual(['', ' - Selected options: option 1, option 2']);
+      expect(t.allLines).toStrictEqual(['', ' - Selected options: option 1, option 2']);
       done();
     });
-    expect(t.text).toStrictEqual(['', '[ ] option 1', '[ ] option 2', '[ ] option 3']);
+    expect(t.allLines).toStrictEqual(['', '[ ] option 1', '[ ] option 2', '[ ] option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual([]);
     t.sendKey('down');
-    expect(t.text).toStrictEqual(['', '[ ] option 1', '[ ] option 2', '[ ] option 3']);
+    expect(t.allLines).toStrictEqual(['', '[ ] option 1', '[ ] option 2', '[ ] option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual([]);
     t.sendText(' ');
-    expect(t.text).toStrictEqual(['', '[ ] option 1', '[X] option 2', '[ ] option 3']);
+    expect(t.allLines).toStrictEqual(['', '[ ] option 1', '[X] option 2', '[ ] option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual(['option 2']);
     t.sendKey('down');
     t.sendText(' ');
-    expect(t.text).toStrictEqual(['', '[ ] option 1', '[X] option 2', '[X] option 3']);
+    expect(t.allLines).toStrictEqual(['', '[ ] option 1', '[X] option 2', '[X] option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual(['option 2', 'option 3']);
     t.sendText(' ');
     t.sendKey('up');
@@ -59,10 +59,10 @@ describe('Toggle Prompt', () => {
     });
     c.result.then(r => {
       expect(r).toStrictEqual(['option 3', 'option 7']);
-      expect(t.text).toStrictEqual(['', ' - Selected options: option 3, option 7']);
+      expect(t.allLines).toStrictEqual(['', ' - Selected options: option 3, option 7']);
       done();
     });
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '| [ ] option 1',
       '| [ ] option 2',
@@ -76,7 +76,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendText(' ');
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '| [ ] option 1',
       '| [ ] option 2',
@@ -91,7 +91,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendText(' ');
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '↑ [X] option 3',
       '| [ ] option 4',
@@ -104,7 +104,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '↑ [ ] option 5',
       '| [ ] option 6',
@@ -115,7 +115,7 @@ describe('Toggle Prompt', () => {
     ]);
 
     t.sendText(' ');
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '↑ [ ] option 5',
       '| [ ] option 6',
@@ -130,7 +130,7 @@ describe('Toggle Prompt', () => {
     t.sendKey('down');
     t.sendKey('down');
     t.sendKey('down');
-    expect(t.text).toStrictEqual([
+    expect(t.allLines).toStrictEqual([
       '',
       '↑ [ ] option 5',
       '| [ ] option 6',
