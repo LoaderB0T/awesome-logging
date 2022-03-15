@@ -47,6 +47,9 @@ yarn add awesome-logging
 npm i awesome-logging
 ```
 
+## Docs 📃
+Find a bit of documentation [here](https://github.com/LoaderB0T/awesome-logging/blob/main/DOCS.md).
+
 ## Usage Example 🚀
 
 ```typescript
