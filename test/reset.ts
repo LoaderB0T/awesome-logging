@@ -1,4 +1,4 @@
-import { Terminal } from 'node-terminal-emulator';
+import { Terminal } from 'node-terminal-simulator';
 import { LoggerManager } from '../src/logger/logger-manager';
 import { Stdout } from '../src/render/stdout';
 
