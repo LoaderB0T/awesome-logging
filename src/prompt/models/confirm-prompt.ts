@@ -7,13 +7,15 @@ import { AwesomeLoggerTextControl } from '../../logger';
 export class AwesomeConfirmPromt extends AwesomePromptBase<boolean> implements AwesomePromptConfirmControl {
   private readonly _line: AwesomeLoggerTextControl;
   private readonly _text?: string;
+  private readonly _default?: 'yes' | 'no';
   private _result?: boolean;
 
   constructor(config: Partial<AwesomePromptConfirmConfig>) {
-    const text = `${config.text} ${chalk.gray('[')}${chalk.green('Y')}${chalk.gray('/')}${chalk.red('N')}${chalk.gray(']')}`;
+    const text = `${config.text} ${chalk.gray('[')}${chalk.green('y')}${chalk.gray('/')}${chalk.red('n')}${chalk.gray(']')}`;
     const line = AwesomeLogger.create('text', { text: text });
     super(line);
     this._text = config.text;
+    this._default = config.default;
     this._line = line;
   }
 
@@ -26,16 +28,23 @@ export class AwesomeConfirmPromt extends AwesomePromptBase<boolean> implements A
   public gotKey(key: string): void {
     if (key === 'y') {
       this._result = true;
-      this.inputFinished(true);
     } else if (key === 'n') {
       this._result = false;
-      this.inputFinished(false);
+    } else if (key === '\n') {
+      if (this._default) {
+        this._result = this._default === 'yes';
+      } else {
+        return;
+      }
+    } else {
+      return;
     }
+    this.inputFinished(this._result);
   }
 
   protected prepareResultLogger(): void {
-    const coloredY = this._result ? chalk.green('Y') : chalk.gray('Y');
-    const coloredN = !this._result ? chalk.red('N') : chalk.gray('N');
+    const coloredY = this._result ? chalk.green('Y') : chalk.gray('y');
+    const coloredN = !this._result ? chalk.red('N') : chalk.gray('n');
 
     const result = `${this._text} ${chalk.gray('[')}${coloredY}${chalk.gray('/')}${coloredN}${chalk.gray(']')}`;
     this.setLogger(AwesomeLogger.create('text', { text: result }));
