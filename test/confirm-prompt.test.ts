@@ -3,7 +3,7 @@ import { AwesomeLogger } from '../src/index';
 import { Stdout } from '../src/render/stdout';
 import { TestInit } from './reset';
 
-describe.only('Confirm Prompt', () => {
+describe('Confirm Prompt', () => {
   let t: Terminal;
 
   beforeEach(() => {
