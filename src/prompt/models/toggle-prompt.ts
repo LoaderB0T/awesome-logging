@@ -8,6 +8,7 @@ import { AwesomeLoggerTextControl } from '../../logger';
 
 export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {
   private _currentHighlightedRow: number;
+  private readonly _text?: string;
   private readonly _options: string[];
   private readonly _lines: string[];
   private readonly _textLogger: AwesomeLoggerTextControl;
@@ -16,6 +17,8 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
   constructor(config: Partial<AwesomePromptToggleConfig>) {
     const textLogger = AwesomeLogger.create('text', { text: '' });
     super(textLogger);
+    this._text = config.text;
+    this.fixedLineCount = this._text ? 1 : 0;
     this._textLogger = textLogger;
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
@@ -54,7 +57,7 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightedLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2) {
+        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2 - this.fixedLineCount) {
           this.scrollAmount++;
         }
         this.renderLines(prevHighlightedLine, this._currentHighlightedRow);
@@ -84,7 +87,11 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
     indices.forEach(i => {
       this.adjustLine(this._options[i], i, i === this._currentHighlightedRow, this._toggles[i]);
     });
-    this._textLogger.setText(this._lines.join('\n'));
+    if (this._text) {
+      this._textLogger.setText(`${this._text}\n${this._lines.join('\n')}`);
+    } else {
+      this._textLogger.setText(this._lines.join('\n'));
+    }
   }
 
   protected prepareResultLogger(): void {
