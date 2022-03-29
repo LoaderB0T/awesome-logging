@@ -4,13 +4,13 @@ import { TerminalSize } from '../utils/terminal-size';
 
 // @internal
 export class StringTrimmer {
-  public static ensureConsoleFit(val: string, limitRowCount: boolean, scollAmount: number): string {
+  public static ensureConsoleFit(val: string, limitRowCount: boolean, scollAmount: number, fixedLineCount: number): string {
     const rowsTrimmed = this.ensureRowsLength(val);
-    const rowCount = limitRowCount ? this.ensureRowsCount(rowsTrimmed, scollAmount) : rowsTrimmed;
+    const rowCount = limitRowCount ? this.ensureRowsCount(rowsTrimmed, scollAmount, fixedLineCount) : rowsTrimmed;
     return rowCount.join('\n');
   }
 
-  static ensureRowsCount(rowsTrimmed: string[], scrollAmount: number) {
+  static ensureRowsCount(rowsTrimmed: string[], scrollAmount: number, fixedLineCount: number) {
     const maxRowCount = TerminalSize.terminalHeight;
     const actualRowCount = rowsTrimmed.length;
     if (maxRowCount >= actualRowCount) {
@@ -21,16 +21,22 @@ export class StringTrimmer {
     } else if (scrollAmount > actualRowCount - maxRowCount) {
       scrollAmount = actualRowCount - maxRowCount;
     }
-    const visibleRows = rowsTrimmed.slice(scrollAmount, scrollAmount + maxRowCount);
+
+    const remainingScrollRows = maxRowCount - fixedLineCount;
+
+    const fixedRows = rowsTrimmed.splice(0, fixedLineCount);
+    const dynamicRows = rowsTrimmed.splice(scrollAmount, remainingScrollRows);
+
+    const visibleRows = [...fixedRows, ...dynamicRows];
     const visibleRowsWithScrollPrefix: string[] = [];
 
     for (let i = 0; i < visibleRows.length; i++) {
       let visibleRow = visibleRows[i];
-      if (i === 0 && scrollAmount > 0) {
+      if (i === fixedRows.length && scrollAmount > 0) {
         visibleRow = `↑ ${visibleRow}`;
       } else if (i === maxRowCount - 1 && scrollAmount < actualRowCount - maxRowCount) {
         visibleRow = `↓ ${visibleRow}`;
-      } else {
+      } else if (i >= fixedRows.length) {
         visibleRow = `| ${visibleRow}`;
       }
       visibleRowsWithScrollPrefix.push(visibleRow);

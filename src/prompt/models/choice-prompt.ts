@@ -9,6 +9,7 @@ import { AwesomePromptBase } from '../prompt-base';
 export class AwesomeChoicePromt extends AwesomePromptBase<string> implements AwesomePromptChoiceControl {
   private _currentHighlightedRow: number;
   private readonly _options: string[];
+  private readonly _text?: AwesomeTextLogger;
   private readonly _lines: AwesomeTextLogger[];
 
   constructor(config: Partial<AwesomePromptChoiceConfig>) {
@@ -17,15 +18,17 @@ export class AwesomeChoicePromt extends AwesomePromptBase<string> implements Awe
         const newline = new AwesomeTextLogger({ text: '' });
         return newline;
       }) ?? [];
-    const multi = AwesomeLogger.create('multi', { children: lines });
+    const textLogger = config.text ? new AwesomeTextLogger({ text: config.text }) : undefined;
+    const multi = AwesomeLogger.create('multi', { children: textLogger ? [textLogger, ...lines] : lines });
     super(multi);
     this._lines = lines;
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
+    this.fixedLineCount = config.text ? 1 : 0;
   }
 
   private adjustLine(lineText: string, line: AwesomeTextLogger, highlighted: boolean) {
-    const newText = `${chalk.gray(' - ')} ${(highlighted ? chalk.blue : chalk.white)(lineText)}`;
+    const newText = `${chalk.gray(' - ')}${(highlighted ? chalk.blue : chalk.white)(lineText)}`;
     line.setText(newText);
   }
 
@@ -56,7 +59,7 @@ export class AwesomeChoicePromt extends AwesomePromptBase<string> implements Awe
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightdLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2) {
+        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2 - this.fixedLineCount) {
           this.scrollAmount++;
         }
         this.renderLine(prevHighlightdLine);

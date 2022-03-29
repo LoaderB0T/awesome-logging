@@ -10,6 +10,7 @@ export abstract class AwesomeLoggerBase {
   // @internal
   public type: string;
   protected _hasChanges: boolean = true;
+  public fixedLineCount: number = 0;
   private _clean: boolean = false;
 
   constructor(type: string) {

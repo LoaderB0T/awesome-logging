@@ -98,7 +98,14 @@ AwesomeLogger.log('awd5');
 // });
 // c.result.then(r => {});
 
-AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r => {
+// AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r => {
+//   console.log(r);
+// });
+
+AwesomeLogger.prompt('choice', {
+  text: 'Are you really sure?',
+  options: ['Option1', 'Option2', 'Option3', 'Option4', 'Option5', 'Option6', 'Option7', 'Option8', 'Option9', 'Option10']
+}).result.then(r => {
   console.log(r);
 });
 
