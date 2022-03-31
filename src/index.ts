@@ -6,6 +6,6 @@ export * from './logger';
 export * from './prompt';
 
 // This is a workaround for initializing the static AwesomeLogger class before everything else
-AwesomeLogger.restrictedLogging; // lgtm [js/useless-expression]
+AwesomeLogger.restrictedLogging;
 
 LoggerManager.getInstance();
