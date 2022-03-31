@@ -5,7 +5,7 @@ export * from './awesome-logger';
 export * from './logger';
 export * from './prompt';
 
-// This is a workaround for initializing the static AwesomeLogger before everything else
+// This is a workaround for initializing the static AwesomeLogger class before everything else
 AwesomeLogger.restrictedLogging; // lgtm [js/useless-expression]
 
 LoggerManager.getInstance();
