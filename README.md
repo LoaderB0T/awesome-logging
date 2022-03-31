@@ -1,6 +1,7 @@
 [![npm](https://img.shields.io/npm/v/awesome-logging?color=%2300d26a&style=for-the-badge)](https://www.npmjs.com/package/awesome-logging)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/loaderb0t/awesome-logging/awesome-logging-CI/main?style=for-the-badge)](https://github.com/LoaderB0T/awesome-logging/actions/workflows/build.yml)
-[![Sonar Quality Gate](https://img.shields.io/sonar/alert_status/LoaderB0T_awesome-logging?server=https%3A%2F%2Fsonarcloud.io&sonarVersion=8.8&style=for-the-badge)](https://sonarcloud.io/dashboard?id=LoaderB0T_awesome-logging)
+[![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/LoaderB0T/awesome-logging?label=Code%20Quality&style=for-the-badge)](https://lgtm.com/projects/g/LoaderB0T/awesome-logging/?mode=list)
+[![LGTM Alerts](https://img.shields.io/lgtm/alerts/github/LoaderB0T/awesome-logging?style=for-the-badge)](https://lgtm.com/projects/g/LoaderB0T/awesome-logging/?mode=list)
 
 # awesome-logging
 
