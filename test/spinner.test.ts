@@ -42,7 +42,7 @@ describe('Spinner Logger', () => {
     expect(t.allLines).toStrictEqual(['', 'spinner']);
   });
 
-  // todo
+  // todo implement
   test.skip('spinner removeline', () => {
     const c = AwesomeLogger.log('spinner', { text: 'spinner' });
     expect(t.allLines).toStrictEqual(['', '.   spinner']);
