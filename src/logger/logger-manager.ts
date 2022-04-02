@@ -27,7 +27,7 @@ export class LoggerManager {
       AwesomeLoggerBase.isInitialized = true;
       const stdin = process.stdin;
       stdin.setEncoding('utf8');
-      this.changeKeyListener(undefined);
+      this.changeKeyListener(null);
       let isIncomplete = false;
       let incompletePart = '';
 
@@ -72,11 +72,11 @@ export class LoggerManager {
     this._cangeDetection = true;
   }
 
-  public changeKeyListener(listener?: (val: string) => any) {
+  public changeKeyListener(listener: ((val: string) => any) | null) {
     if (AwesomeLogger.restrictedLogging) {
       return;
     }
-    this._currentKeyListener = listener;
+    this._currentKeyListener = listener ?? undefined;
     if (!this._currentKeyListener) {
       process.stdin.setRawMode?.(false);
       process.stdin.pause();

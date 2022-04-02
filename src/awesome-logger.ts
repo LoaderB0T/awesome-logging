@@ -11,6 +11,10 @@ export class AwesomeLogger {
     return LoggerManager.getInstance().currentLoggerType;
   }
 
+  public static init() {
+    // Nothing to do here, just making sure this class is initialized
+  }
+
   public static create<T extends AwesomeLoggerType>(type: T, config?: LoggerConfig<T>): LoggerReturnType<T> {
     const loggerReturnType = LoggerCreator.create(type, config);
     return loggerReturnType;
@@ -23,12 +27,20 @@ export class AwesomeLogger {
     param1: T | LoggerReturnType<T> | string,
     param2?: LoggerConfig<T>
   ): LoggerReturnType<T> {
-    const logger =
-      typeof param1 === 'object'
-        ? param1
-        : param2
-        ? LoggerCreator.create(param1 as T, param2!)
-        : (AwesomeLogger.create('text', { text: param1 }) as LoggerReturnType<T>);
+    let logger: LoggerReturnType<T>;
+
+    if (typeof param1 === 'object') {
+      // Got a logger
+      logger = param1;
+    } else {
+      if (param2) {
+        // Got a config
+        logger = LoggerCreator.create(param1 as T, param2);
+      } else {
+        // Got a string that is not a loggerType -> text log
+        logger = <LoggerReturnType<T>>AwesomeLogger.create('text', { text: param1 });
+      }
+    }
 
     LoggerManager.getInstance().log(logger);
     return logger;

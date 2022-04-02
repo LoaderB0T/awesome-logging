@@ -77,8 +77,8 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
 
   private calculateLine(index: number): string {
     const item = this._options.items[index];
-    const prefix = `${this.getPrefix(item.state)} ${item.text}`;
-    return prefix;
+    const prefix = this.getPrefix(item.state);
+    return `${prefix} ${item.text}`;
   }
 
   private getPrefix(state: AwesomeChecklistLoggerState): string {

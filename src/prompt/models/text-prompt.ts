@@ -57,26 +57,9 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     let cursorRendered = false;
 
     if (this._cfg.fuzzyAutoComplete && this._hints.length > 0) {
-      const match = this.findPartialMatch(this._currentAnswer, this._hints);
-      if (match && this._currentAnswer !== match) {
-        autoCompleteMatch = chalk.gray(` (${match})`);
-      }
+      autoCompleteMatch = this.getFuzzyAutocompleteMatch(autoCompleteMatch);
     } else if (this._hints.length > 0) {
-      const match = this.findPartialMatch(this._currentAnswer, this._hints);
-      if (match) {
-        if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
-          autoCompleteMatch = chalk.gray(match.substr(this._currentAnswer.length));
-        } else {
-          const relativeCurserPos = this._cursorPos - this._currentAnswer.length;
-          const autoCompletePart = match.substr(this._currentAnswer.length);
-          autoCompleteMatch = chalk.gray(
-            `${autoCompletePart.substr(0, relativeCurserPos)}${chalk.bgWhite(
-              autoCompletePart.substring(relativeCurserPos, relativeCurserPos + 1)
-            )}${autoCompletePart.substring(relativeCurserPos + 1)}`
-          );
-          cursorRendered = true;
-        }
-      }
+      ({ autoCompleteMatch, cursorRendered } = this.getAutocompleteMatch(autoCompleteMatch, cursorRendered));
     }
 
     let answerText: string;
@@ -100,6 +83,33 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
       answerText += autoCompleteMatch;
     }
     return answerText;
+  }
+
+  private getAutocompleteMatch(autoCompleteMatch: string | null, cursorRendered: boolean) {
+    const match = this.findPartialMatch(this._currentAnswer, this._hints);
+    if (match) {
+      if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
+        autoCompleteMatch = chalk.gray(match.substring(this._currentAnswer.length));
+      } else {
+        const relativeCurserPos = this._cursorPos - this._currentAnswer.length;
+        const autoCompletePart = match.substring(this._currentAnswer.length);
+        autoCompleteMatch = chalk.gray(
+          `${autoCompletePart.substring(0, relativeCurserPos)}${chalk.bgWhite(
+            autoCompletePart.substring(relativeCurserPos, relativeCurserPos + 1)
+          )}${autoCompletePart.substring(relativeCurserPos + 1)}`
+        );
+        cursorRendered = true;
+      }
+    }
+    return { autoCompleteMatch, cursorRendered };
+  }
+
+  private getFuzzyAutocompleteMatch(autoCompleteMatch: string | null) {
+    const match = this.findPartialMatch(this._currentAnswer, this._hints);
+    if (match && this._currentAnswer !== match) {
+      autoCompleteMatch = chalk.gray(` (${match})`);
+    }
+    return autoCompleteMatch;
   }
 
   public init() {
@@ -130,41 +140,65 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
 
   public gotKey(key: string): void {
     if (key.match(/^[\r\n]+$/)) {
-      if (this.isValid(this._currentAnswer)) {
-        this.inputFinished(this._currentAnswer);
-      } else {
-        const ans = `${this.getAnswerText()} ${chalk.red('(invalid)')}`;
-        this._answerLogger.setText(ans);
-      }
+      this.gotEnterKey();
       return;
     } else if (key === '\b') {
-      if (this._currentAnswer.length > 0) {
-        if (this._cursorPos > 0) {
-          this._currentAnswer =
-            this._currentAnswer.substr(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
-          this._cursorPos--;
-        }
-      }
+      this.gotBackspaceKey();
     } else if (key === '\t') {
-      const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._hints);
-      if (fittingAutocomplete) {
-        this._currentAnswer = fittingAutocomplete;
-        this._cursorPos = this._currentAnswer.length;
-      }
+      this.gotTabKey();
     } else if (!key.includes(CONTROL_PREFIX) && key.match(/^.+$/)) {
-      this._currentAnswer =
-        this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
-      this._cursorPos += key.length;
+      this.gotPrintableCharacterKey(key);
     } else if (key === KEY_ARROW_LEFT) {
-      if (this._cursorPos > 0) {
-        this._cursorPos--;
-      }
+      this.gotLeftKey();
     } else if (key === KEY_ARROW_RIGHT) {
-      if (this._cursorPos < this._currentAnswer.length) {
-        this._cursorPos++;
-      }
+      this.gotRightKey();
     }
     this._answerLogger.setText(this.getAnswerText());
+  }
+
+  private gotRightKey() {
+    if (this._cursorPos < this._currentAnswer.length) {
+      this._cursorPos++;
+    }
+  }
+
+  private gotLeftKey() {
+    if (this._cursorPos > 0) {
+      this._cursorPos--;
+    }
+  }
+
+  private gotPrintableCharacterKey(key: string) {
+    this._currentAnswer =
+      this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
+    this._cursorPos += key.length;
+  }
+
+  private gotTabKey() {
+    const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._hints);
+    if (fittingAutocomplete) {
+      this._currentAnswer = fittingAutocomplete;
+      this._cursorPos = this._currentAnswer.length;
+    }
+  }
+
+  private gotBackspaceKey() {
+    if (this._currentAnswer.length > 0) {
+      if (this._cursorPos > 0) {
+        this._currentAnswer =
+          this._currentAnswer.substring(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
+        this._cursorPos--;
+      }
+    }
+  }
+
+  private gotEnterKey() {
+    if (this.isValid(this._currentAnswer)) {
+      this.inputFinished(this._currentAnswer);
+    } else {
+      const ans = `${this.getAnswerText()} ${chalk.red('(invalid)')}`;
+      this._answerLogger.setText(ans);
+    }
   }
 
   protected prepareResultLogger(): void {

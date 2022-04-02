@@ -46,7 +46,7 @@ export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   }
 
   protected inputFinished(result: T) {
-    LoggerManager.getInstance().changeKeyListener(undefined);
+    LoggerManager.getInstance().changeKeyListener(null);
     this.prepareResultLogger();
     this.changed();
     LoggerManager.getInstance().clearLogger();

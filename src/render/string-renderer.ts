@@ -19,37 +19,12 @@ export class StringRenderer {
     const newLines = val.split(/[\r\n]+/g);
 
     if (!AwesomeLogger.restrictedLogging) {
-      if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
-        this.lastTerminalHeight = TerminalSize.terminalHeight;
-        // When the terminal is resized, we try do delete everything and re-print everything.
-        // Deleting lines that are out of scroll view is not possible in some terminals (powershell, cmd, and more on windows for example)
-        // We still try to do so, but when reducing the height in the terminal some lines will get "stuck" in the history
-        for (let i = 0; i < lastLines.length; i++) {
-          DELETE_LINE();
-          MOVE_UP();
-        }
-        // resetting lastString & lastLine to make it reprint everything
-        this.lastString = '';
+      const sizeChanged = StringRenderer.checkForTerminalSizeChange(lastLines);
+      if (sizeChanged) {
         lastLines = [];
       }
 
-      const lengthDifference = newLines.length - lastLines.length;
-      const lessLines = lengthDifference < 0 ? lengthDifference * -1 : 0;
-
-      if (lengthDifference < 0) {
-        for (let i = 0; i < lessLines; i++) {
-          DELETE_LINE();
-          MOVE_UP();
-        }
-      }
-
-      let moveUpAmount = lastLines.length - lessLines - 1;
-      if (moveUpAmount < 0) {
-        moveUpAmount = 0;
-      }
-
-      MOVE_UP(moveUpAmount);
-      MOVE_LEFT();
+      StringRenderer.adjustTerminalOutputForNewLineCount(newLines, lastLines);
     }
 
     for (let i = 0; i < newLines.length; i++) {
@@ -61,6 +36,43 @@ export class StringRenderer {
       }
       Stdout.getInstance().write(lineToPrint);
     }
+  }
+
+  private static adjustTerminalOutputForNewLineCount(newLines: string[], lastLines: string[]) {
+    const lengthDifference = newLines.length - lastLines.length;
+    const lessLines = lengthDifference < 0 ? lengthDifference * -1 : 0;
+
+    if (lengthDifference < 0) {
+      for (let i = 0; i < lessLines; i++) {
+        DELETE_LINE();
+        MOVE_UP();
+      }
+    }
+
+    let moveUpAmount = lastLines.length - lessLines - 1;
+    if (moveUpAmount < 0) {
+      moveUpAmount = 0;
+    }
+
+    MOVE_UP(moveUpAmount);
+    MOVE_LEFT();
+  }
+
+  private static checkForTerminalSizeChange(lastLines: string[]): boolean {
+    if (this.lastTerminalHeight !== TerminalSize.terminalHeight) {
+      this.lastTerminalHeight = TerminalSize.terminalHeight;
+      // When the terminal is resized, we try do delete everything and re-print everything.
+      // Deleting lines that are out of scroll view is not possible in some terminals (powershell, cmd, and more on windows for example)
+      // We still try to do so, but when reducing the height in the terminal some lines will get "stuck" in the history
+      lastLines.forEach(() => {
+        DELETE_LINE();
+        MOVE_UP();
+      });
+      // resetting lastString & lastLine to make it reprint everything
+      this.lastString = '';
+      return true;
+    }
+    return false;
   }
 
   private static getLineStringToPrint(oldVal: string, newVal: string) {

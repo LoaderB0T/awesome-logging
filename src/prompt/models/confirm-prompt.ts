@@ -19,7 +19,9 @@ export class AwesomeConfirmPromt extends AwesomePromptBase<boolean> implements A
     this._line = line;
   }
 
-  public init(): void {}
+  public init(): void {
+    // Nothing to initialize
+  }
 
   public getCurrentAnswer(): undefined {
     return undefined;
