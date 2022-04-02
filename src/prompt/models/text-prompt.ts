@@ -24,7 +24,7 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
       caseInsensitive: config.caseInsensitive ?? false,
       default: config.default ?? '',
       fuzzyAutoComplete: config.fuzzyAutoComplete ?? false,
-      hints: config.hints ? (Array.isArray(config.hints) ? config.hints : [config.hints]) : [],
+      hints: getHintsArray(),
       validator: config.validator ?? (() => true)
     };
     this._hints = this._cfg.hints as string[];
@@ -33,6 +33,13 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
     this._cursorPos = 0;
+
+    function getHintsArray(): string | string[] {
+      if (!config.hints) {
+        return [];
+      }
+      return Array.isArray(config.hints) ? config.hints : [config.hints];
+    }
   }
 
   private fuzzyMatch(possibleValue: string, input: string) {
