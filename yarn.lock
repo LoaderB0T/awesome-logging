@@ -2487,10 +2487,10 @@ node-releases@^2.0.2:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.2.tgz#7139fe71e2f4f11b47d4d2986aaf8c48699e0c01"
   integrity sha512-XxYDdcQ6eKqp/YjI+tb2C5WM2LgjnZrfYg4vgQt49EK268b6gYCHsBLrK2qvJo4FmCtqmKezb0WZFK4fkrZNsg==
 
-node-terminal-simulator@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/node-terminal-simulator/-/node-terminal-simulator-1.1.0.tgz#1b045a222059f5d72a506016334c872ea77f30db"
-  integrity sha512-RTevh4QdnXhwc7VautDEdodwMPhJMAJcQiQ4TXQS/+C7jmmudlvVnGbaCnuLEwC118dB0BytMHRCFTfuJrS7ag==
+node-terminal-simulator@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/node-terminal-simulator/-/node-terminal-simulator-1.2.0.tgz#e34dd634948ce9a87c1d5bf95e3796d1e2299ba3"
+  integrity sha512-9s65MR4yU6aAQH3ndjfkpmFKy1/1RrDNsKQiruelN0d1nAcFn4/62EYjLaFuGSevu/w/DEDsL8NL06m4LYs1vg==
 
 normalize-path@^3.0.0:
   version "3.0.0"

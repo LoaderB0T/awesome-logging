@@ -32,7 +32,7 @@
     "jest": "^27.4.7",
     "jest-junit": "^13.0.0",
     "legally": "^3.5.10",
-    "node-terminal-simulator": "^1.1.0",
+    "node-terminal-simulator": "^1.2.0",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
     "ts-node": "^10.4.0",
@@ -56,7 +56,7 @@
   ],
   "author": {
     "name": "Janik Schumacher (LoaderB0T)",
-    "url": "https://twitter.com/TheLoaderB0T"
+    "url": "https://awdware.de"
   },
   "homepage": "https://github.com/LoaderB0T/awesome-logging",
   "bugs": {
