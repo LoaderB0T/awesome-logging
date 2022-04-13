@@ -3,7 +3,7 @@ import { Terminal } from 'node-terminal-simulator';
 import { stdout } from 'process';
 import { Stdout } from './render/stdout';
 
-const t = new Terminal([100, 8]);
+const t = new Terminal([100, 5]);
 const originalWrite = (text: string) => stdout.write(text);
 t.redirectStdout(Stdout.getInstance());
 
@@ -13,7 +13,7 @@ setInterval(() => {
 
 AwesomeLogger.prompt('choice', {
   text: 'Pick one!',
-  options: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5']
+  options: ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8']
 }).result.then(r => {
   console.log(r);
 });

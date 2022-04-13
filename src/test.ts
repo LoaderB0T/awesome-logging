@@ -98,15 +98,65 @@ AwesomeLogger.log('awd5');
 // });
 // c.result.then(r => {});
 
-AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r => {
-  console.log(r);
-});
+// AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r => {
+//   console.log(r);
+// });
 
 // AwesomeLogger.prompt('toggle', {
-//   text: 'Are you really sure?',
+//   text: 'What do you chose?',
 //   options: ['Option1', 'Option2', 'Option3', 'Option4', 'Option5', 'Option6', 'Option7', 'Option8', 'Option9', 'Option10']
 // }).result.then(r => {
 //   console.log(r);
+// });
+
+// AwesomeLogger.prompt('text', {
+//   text: 'Please enter your phone number',
+//   validator: (value: string) => {
+//     if (value.length < 10) {
+//       return false;
+//     }
+//     return true;
+//   }
+// }).result.then(r => {
+//   console.log(r);
+// });
+
+// const logger1 = AwesomeLogger.create('spinner', {
+//   text: 'Loading!',
+//   spinnerFrames: [
+//     chalk.yellow('⠋'), // '◐',
+//     chalk.yellow('⠙'), // '◓',
+//     chalk.yellow('⠹'), // '◑',
+//     chalk.yellow('⠸'), // '◒',
+//     chalk.yellow('⠼'), // '◐',
+//     chalk.yellow('⠴'), // '◓',
+//     chalk.yellow('⠦'), // '◑',
+//     chalk.yellow('⠧'), // '◒',
+//     chalk.yellow('⠇'), // '◐',
+//     chalk.yellow('⠏') // '◓'
+//   ],
+//   spinnerDelay: 75
+// });
+// const logger2 = AwesomeLogger.create('progress', {
+//   text: 'Progress!',
+//   maxWidth: 75,
+//   borderChar: '─',
+//   filledChar: '█',
+//   filledColor: 'GREEN',
+//   unfilledChar: '░',
+//   unfilledColor: 'RED'
+// });
+
+// setInterval(() => {
+//   logger2.setProgress(Math.floor(Math.random() * 100));
+// }, 100);
+
+// setInterval(() => {
+//   AwesomeLogger.interrupt('interrupt' + Math.random());
+// }, 1000);
+
+// AwesomeLogger.log('multi', {
+//   children: [logger1, logger2]
 // });
 
 // const line0 = AwesomeLogger.create('text', { text: chalk.yellow('Multiple lines, all changing:') });
@@ -151,34 +201,34 @@ AwesomeLogger.prompt('confirm', { text: 'Are you really sure?' }).result.then(r 
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven \none \nmore') });
 // AwesomeLogger.log('text', { text: chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd') });
 
-// const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
+const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
 
-// setInterval(() => {
-//   ctrl.setText(
-//     `1
-// 2
-// 3
-// 4
-// 5
-// 6
-// 7
-// 8
-// 9`
-//   );
-//   setTimeout(() => {
-//     ctrl.setText(
-//       `A
-// B
-// C
-// D
-// E
-// F
-// G
-// H
-// I`
-//     );
-//   }, 500);
-// }, 1000);
+setInterval(() => {
+  ctrl.setText(
+    `1
+2
+3
+4
+5
+6
+7
+8
+9`
+  );
+  setTimeout(() => {
+    ctrl.setText(
+      `A
+B
+C
+D
+E
+F
+G
+H
+I`
+    );
+  }, 500);
+}, 1000);
 
 // const spin1 = AwesomeLogger.create('spinner', {
 //   text: ' My text',
