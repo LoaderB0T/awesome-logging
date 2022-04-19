@@ -16,12 +16,12 @@
   "scripts": {
     "lint": "yarn eslint ./src/**",
     "test": "jest",
-    "build-base": "tsc -p .",
     "prebuild": "yarn rimraf lib",
+    "build": "yarn build-esm && yarn build-cjs",
+    "build-base": "tsc -p .",
     "build-esm": "yarn build-base --outDir lib/esm",
     "build-cjs": "yarn build-base --outDir lib/cjs --module commonjs && yarn fix-cjs",
-    "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts",
-    "build": "yarn build-esm && yarn build-cjs"
+    "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts"
   },
   "license": "MIT",
   "private": false,
