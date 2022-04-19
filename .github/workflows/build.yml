@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -40,10 +40,6 @@ jobs:
         if: always()
         with:
           files: junit.xml
-      - uses: JS-DevTools/npm-publish@v1
-        id: publish
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
         if: ${{ matrix.node-version == '14.x' && github.ref == 'refs/heads/main' }}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
