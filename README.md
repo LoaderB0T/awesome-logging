@@ -21,6 +21,8 @@ No matter what you want to log to the terminal or what information you need from
 
 ✅ Live-update logging messages in a reliable way
 
+✅ ESM & CJS exports
+
 ✅ Multi-line logging
 
 ✅ Flicker-free output, even on Windows
