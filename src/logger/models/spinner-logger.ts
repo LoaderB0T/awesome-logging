@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner';
+import { AwesomeLoggerBase } from '../logger-base.js';
+import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner.js';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;

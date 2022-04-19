@@ -1,5 +1,5 @@
-import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeLoggerMultiControl, AwesomeLoggerMultiConfig } from './config/multi';
+import { AwesomeLoggerBase } from '../logger-base.js';
+import { AwesomeLoggerMultiControl, AwesomeLoggerMultiConfig } from './config/multi.js';
 
 export class AwesomeMultiLogger extends AwesomeLoggerBase implements AwesomeLoggerMultiControl {
   private readonly _children: AwesomeLoggerBase[];

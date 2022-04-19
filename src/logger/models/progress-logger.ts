@@ -1,8 +1,8 @@
 import stripAnsi from 'strip-ansi';
-import { colorize } from '../../utils/logger-color';
-import { TerminalSize } from '../../utils/terminal-size';
-import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress';
+import { colorize } from '../../utils/logger-color.js';
+import { TerminalSize } from '../../utils/terminal-size.js';
+import { AwesomeLoggerBase } from '../logger-base.js';
+import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress.js';
 
 export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeProgressLoggerControl {
   private readonly _options: AwesomeProgressLoggerConfig;

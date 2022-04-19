@@ -1,7 +1,7 @@
 import { Terminal } from 'node-terminal-simulator';
-import { AwesomeLogger } from '../src/index';
-import { Stdout } from '../src/render/stdout';
-import { TestInit } from './reset';
+import { AwesomeLogger } from '../src/index.js';
+import { Stdout } from '../src/render/stdout.js';
+import { TestInit } from './reset.js';
 
 describe('Text Logger', () => {
   let t: Terminal;

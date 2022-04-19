@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomePromptConfirmConfig, AwesomePromptConfirmControl } from './config/confirm';
-import { AwesomePromptBase } from '../prompt-base';
+import { AwesomeLogger } from '../../awesome-logger.js';
+import { AwesomePromptConfirmConfig, AwesomePromptConfirmControl } from './config/confirm.js';
+import { AwesomePromptBase } from '../prompt-base.js';
 import { AwesomeLoggerTextControl } from '../../logger';
 
 export class AwesomeConfirmPromt extends AwesomePromptBase<boolean> implements AwesomePromptConfirmControl {

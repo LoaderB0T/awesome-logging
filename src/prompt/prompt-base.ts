@@ -1,6 +1,6 @@
-import { AwesomeLogger } from '../awesome-logger';
-import { AwesomeLoggerBase } from '../logger/logger-base';
-import { LoggerManager } from '../logger/logger-manager';
+import { AwesomeLogger } from '../awesome-logger.js';
+import { AwesomeLoggerBase } from '../logger/logger-base.js';
+import { LoggerManager } from '../logger/logger-manager.js';
 
 export abstract class AwesomePromptBase<T> extends AwesomeLoggerBase {
   private _promptFinished!: (value: T | Promise<T>) => void;

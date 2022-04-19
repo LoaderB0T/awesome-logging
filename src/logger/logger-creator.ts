@@ -1,10 +1,10 @@
-import { AwesomeLoggerBase } from './logger-base';
-import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger-type';
-import { AwesomeChecklistLogger } from './models/checklist-logger';
-import { AwesomeMultiLogger } from './models/multi-logger';
-import { AwesomeProgressLogger } from './models/progress-logger';
-import { AwesomeSpinnerLogger } from './models/spinner-logger';
-import { AwesomeTextLogger } from './models/text-logger';
+import { AwesomeLoggerBase } from './logger-base.js';
+import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger-type.js';
+import { AwesomeChecklistLogger } from './models/checklist-logger.js';
+import { AwesomeMultiLogger } from './models/multi-logger.js';
+import { AwesomeProgressLogger } from './models/progress-logger.js';
+import { AwesomeSpinnerLogger } from './models/spinner-logger.js';
+import { AwesomeTextLogger } from './models/text-logger.js';
 
 // @internal
 export class LoggerCreator {

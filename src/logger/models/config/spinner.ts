@@ -1,4 +1,4 @@
-import { AwesomeLoggerBase } from '../../logger-base';
+import { AwesomeLoggerBase } from '../../logger-base.js';
 
 export interface AwesomeLoggerSpinnerConfig {
   /**

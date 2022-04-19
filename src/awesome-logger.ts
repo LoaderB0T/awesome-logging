@@ -1,8 +1,8 @@
-import { LoggerCreator } from './logger/logger-creator';
-import { LoggerManager } from './logger/logger-manager';
-import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logger-type';
-import { PromptCreator } from './prompt/prompt-creator';
-import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt/prompt-type';
+import { LoggerCreator } from './logger/logger-creator.js';
+import { LoggerManager } from './logger/logger-manager.js';
+import { AwesomeLoggerType, LoggerConfig, LoggerReturnType } from './logger/logger-type.js';
+import { PromptCreator } from './prompt/prompt-creator.js';
+import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt/prompt-type.js';
 
 export class AwesomeLogger {
   public static restrictedLogging = false;

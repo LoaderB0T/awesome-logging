@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from '../../awesome-logger';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
-import { TerminalSize } from '../../utils/terminal-size';
-import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle';
-import { AwesomePromptBase } from '../prompt-base';
+import { AwesomeLogger } from '../../awesome-logger.js';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils.js';
+import { TerminalSize } from '../../utils/terminal-size.js';
+import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle.js';
+import { AwesomePromptBase } from '../prompt-base.js';
 import { AwesomeLoggerTextControl } from '../../logger';
 
 export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {

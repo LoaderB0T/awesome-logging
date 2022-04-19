@@ -1,5 +1,5 @@
-import { AwesomeLoggerColor } from '../../../utils/logger-color';
-import { AwesomeLoggerBase } from '../../logger-base';
+import { AwesomeLoggerColor } from '../../../utils/logger-color.js';
+import { AwesomeLoggerBase } from '../../logger-base.js';
 
 export interface AwesomeProgressLoggerConfig {
   /**

@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from './awesome-logger';
+import { AwesomeLogger } from './awesome-logger.js';
 
 AwesomeLogger.log('awd');
 AwesomeLogger.log('awd2');
