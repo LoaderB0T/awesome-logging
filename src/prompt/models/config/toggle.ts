@@ -1,4 +1,4 @@
-import { AwesomePromptBaseControl } from './base';
+import { AwesomePromptBaseControl } from './base.js';
 
 export interface AwesomePromptToggleConfig {
   /**

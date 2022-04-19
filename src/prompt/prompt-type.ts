@@ -1,4 +1,4 @@
-import { AwesomePromptDefinitions } from './prompt-definitions';
+import { AwesomePromptDefinitions } from './prompt-definitions.js';
 
 export type ExtractPromptType<A, T> = A extends { type: T } ? A : never;
 export type PromptConfig<T> = Partial<ExtractPromptType<AwesomePromptDefinitions, T>['config']>;

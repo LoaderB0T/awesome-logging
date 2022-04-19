@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from './awesome-logger';
-import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist';
+import { AwesomeLogger } from './awesome-logger.js';
+import { AwesomeChecklistLoggerItem } from './logger/models/config/checklist.js';
 
 AwesomeLogger.restrictedLogging = true;
 

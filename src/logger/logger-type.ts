@@ -1,4 +1,4 @@
-import { AwesomeLoggerDefinitions } from './logger-definitions';
+import { AwesomeLoggerDefinitions } from './logger-definitions.js';
 
 export type ExtractLoggerType<A, T> = A extends { type: T } ? A : never;
 export type LoggerConfig<T> = Partial<ExtractLoggerType<AwesomeLoggerDefinitions, T>['config']>;

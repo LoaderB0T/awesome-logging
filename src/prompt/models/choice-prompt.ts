@@ -1,10 +1,10 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomeTextLogger } from '../../logger/models/text-logger';
-import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils';
-import { TerminalSize } from '../../utils/terminal-size';
-import { AwesomePromptChoiceConfig, AwesomePromptChoiceControl } from './config/choice';
-import { AwesomePromptBase } from '../prompt-base';
+import { AwesomeLogger } from '../../awesome-logger.js';
+import { AwesomeTextLogger } from '../../logger/models/text-logger.js';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils.js';
+import { TerminalSize } from '../../utils/terminal-size.js';
+import { AwesomePromptChoiceConfig, AwesomePromptChoiceControl } from './config/choice.js';
+import { AwesomePromptBase } from '../prompt-base.js';
 
 export class AwesomeChoicePromt extends AwesomePromptBase<string> implements AwesomePromptChoiceControl {
   private _currentHighlightedRow: number;

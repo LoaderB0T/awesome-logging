@@ -1,4 +1,4 @@
-import { Stdout } from '../render/stdout';
+import { Stdout } from '../render/stdout.js';
 
 export class TerminalSize {
   private static get terminalSize() {

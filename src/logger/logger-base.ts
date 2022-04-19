@@ -1,5 +1,5 @@
-import { AwesomeLogger } from '../awesome-logger';
-import { LoggerManager } from './logger-manager';
+import { AwesomeLogger } from '../awesome-logger.js';
+import { LoggerManager } from './logger-manager.js';
 
 export abstract class AwesomeLoggerBase {
   public static isInitialized = false;

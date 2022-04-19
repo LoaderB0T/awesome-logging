@@ -1,5 +1,5 @@
-import { AwesomeLogger } from './awesome-logger';
-import { LoggerManager } from './logger/logger-manager';
+import { AwesomeLogger } from './awesome-logger.js';
+import { LoggerManager } from './logger/logger-manager.js';
 
 export * from './awesome-logger';
 export * from './logger';

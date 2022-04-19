@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import { AwesomeLogger } from '../../awesome-logger';
-import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl, AwesomeChecklistLoggerState } from './config/checklist';
-import { AwesomeMultiLogger } from './multi-logger';
-import { AwesomeTextLogger } from './text-logger';
+import { AwesomeLogger } from '../../awesome-logger.js';
+import { AwesomeLoggerBase } from '../logger-base.js';
+import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl, AwesomeChecklistLoggerState } from './config/checklist.js';
+import { AwesomeMultiLogger } from './multi-logger.js';
+import { AwesomeTextLogger } from './text-logger.js';
 
 export class AwesomeChecklistLogger extends AwesomeLoggerBase implements AwesomeChecklistLoggerControl {
   private readonly _options: AwesomeChecklistLoggerConfig;

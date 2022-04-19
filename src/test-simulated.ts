@@ -1,7 +1,7 @@
-import { AwesomeLogger } from './awesome-logger';
+import { AwesomeLogger } from './awesome-logger.js';
 import { Terminal } from 'node-terminal-simulator';
 import { stdout } from 'process';
-import { Stdout } from './render/stdout';
+import { Stdout } from './render/stdout.js';
 
 const t = new Terminal([100, 5]);
 const originalWrite = (text: string) => stdout.write(text);

@@ -1,5 +1,5 @@
-import { AwesomeLoggerBase } from '../logger-base';
-import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from './config/text';
+import { AwesomeLoggerBase } from '../logger-base.js';
+import { AwesomeLoggerTextConfig, AwesomeLoggerTextControl } from './config/text.js';
 
 export class AwesomeTextLogger extends AwesomeLoggerBase implements AwesomeLoggerTextControl {
   private _text: string;

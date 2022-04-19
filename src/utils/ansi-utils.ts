@@ -1,5 +1,5 @@
 import restoreCursor from 'restore-cursor';
-import { Stdout } from '../render/stdout';
+import { Stdout } from '../render/stdout.js';
 restoreCursor();
 
 // @internal
