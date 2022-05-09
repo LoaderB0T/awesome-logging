@@ -35,8 +35,8 @@ jobs:
         env:
           FORCE_COLOR: 1
       - name: Upload Test Results Node.js ${{ matrix.node-version }}
-        if: always()
         uses: actions/upload-artifact@v2
+        if: matrix.node-version == '16.x'
         with:
           name: Unit Test Results
           path: junit.xml
