@@ -50,11 +50,11 @@ jobs:
           path: ./log.txt
 
   event_file:
-  name: 'Event File'
-  runs-on: ubuntu-latest
-  steps:
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: Event File
-        path: ${{ github.event_path }}
+    name: 'Event File'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Event File
+          path: ${{ github.event_path }}
