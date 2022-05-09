@@ -34,11 +34,12 @@ jobs:
         run: yarn run test
         env:
           FORCE_COLOR: 1
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: junit.xml
+      - name: Upload Test Results Node.js ${{ matrix.node-version }}
+          if: always()
+          uses: actions/upload-artifact@v2
+          with:
+            name: Unit Test Results
+            path: junit.xml
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         if: always()
@@ -47,3 +48,13 @@ jobs:
           name: logFile
           # A file, directory or wildcard pattern that describes what to upload
           path: ./log.txt
+
+  event_file:
+  name: 'Event File'
+  runs-on: ubuntu-latest
+  steps:
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Event File
+        path: ${{ github.event_path }}
