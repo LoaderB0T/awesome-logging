@@ -40,7 +40,7 @@ jobs:
       #   with:
       #     files: junit.xml
       - name: Upload Test Results Node.js ${{ matrix.node-version }}
-        if: always()
+        if: matrix.node-version == '16.x'
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
