@@ -34,13 +34,9 @@ jobs:
         run: yarn run test
         env:
           FORCE_COLOR: 1
-      # - name: Upload Test Results Node.js ${{ matrix.node-version }}
-      #   uses: EnricoMi/publish-unit-test-result-action@v1
-      #   if: matrix.node-version == '16.x'
-      #   with:
-      #     files: junit.xml
       - name: Upload Test Results Node.js ${{ matrix.node-version }}
         if: matrix.node-version == '16.x'
+        continue-on-error: true
         uses: actions/upload-artifact@v2
         with:
           name: Test Results
