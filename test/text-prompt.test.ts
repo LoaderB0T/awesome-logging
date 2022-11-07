@@ -118,14 +118,12 @@ describe('Text Prompt', () => {
       text: 'Please enter your phone number:',
       validators: [
         {
-          id: 1,
           description: 'The minimal input length is 8',
           validator: (input: string) => {
             return input.length >= 8;
           }
         },
         {
-          id: 2,
           description: 'Your input has to start with "+"',
           validator: (input: string) => {
             return input.startsWith('+');
