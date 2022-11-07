@@ -1,5 +1,6 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-export default {
+import type { JestConfigWithTsJest } from 'ts-jest';
+
+const config: JestConfigWithTsJest = {
   roots: ['./test'],
   preset: 'ts-jest/presets/default-esm',
   transform: {
@@ -16,3 +17,5 @@ export default {
   },
   reporters: ['default', ['jest-junit', { outputName: 'junit.xml' }]]
 };
+
+export default config;
