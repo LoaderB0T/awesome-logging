@@ -1,3 +1,7 @@
 {
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "loaderb0t1",
+    "projectKey": "LoaderB0T_awesome-logging"
+  }
 }
