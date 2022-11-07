@@ -112,4 +112,67 @@ describe('Text Prompt', () => {
     expect(t.allLines).toStrictEqual(['', 'enter text', 'example']);
     t.sendKey('enter');
   });
+
+  test('Text prompt with validators', done => {
+    const c = AwesomeLogger.prompt('text', {
+      text: 'Please enter your phone number:',
+      validators: [
+        {
+          id: 1,
+          description: 'The minimal input length is 8',
+          validator: (input: string) => {
+            return input.length >= 8;
+          }
+        },
+        {
+          id: 2,
+          description: 'Your input has to start with "+"',
+          validator: (input: string) => {
+            return input.startsWith('+');
+          }
+        }
+      ]
+    });
+    c.result.then(r => {
+      expect(r).toBe('+49 123 45678900');
+      expect(t.allLines).toStrictEqual(['', ' - Input: +49 123 45678900']);
+      done();
+    });
+    expect(t.allLines).toStrictEqual(['', 'Please enter your phone number:', 'type your answer here...']);
+    t.sendText('0 123');
+    expect(t.allLines).toStrictEqual(['', 'Please enter your phone number:', '0 123']);
+    t.sendKey('enter');
+    expect(t.allLines).toStrictEqual([
+      '',
+      'Please enter your phone number:',
+      '# The minimal input length is 8',
+      '0 123  (invalid)'
+    ]);
+    t.sendText(' 45678900');
+    expect(t.allLines).toStrictEqual([
+      '',
+      'Please enter your phone number:',
+      '# The minimal input length is 8',
+      '0 123 45678900'
+    ]);
+    t.sendKey('enter');
+    expect(t.allLines).toStrictEqual([
+      '',
+      'Please enter your phone number:',
+      '# Your input has to start with "+"',
+      '0 123 45678900  (invalid)'
+    ]);
+    for (let i = 0; i < 13; i++) {
+      t.sendKey('left');
+    }
+    t.sendKey('backspace');
+    t.sendText('+49');
+    expect(t.allLines).toStrictEqual([
+      '',
+      'Please enter your phone number:',
+      '# Your input has to start with "+"',
+      '+49 123 45678900'
+    ]);
+    t.sendKey('enter');
+  });
 });

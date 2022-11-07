@@ -1,4 +1,5 @@
 import { AwesomePromptBaseControl } from './base.js';
+import { AwesomePromptValidator } from './validator.js';
 
 export interface AwesomePromptTextConfig {
   /**
@@ -24,7 +25,7 @@ export interface AwesomePromptTextConfig {
   /**
    * A validatior callback to check whether the input is valid.
    */
-  validator: (val: any) => boolean | Promise<boolean>;
+  validators: AwesomePromptValidator[];
   /**
    * The default value to use before the user has entered any input.
    */

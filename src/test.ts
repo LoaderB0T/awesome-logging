@@ -201,34 +201,34 @@ AwesomeLogger.log('awd5');
 // AwesomeLogger.log('text', { text: chalk.red('yee') + chalk.yellow(' yeees\nnext line\neven \none \nmore') });
 // AwesomeLogger.log('text', { text: chalk.red('awdawd\nsecondline') + chalk.yellow(' awdawdawd') });
 
-const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
+// const ctrl = AwesomeLogger.log('text', { text: chalk.red('yee') });
 
-setInterval(() => {
-  ctrl.setText(
-    `1
-2
-3
-4
-5
-6
-7
-8
-9`
-  );
-  setTimeout(() => {
-    ctrl.setText(
-      `A
-B
-C
-D
-E
-F
-G
-H
-I`
-    );
-  }, 500);
-}, 1000);
+// setInterval(() => {
+//   ctrl.setText(
+//     `1
+// 2
+// 3
+// 4
+// 5
+// 6
+// 7
+// 8
+// 9`
+//   );
+//   setTimeout(() => {
+//     ctrl.setText(
+//       `A
+// B
+// C
+// D
+// E
+// F
+// G
+// H
+// I`
+//     );
+//   }, 500);
+// }, 1000);
 
 // const spin1 = AwesomeLogger.create('spinner', {
 //   text: ' My text',
@@ -256,5 +256,23 @@ I`
 //   ctrl.setText(`nope${Math.random()}`);
 // }, 100);
 
-// const a = AwesomeLogger.prompt('text', { text: 'yee' });
-// a.result.then(x => console.log('result = ' + x));
+const a = AwesomeLogger.prompt('text', {
+  text: 'Please enter your phone number:',
+  validators: [
+    {
+      id: 1,
+      description: 'The minimal input length is 3',
+      validator: (input: string) => {
+        return input.length >= 3;
+      }
+    },
+    {
+      id: 2,
+      description: 'Your input has to start with "+"',
+      validator: (input: string) => {
+        return input.startsWith('+');
+      }
+    }
+  ]
+});
+a.result.then(x => console.log('result = ' + x));

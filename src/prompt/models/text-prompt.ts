@@ -7,6 +7,7 @@ import { AwesomePromptBase } from '../prompt-base.js';
 
 export class AwesomeTextPromt extends AwesomePromptBase<string> implements AwesomePromptTextControl {
   private readonly _questionLogger: AwesomeLoggerTextControl;
+  private readonly _hintLogger: AwesomeLoggerTextControl;
   private readonly _answerLogger: AwesomeLoggerTextControl;
   private readonly _cfg: AwesomePromptTextConfig;
   private readonly _hints: string[];
@@ -16,7 +17,8 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   constructor(config: Partial<AwesomePromptTextConfig>) {
     const questionLogger = AwesomeLogger.create('text');
     const answerLogger = AwesomeLogger.create('text');
-    const multiLogger = AwesomeLogger.create('multi', { children: [questionLogger, answerLogger] });
+    const hintLogger = AwesomeLogger.create('text');
+    const multiLogger = AwesomeLogger.create('multi', { children: [questionLogger, hintLogger, answerLogger] });
     super(multiLogger);
     this._cfg = {
       allowOnlyHints: config.allowOnlyHints ?? false,
@@ -25,13 +27,14 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
       default: config.default ?? '',
       fuzzyAutoComplete: config.fuzzyAutoComplete ?? false,
       hints: getHintsArray(),
-      validator: config.validator ?? (() => true)
+      validators: config.validators ?? []
     };
     this._hints = this._cfg.hints as string[];
 
     this._currentAnswer = '';
     this._questionLogger = questionLogger;
     this._answerLogger = answerLogger;
+    this._hintLogger = hintLogger;
     this._cursorPos = 0;
 
     function getHintsArray(): string | string[] {
@@ -134,8 +137,15 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
         return false;
       }
     }
-    if (!this._cfg.validator(ans)) {
+    const invalidator = this._cfg.validators.find(x => !x.validator(ans));
+    if (invalidator) {
+      const description = invalidator.skipStyling
+        ? invalidator.description
+        : `${chalk.red('#')} ${chalk.gray(invalidator.description)}`;
+      this._hintLogger.setText(description);
       return false;
+    } else {
+      this._hintLogger.setText('');
     }
 
     return true;
