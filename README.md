@@ -1,6 +1,7 @@
 [![npm](https://img.shields.io/npm/v/awesome-logging?color=%2300d26a&style=for-the-badge)](https://www.npmjs.com/package/awesome-logging)
 [![Build Status](https://img.shields.io/github/workflow/status/loaderb0t/awesome-logging/awesome-logging-CI/main?style=for-the-badge)](https://github.com/LoaderB0T/awesome-logging/actions/workflows/build.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/LoaderB0T_awesome-logging?server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge)](https://sonarcloud.io/summary/new_code?id=LoaderB0T_awesome-logging)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/awesome-logging?color=%23FF006F&label=Bundle%20Size&style=for-the-badge)](https://bundlephobia.com/package/awesome-logging)
 
 # awesome-logging
 
