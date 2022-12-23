@@ -20,18 +20,20 @@ export interface AwesomeLoggerSpinnerControl extends AwesomeLoggerBase {
    * Stop the spinner.
    * @param options Options to be used when stopping the spinner.
    */
-  stop(options: {
-    /**
-     * Set whether or not the spinner should indicate success.
-     */
-    succeeded?: boolean;
-    /**
-     * Set whether or not the spinner should remove the logged text
-     */
-    removeLine?: boolean;
-    /**
-     * Set new text to be displayed after the spinner.
-     */
-    text?: string;
-  }): void;
+  stop(options: AwesomeLoggerSpinnerStopOptions): void;
 }
+
+export type AwesomeLoggerSpinnerStopOptions = {
+  /**
+   * Set whether or not the spinner should indicate success.
+   */
+  succeeded?: boolean;
+  /**
+   * Set whether or not the spinner should remove the logged text
+   */
+  removeLine?: boolean;
+  /**
+   * Set new text to be displayed after the spinner.
+   */
+  text?: string;
+};

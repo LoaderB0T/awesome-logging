@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { AwesomeLoggerBase } from '../logger-base.js';
-import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl } from './config/spinner.js';
+import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl, AwesomeLoggerSpinnerStopOptions } from './config/spinner.js';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;
@@ -66,14 +66,10 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     return `${this._options.spinnerFrames[this._animationIndex]} ${this._text}`;
   }
 
-  stop(options: { succeeded?: boolean; removeLine?: boolean; text?: string }): void {
+  public stop(options: AwesomeLoggerSpinnerStopOptions): void {
     this.end();
 
-    if (options.removeLine) {
-      this._cleared = true;
-      return;
-    }
-
+    this._cleared = options.removeLine ?? false;
     this._succeed = options.succeeded;
     this._stoppedText = options.text;
 

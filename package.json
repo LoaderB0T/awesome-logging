@@ -21,7 +21,8 @@
     "build-base": "tsc -p .",
     "build-esm": "yarn build-base --outDir lib/esm",
     "build-cjs": "yarn build-base --outDir lib/cjs --module commonjs && yarn fix-cjs",
-    "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts"
+    "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts",
+    "test-script": "node --loader ts-node/esm ./src/test.ts"
   },
   "license": "MIT",
   "private": false,
