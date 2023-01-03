@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^8.27.0",
     "jest": "^29.2.2",
-    "jest-junit": "^14.0.1",
+    "jest-junit": "^15.0.0",
     "legally": "^3.5.10",
     "node-terminal-simulator": "^1.2.0",
     "prettier": "^2.7.1",
