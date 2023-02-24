@@ -14,13 +14,14 @@
     "lib"
   ],
   "scripts": {
-    "lint": "yarn eslint ./src/**",
+    "preinstall": "npx only-allow pnpm",
+    "lint": "pnpm eslint ./src/**",
     "test": "jest",
-    "prebuild": "yarn rimraf lib",
-    "build": "yarn build-esm && yarn build-cjs",
+    "prebuild": "pnpm rimraf lib",
+    "build": "pnpm build-esm && pnpm build-cjs",
     "build-base": "tsc -p .",
-    "build-esm": "yarn build-base --outDir lib/esm",
-    "build-cjs": "yarn build-base --outDir lib/cjs --module commonjs && yarn fix-cjs",
+    "build-esm": "pnpm build-base --outDir lib/esm",
+    "build-cjs": "pnpm build-base --outDir lib/cjs --module commonjs && pnpm fix-cjs",
     "fix-cjs": "node --loader ts-node/esm ./fix-cjs.ts",
     "test-script": "node --loader ts-node/esm ./src/test.ts"
   },

@@ -47,6 +47,8 @@ One example of a multiline logger with many different logger types: (Not particu
 ## Installation 📦
 
 ```console
+pnpm i awesome-logging
+// or
 yarn add awesome-logging
 // or
 npm i awesome-logging
