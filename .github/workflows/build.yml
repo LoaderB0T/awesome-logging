@@ -39,12 +39,12 @@ jobs:
       - name: Upload Test Results Node.js ${{ matrix.node-version }}
         if: matrix.node-version == '16.x'
         continue-on-error: true
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Test Results
           path: junit.xml
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           # Artifact name
