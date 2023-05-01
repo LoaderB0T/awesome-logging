@@ -48,7 +48,7 @@
     "legally": "^3.5.10",
     "node-terminal-simulator": "^1.2.0",
     "prettier": "^2.7.1",
-    "rimraf": "^4.2.0",
+    "rimraf": "^5.0.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
