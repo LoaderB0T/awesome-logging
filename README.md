@@ -61,7 +61,7 @@ Find a bit of documentation [here](https://github.com/LoaderB0T/awesome-logging/
 ## Usage Example 🚀
 
 ```typescript
-import { AwesomeLogger } from 'awesome-logger';
+import { AwesomeLogger } from 'awesome-logging';
 ```
 
 ```typescript
