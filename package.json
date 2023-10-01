@@ -47,7 +47,7 @@
     "jest-junit": "^16.0.0",
     "legally": "^3.5.10",
     "node-terminal-simulator": "^1.2.0",
-    "prettier": "^2.7.1",
+    "prettier": "^3.0.3",
     "rimraf": "^5.0.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
