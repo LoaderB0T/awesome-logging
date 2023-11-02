@@ -21,10 +21,10 @@ dependencies:
 devDependencies:
   '@awdware/eslint-config-base':
     specifier: ^1.0.0
-    version: 1.0.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0)
+    version: 1.1.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0)
   '@awdware/eslint-config-nodejs':
     specifier: ^1.0.0
-    version: 1.0.0(@awdware/eslint-config-base@1.0.0)
+    version: 1.0.0(@awdware/eslint-config-base@1.1.0)
   '@awdware/prettier-config':
     specifier: ^1.0.0
     version: 1.0.0(prettier@3.0.3)
@@ -89,8 +89,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.19
     dev: true
 
-  /@awdware/eslint-config-base@1.0.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0):
-    resolution: {integrity: sha512-PxzyJboFttYp/7dakC8++eQRjsC7t0tnnommXygGz29YMsTLv7T1KaU4LH/g6eWk8nA5lib8ld4TOpbJSnipCA==}
+  /@awdware/eslint-config-base@1.1.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0):
+    resolution: {integrity: sha512-01D5T535aaykDKQ2HjcJAry6xJQHn7jtuAkUqh3G/jRzVT1Z4Xglxkc/29I+AlauRqqVzIwOD9cJ9ho2R7DAMw==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': '>= 4'
       '@typescript-eslint/parser': '>= 4'
@@ -101,12 +101,12 @@ packages:
       eslint: 8.44.0
     dev: true
 
-  /@awdware/eslint-config-nodejs@1.0.0(@awdware/eslint-config-base@1.0.0):
+  /@awdware/eslint-config-nodejs@1.0.0(@awdware/eslint-config-base@1.1.0):
     resolution: {integrity: sha512-UZb2XAdWd5QU20Ae42BeAG+qlNUDaTGs8Fc1/Tm5YrqRyZd7rY0TUl/wA4pDJo1R26fea3yyuI2hp7vHR5lfPw==}
     peerDependencies:
       '@awdware/eslint-config-base': '>= 1'
     dependencies:
-      '@awdware/eslint-config-base': 1.0.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0)
+      '@awdware/eslint-config-base': 1.1.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0)
     dev: true
 
   /@awdware/prettier-config@1.0.0(prettier@3.0.3):
