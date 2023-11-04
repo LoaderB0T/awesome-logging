@@ -1,3 +1,5 @@
+import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+
 import { Terminal } from 'node-terminal-simulator';
 import { AwesomeLogger } from '../src/index.js';
 import { Stdout } from '../src/render/stdout.js';
@@ -42,8 +44,8 @@ describe('Toggle Prompt', () => {
         'option 7',
         'option 8',
         'option 9',
-        'option 10'
-      ]
+        'option 10',
+      ],
     });
     c.result.then(r => {
       expect(r).toStrictEqual('option 7');
@@ -57,7 +59,7 @@ describe('Toggle Prompt', () => {
       '|  - option 3',
       '|  - option 4',
       '|  - option 5',
-      '↓  - option 6'
+      '↓  - option 6',
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 1');
 
@@ -71,7 +73,7 @@ describe('Toggle Prompt', () => {
       '|  - option 3', // current highlighted
       '|  - option 4',
       '|  - option 5',
-      '↓  - option 6'
+      '↓  - option 6',
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 3');
 
@@ -86,7 +88,7 @@ describe('Toggle Prompt', () => {
       '|  - option 5',
       '|  - option 6',
       '|  - option 7', // current highlighted
-      '↓  - option 8'
+      '↓  - option 8',
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 7');
     t.sendKey('enter');
@@ -105,8 +107,8 @@ describe('Toggle Prompt', () => {
         'option 7',
         'option 8',
         'option 9',
-        'option 10'
-      ]
+        'option 10',
+      ],
     });
     c.result.then(r => {
       expect(r).toStrictEqual('option 1');
@@ -120,7 +122,7 @@ describe('Toggle Prompt', () => {
       '|  - option 2',
       '|  - option 3',
       '|  - option 4',
-      '↓  - option 5'
+      '↓  - option 5',
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 1');
 
@@ -134,7 +136,7 @@ describe('Toggle Prompt', () => {
       '|  - option 2',
       '|  - option 3', // current highlighted
       '|  - option 4',
-      '↓  - option 5'
+      '↓  - option 5',
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 3');
 
@@ -147,7 +149,7 @@ describe('Toggle Prompt', () => {
       '|  - option 2',
       '|  - option 3',
       '|  - option 4', // current highlighted
-      '↓  - option 5'
+      '↓  - option 5',
     ]);
 
     t.sendKey('down');
@@ -158,7 +160,7 @@ describe('Toggle Prompt', () => {
       '|  - option 3',
       '|  - option 4',
       '|  - option 5', // current highlighted
-      '↓  - option 6'
+      '↓  - option 6',
     ]);
 
     t.sendKey('down');
@@ -169,7 +171,7 @@ describe('Toggle Prompt', () => {
       '|  - option 4',
       '|  - option 5',
       '|  - option 6', // current highlighted
-      '↓  - option 7'
+      '↓  - option 7',
     ]);
 
     t.sendKey('down');
@@ -180,7 +182,7 @@ describe('Toggle Prompt', () => {
       '|  - option 5',
       '|  - option 6',
       '|  - option 7', // current highlighted
-      '↓  - option 8'
+      '↓  - option 8',
     ]);
 
     t.sendKey('down');
@@ -191,7 +193,7 @@ describe('Toggle Prompt', () => {
       '|  - option 6',
       '|  - option 7',
       '|  - option 8', // current highlighted
-      '↓  - option 9'
+      '↓  - option 9',
     ]);
 
     t.sendKey('down');
@@ -202,7 +204,7 @@ describe('Toggle Prompt', () => {
       '|  - option 7',
       '|  - option 8',
       '|  - option 9', // current highlighted
-      '|  - option 10'
+      '|  - option 10',
     ]);
 
     expect(c.getCurrentAnswer()).toStrictEqual('option 9');
@@ -214,7 +216,7 @@ describe('Toggle Prompt', () => {
       '|  - option 7',
       '|  - option 8',
       '|  - option 9',
-      '|  - option 10' // current highlighted
+      '|  - option 10', // current highlighted
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 10');
 
@@ -234,7 +236,7 @@ describe('Toggle Prompt', () => {
       '|  - option 5', // current highlighted
       '|  - option 6',
       '|  - option 7',
-      '↓  - option 8'
+      '↓  - option 8',
     ]);
 
     t.sendKey('up');
@@ -247,7 +249,7 @@ describe('Toggle Prompt', () => {
       '|  - option 2', // current highlighted
       '|  - option 3',
       '|  - option 4',
-      '↓  - option 5'
+      '↓  - option 5',
     ]);
 
     t.sendKey('up');
@@ -258,7 +260,7 @@ describe('Toggle Prompt', () => {
       '|  - option 2',
       '|  - option 3',
       '|  - option 4',
-      '↓  - option 5'
+      '↓  - option 5',
     ]);
 
     t.sendKey('up'); // Nothing happens

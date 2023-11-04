@@ -16,7 +16,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "lint": "pnpm eslint ./src/**",
-    "test": "jest",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "prebuild": "pnpm rimraf lib",
     "build": "pnpm build-esm && pnpm build-cjs",
     "build-base": "tsc -p .",
@@ -29,14 +29,15 @@
   "private": false,
   "dependencies": {
     "chalk": "^5.3.0",
-    "restore-cursor": "^3.1.0",
-    "slice-ansi": "^4.0.0",
-    "strip-ansi": "^6.0.1"
+    "restore-cursor": "^5.0.0",
+    "slice-ansi": "^7.1.0",
+    "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
     "@awdware/eslint-config-base": "^1.0.0",
     "@awdware/eslint-config-nodejs": "^1.0.0",
     "@awdware/prettier-config": "^1.0.0",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "^29.2.2",
     "@types/node": "^20.2.5",
     "@types/slice-ansi": "^4.0.0",
