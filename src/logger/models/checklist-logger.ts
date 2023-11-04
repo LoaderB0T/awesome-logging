@@ -1,11 +1,18 @@
 import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger.js';
 import { AwesomeLoggerBase } from '../logger-base.js';
-import { AwesomeChecklistLoggerConfig, AwesomeChecklistLoggerControl, AwesomeChecklistLoggerState } from './config/checklist.js';
+import {
+  AwesomeChecklistLoggerConfig,
+  AwesomeChecklistLoggerControl,
+  AwesomeChecklistLoggerState,
+} from './config/checklist.js';
 import { AwesomeMultiLogger } from './multi-logger.js';
 import { AwesomeTextLogger } from './text-logger.js';
 
-export class AwesomeChecklistLogger extends AwesomeLoggerBase implements AwesomeChecklistLoggerControl {
+export class AwesomeChecklistLogger
+  extends AwesomeLoggerBase
+  implements AwesomeChecklistLoggerControl
+{
   private readonly _options: AwesomeChecklistLoggerConfig;
   private readonly _multiLine: AwesomeMultiLogger;
 
@@ -14,16 +21,30 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     if (!options?.items) {
       throw new Error('Cannot initiate AwesomeChecklistLogger without any items');
     }
-    this._options = { items: options.items };
+    this._options = { items: options.items, logAllFinalStates: options.logAllFinalStates ?? false };
     const lineChildren: AwesomeTextLogger[] = [];
     for (let i = 0; i < this._options.items.length; i++) {
-      lineChildren.push(AwesomeLogger.create('text', { text: this.calculateLine(i) }) as AwesomeTextLogger);
+      lineChildren.push(
+        AwesomeLogger.create('text', { text: this.calculateLine(i) }) as AwesomeTextLogger
+      );
     }
 
-    this._multiLine = AwesomeLogger.create('multi', { children: lineChildren }) as AwesomeMultiLogger;
+    this._multiLine = AwesomeLogger.create('multi', {
+      children: lineChildren,
+    }) as AwesomeMultiLogger;
   }
 
   public end(): boolean {
+    for (let i = 0; i < this._options.items.length; i++) {
+      // If logAllFinalStates is true, we don't want to log states that are final, because they are already logged.
+      const shouldLogOption =
+        !this._options.logAllFinalStates || !this.isFinalState(this._options.items[i].state);
+      if (shouldLogOption) {
+        AwesomeLogger.interrupt(this.calculateLine(i));
+      }
+    }
+
+    this.clean();
     return true;
   }
 
@@ -59,7 +80,9 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     }
 
     let scroll = 0;
-    const firstUnfinishedOptionIndex = this._options.items.findIndex(x => x.state === 'inProgress' || x.state === 'pending');
+    const firstUnfinishedOptionIndex = this._options.items.findIndex(
+      x => x.state === 'inProgress' || x.state === 'pending'
+    );
     if (firstUnfinishedOptionIndex !== -1) {
       scroll = firstUnfinishedOptionIndex;
     } else {
@@ -69,7 +92,9 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
 
     this.scrollAmount = scroll;
 
-    // todo: interrupt with already finished items that are scrolled away
+    if (this._options.logAllFinalStates && this.isFinalState(state)) {
+      AwesomeLogger.interrupt(this.calculateLine(index));
+    }
 
     this._multiLine.getChild<AwesomeTextLogger>(index).setText(this.calculateLine(index));
     // No need to call restrictedChanged here, because the textlogger does already handle that.
@@ -79,6 +104,16 @@ export class AwesomeChecklistLogger extends AwesomeLoggerBase implements Awesome
     const item = this._options.items[index];
     const prefix = this.getPrefix(item.state);
     return `${prefix} ${item.text}`;
+  }
+
+  private isFinalState(state: AwesomeChecklistLoggerState): boolean {
+    return (
+      state === 'done' ||
+      state === 'failed' ||
+      state === 'succeeded' ||
+      state === 'skipped' ||
+      state === 'partiallySucceeded'
+    );
   }
 
   private getPrefix(state: AwesomeChecklistLoggerState): string {

@@ -256,21 +256,42 @@ AwesomeLogger.log('awd5');
 //   ctrl.setText(`nope${Math.random()}`);
 // }, 100);
 
-const a = AwesomeLogger.prompt('text', {
-  text: 'Please enter your phone number:',
-  validators: [
-    {
-      description: 'The minimal input length is 3',
-      validator: (input: string) => {
-        return input.length >= 3;
-      }
-    },
-    {
-      description: 'Your input has to start with "+"',
-      validator: (input: string) => {
-        return input.startsWith('+');
-      }
-    }
-  ]
+// const a = AwesomeLogger.prompt('text', {
+//   text: 'Please enter your phone number:',
+//   validators: [
+//     {
+//       description: 'The minimal input length is 3',
+//       validator: (input: string) => {
+//         return input.length >= 3;
+//       }
+//     },
+//     {
+//       description: 'Your input has to start with "+"',
+//       validator: (input: string) => {
+//         return input.startsWith('+');
+//       }
+//     }
+//   ]
+// });
+// a.result.then(x => console.log('result = ' + x));
+
+const awd = AwesomeLogger.log('checklist', {
+  items: [
+    { text: 'item1', state: 'pending' },
+    { text: 'item2', state: 'pending' },
+    { text: 'item3', state: 'pending' },
+    { text: 'item4', state: 'pending' },
+    { text: 'item5', state: 'pending' },
+    { text: 'item6', state: 'pending' },
+    { text: 'item7', state: 'pending' },
+    { text: 'item8', state: 'pending' },
+    { text: 'item9', state: 'pending' },
+    { text: 'item10', state: 'pending' },
+  ],
+  logAllFinalStates: false,
 });
-a.result.then(x => console.log('result = ' + x));
+
+awd.changeState(0, 'succeeded');
+awd.changeState(3, 'succeeded');
+
+awd.end();

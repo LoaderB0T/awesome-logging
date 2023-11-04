@@ -26,6 +26,11 @@ export interface AwesomeChecklistLoggerConfig {
    * The items of the checklist.
    */
   items: AwesomeChecklistLoggerItem[];
+  /**
+   * Whether to log an additional line whenever the state of a checklist item changes to a final state (done, succeeded, failed, skipped, partiallySucceeded).
+   * @default false
+   */
+  logAllFinalStates?: boolean;
 }
 
 export interface AwesomeChecklistLoggerControl extends AwesomeLoggerBase {

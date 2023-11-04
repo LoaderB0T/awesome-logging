@@ -17,6 +17,7 @@ export abstract class AwesomeLoggerBase {
     this.type = type;
   }
 
+  // @internal
   public internalEnd(): void {
     if (this.end() && this._lastLine) {
       this._clean = true;
@@ -26,9 +27,13 @@ export abstract class AwesomeLoggerBase {
   }
 
   public abstract end(): boolean;
+  // @internal
   public abstract getNextLine(): string;
+  // @internal
   public abstract hasChanges(): boolean;
+  // @internal
   public abstract canBeCalledFrom(calledFrom: AwesomeLoggerBase): boolean;
+  // @internal
   public abstract needsScroll(): boolean;
 
   protected changed() {
@@ -64,6 +69,7 @@ export abstract class AwesomeLoggerBase {
     return newLine;
   }
 
+  // @internal
   public clean(): void {
     if (!this._lastLine) {
       return;
