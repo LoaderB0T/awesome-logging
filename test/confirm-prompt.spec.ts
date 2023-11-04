@@ -1,3 +1,5 @@
+import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+
 import { Terminal } from 'node-terminal-simulator';
 import { AwesomeLogger } from '../src/index.js';
 import { Stdout } from '../src/render/stdout.js';

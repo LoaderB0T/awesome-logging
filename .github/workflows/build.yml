@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 19.x]
+        node-version: [18.x, 19.x, 20.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,7 @@ jobs:
         env:
           FORCE_COLOR: 1
       - name: Upload Test Results Node.js ${{ matrix.node-version }}
-        if: matrix.node-version == '16.x'
+        if: matrix.node-version == '18.x'
         continue-on-error: true
         uses: actions/upload-artifact@v3
         with:
