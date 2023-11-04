@@ -1,11 +1,15 @@
 import chalk from 'chalk';
 import { AwesomeLoggerBase } from '../logger-base.js';
-import { AwesomeLoggerSpinnerConfig, AwesomeLoggerSpinnerControl, AwesomeLoggerSpinnerStopOptions } from './config/spinner.js';
+import {
+  AwesomeLoggerSpinnerConfig,
+  AwesomeLoggerSpinnerControl,
+  AwesomeLoggerSpinnerStopOptions,
+} from './config/spinner.js';
 
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;
   private readonly _text: string;
-  private readonly _animationInterval?: NodeJS.Timer;
+  private readonly _animationInterval?: NodeJS.Timeout;
   private _animationIndex: number = 0;
   private _stopped: boolean = false;
   private _cleared: boolean = false;
@@ -18,7 +22,7 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
     this._options = {
       text: '',
       spinnerFrames: options?.spinnerFrames ?? ['.  ', '.. ', '...', '.. '],
-      spinnerDelay: options?.spinnerDelay ?? 500
+      spinnerDelay: options?.spinnerDelay ?? 500,
     };
     this._animationInterval = setInterval(() => {
       this._animationIndex++;
