@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { AwesomeLogger } from './awesome-logger.js';
 
 AwesomeLogger.log('awd');
