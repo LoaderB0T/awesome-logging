@@ -25,9 +25,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install pnpm
-        run: npm i -g pnpm@^8.0.0
+        run: npm i -g pnpm
       - name: Install
-        run: pnpm i --no-frozen-lockfile
+        run: pnpm i
       - name: Build
         run: pnpm run build
       - name: Lint
@@ -43,14 +43,6 @@ jobs:
         with:
           name: Test Results
           path: junit.xml
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          # Artifact name
-          name: logFile
-          # A file, directory or wildcard pattern that describes what to upload
-          path: ./log.txt
   event_file:
     name: 'Event File'
     runs-on: ubuntu-latest
