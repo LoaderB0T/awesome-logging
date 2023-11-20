@@ -1,7 +1,7 @@
 import { AwesomeLogger } from './awesome-logger.js';
 import { LoggerManager } from './logger/logger-manager.js';
 
-export * from './awesome-logger';
+export * from './awesome-logger.js';
 export * from './logger';
 export * from './prompt';
 
