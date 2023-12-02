@@ -27,7 +27,7 @@ devDependencies:
     version: 1.0.0(@awdware/eslint-config-base@1.1.0)
   '@awdware/prettier-config':
     specifier: ^1.0.0
-    version: 1.0.0(prettier@3.0.3)
+    version: 1.0.0(prettier@3.1.0)
   '@jest/globals':
     specifier: ^29.7.0
     version: 29.7.0
@@ -63,7 +63,7 @@ devDependencies:
     version: 1.2.0
   prettier:
     specifier: ^3.0.3
-    version: 3.0.3
+    version: 3.1.0
   rimraf:
     specifier: ^5.0.0
     version: 5.0.1
@@ -112,12 +112,12 @@ packages:
       '@awdware/eslint-config-base': 1.1.0(@typescript-eslint/eslint-plugin@5.62.0)(@typescript-eslint/parser@5.62.0)(eslint@8.44.0)
     dev: true
 
-  /@awdware/prettier-config@1.0.0(prettier@3.0.3):
+  /@awdware/prettier-config@1.0.0(prettier@3.1.0):
     resolution: {integrity: sha512-qZ3s1gnWBgo5HNzhosX5jU8s0GdGcX/IXCLJSvjcMVP/KSjMQTzav92CiRKbwNTY5Ve6Z74PVjoCwH+JvWBVhA==}
     peerDependencies:
       prettier: '>= 2'
     dependencies:
-      prettier: 3.0.3
+      prettier: 3.1.0
     dev: true
 
   /@babel/code-frame@7.22.13:
@@ -2858,8 +2858,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@3.0.3:
-    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+  /prettier@3.1.0:
+    resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
