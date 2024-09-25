@@ -1,6 +1,6 @@
 import { AwesomePromptBaseControl } from './base.js';
 
-export interface AwesomePromptToggleConfig {
+export type AwesomePromptToggleConfig = {
   /**
    * The label to display for the toggle.
    */
@@ -9,6 +9,6 @@ export interface AwesomePromptToggleConfig {
    * A list of options to display in the toggle.
    */
   options: string[];
-}
+};
 
-export interface AwesomePromptToggleControl extends AwesomePromptBaseControl<string[]> {}
+export type AwesomePromptToggleControl = AwesomePromptBaseControl<string[]>;

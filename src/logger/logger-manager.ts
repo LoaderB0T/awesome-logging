@@ -132,7 +132,12 @@ export class LoggerManager {
     this._activeLogger?.internalEnd();
 
     const renderedLines = logger.render();
-    const trimmedLines = StringTrimmer.ensureConsoleFit(renderedLines, true, logger.scrollAmount, logger.fixedLineCount);
+    const trimmedLines = StringTrimmer.ensureConsoleFit(
+      renderedLines,
+      true,
+      logger.scrollAmount,
+      logger.fixedLineCount
+    );
     StringRenderer.renderString(trimmedLines, false, true, true);
     this._activeLogger = logger;
   }

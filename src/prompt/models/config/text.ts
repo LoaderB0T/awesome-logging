@@ -1,7 +1,7 @@
 import { AwesomePromptBaseControl } from './base.js';
 import { AwesomePromptValidator } from './validator.js';
 
-export interface AwesomePromptTextConfig {
+export type AwesomePromptTextConfig = {
   /**
    * The text to display in the prompt.
    */
@@ -30,6 +30,6 @@ export interface AwesomePromptTextConfig {
    * The default value to use before the user has entered any input.
    */
   default: string;
-}
+};
 
-export interface AwesomePromptTextControl extends AwesomePromptBaseControl<string> {}
+export type AwesomePromptTextControl = AwesomePromptBaseControl<string>;

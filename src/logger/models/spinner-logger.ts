@@ -59,9 +59,9 @@ export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLo
         return '';
       }
       if (this._succeed === true) {
-        return chalk.green('√ ') + this._stoppedText ?? this._text;
+        return chalk.green('√ ') + (this._stoppedText ?? this._text);
       } else if (this._succeed === false) {
-        return chalk.red('X ') + this._stoppedText ?? this._text;
+        return chalk.red('X ') + (this._stoppedText ?? this._text);
       } else {
         return this._stoppedText ?? this._text;
       }

@@ -1,6 +1,6 @@
 import { AwesomePromptBaseControl } from './base.js';
 
-export interface AwesomePromptChoiceConfig {
+export type AwesomePromptChoiceConfig = {
   /**
    * The choices to display to the user.
    */
@@ -9,6 +9,6 @@ export interface AwesomePromptChoiceConfig {
    * The text to display before the choices.
    */
   text?: string;
-}
+};
 
-export interface AwesomePromptChoiceControl extends AwesomePromptBaseControl<string> {}
+export type AwesomePromptChoiceControl = AwesomePromptBaseControl<string>;

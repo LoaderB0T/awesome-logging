@@ -1,6 +1,6 @@
 import { AwesomePromptBaseControl } from './base.js';
 
-export interface AwesomePromptConfirmConfig {
+export type AwesomePromptConfirmConfig = {
   /**
    * The message to display to the user.
    */
@@ -9,6 +9,6 @@ export interface AwesomePromptConfirmConfig {
    * The default value to use if the user doesn't provide a value.
    */
   default: 'yes' | 'no';
-}
+};
 
-export interface AwesomePromptConfirmControl extends AwesomePromptBaseControl<boolean> {}
+export type AwesomePromptConfirmControl = AwesomePromptBaseControl<boolean>;
