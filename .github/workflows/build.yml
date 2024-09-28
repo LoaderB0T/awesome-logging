@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: CI
 
 on:
@@ -12,43 +9,5 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 19.x, 20.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install pnpm
-        run: npm i -g pnpm
-      - name: Install
-        run: pnpm i
-      - name: Build
-        run: pnpm run build
-      - name: Lint
-        run: pnpm run lint
-      - name: Test
-        run: pnpm run test
-        env:
-          FORCE_COLOR: 1
-      - name: Upload Test Results Node.js ${{ matrix.node-version }}
-        if: matrix.node-version == '18.x'
-        continue-on-error: true
-        uses: actions/upload-artifact@v3
-        with:
-          name: Test Results
-          path: junit.xml
-  event_file:
-    name: 'Event File'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Event File
-          path: ${{ github.event_path }}
+    uses: awdware/dev/.github/workflows/nodejs.yml@main
+    secrets: inherit
