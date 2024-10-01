@@ -23,10 +23,10 @@ importers:
     devDependencies:
       '@awdware/eslint-config-base':
         specifier: ^2.0.0-pre3
-        version: 2.0.0-pre3(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))
+        version: 2.0.0(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))
       '@awdware/eslint-config-nodejs':
         specifier: ^2.0.0-pre3
-        version: 2.0.0-pre3(@awdware/eslint-config-base@2.0.0-pre3(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2)))
+        version: 2.0.0-pre3(@awdware/eslint-config-base@2.0.0(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2)))
       '@awdware/prettier-config':
         specifier: ^1.0.0
         version: 1.0.0(prettier@3.3.3)
@@ -82,8 +82,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@awdware/eslint-config-base@2.0.0-pre3':
-    resolution: {integrity: sha512-c7ujU05Xs2FhA6BZhJf3Dh2GEExWcojewmlJnFLl7bLrGm25GbXN6PrtYzr3adygRmm5/C6s1LRsm2Gzk22awg==}
+  '@awdware/eslint-config-base@2.0.0':
+    resolution: {integrity: sha512-2Z7Y7UAyp95eTjxxk0sUNGcG9ePdL5F1EjJVPzmgWaS4pMyUPn1ydQ27lhYYfiFwO18vQaromJcrHW99803joQ==}
     peerDependencies:
       '@types/eslint__js': '>= 8'
       eslint: '>= 9.1'
@@ -1812,16 +1812,16 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@awdware/eslint-config-base@2.0.0-pre3(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))':
+  '@awdware/eslint-config-base@2.0.0(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))':
     dependencies:
       '@types/eslint__js': 8.42.3
       eslint: 9.11.1
       eslint-plugin-unused-imports: 4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)
       typescript-eslint: 8.7.0(eslint@9.11.1)(typescript@5.6.2)
 
-  '@awdware/eslint-config-nodejs@2.0.0-pre3(@awdware/eslint-config-base@2.0.0-pre3(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2)))':
+  '@awdware/eslint-config-nodejs@2.0.0-pre3(@awdware/eslint-config-base@2.0.0(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2)))':
     dependencies:
-      '@awdware/eslint-config-base': 2.0.0-pre3(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))
+      '@awdware/eslint-config-base': 2.0.0(@types/eslint__js@8.42.3)(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1)(typescript@5.6.2))(eslint@9.11.1))(eslint@9.11.1)(typescript-eslint@8.7.0(eslint@9.11.1)(typescript@5.6.2))
 
   '@awdware/prettier-config@1.0.0(prettier@3.3.3)':
     dependencies:
