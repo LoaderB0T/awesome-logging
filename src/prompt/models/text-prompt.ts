@@ -1,8 +1,9 @@
 import chalk from 'chalk';
+
 import { AwesomeLogger } from '../../awesome-logger.js';
+import { AwesomePromptTextConfig, AwesomePromptTextControl } from './config/text.js';
 import { AwesomeLoggerTextControl } from '../../logger/models/config/text.js';
 import { CONTROL_PREFIX, KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from '../../utils/ansi-utils.js';
-import { AwesomePromptTextConfig, AwesomePromptTextControl } from './config/text.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 
 export class AwesomeTextPromt extends AwesomePromptBase<string> implements AwesomePromptTextControl {

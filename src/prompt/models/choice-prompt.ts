@@ -1,9 +1,10 @@
 import chalk from 'chalk';
+
 import { AwesomeLogger } from '../../awesome-logger.js';
+import { AwesomePromptChoiceConfig, AwesomePromptChoiceControl } from './config/choice.js';
 import { AwesomeTextLogger } from '../../logger/models/text-logger.js';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils.js';
 import { TerminalSize } from '../../utils/terminal-size.js';
-import { AwesomePromptChoiceConfig, AwesomePromptChoiceControl } from './config/choice.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 
 export class AwesomeChoicePromt extends AwesomePromptBase<string> implements AwesomePromptChoiceControl {

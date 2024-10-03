@@ -1,10 +1,14 @@
 import chalk from 'chalk';
+
 import { AwesomeLogger } from '../../awesome-logger.js';
-import { AwesomePromptConfirmConfig, AwesomePromptConfirmControl } from './config/confirm.js';
 import { AwesomePromptBase } from '../prompt-base.js';
+import { AwesomePromptConfirmConfig, AwesomePromptConfirmControl } from './config/confirm.js';
 import { AwesomeLoggerTextControl } from '../../logger';
 
-export class AwesomeConfirmPromt extends AwesomePromptBase<boolean> implements AwesomePromptConfirmControl {
+export class AwesomeConfirmPromt
+  extends AwesomePromptBase<boolean>
+  implements AwesomePromptConfirmControl
+{
   private readonly _line: AwesomeLoggerTextControl;
   private readonly _text?: string;
   private readonly _default?: 'yes' | 'no';

@@ -1,9 +1,9 @@
 import stripAnsi from 'strip-ansi';
-import { AwesomeLogger } from '../awesome-logger.js';
 
+import { AwesomeLogger } from '../awesome-logger.js';
+import { Stdout } from './stdout.js';
 import { DELETE_LINE, MOVE_LEFT, MOVE_UP } from '../utils/ansi-utils.js';
 import { TerminalSize } from '../utils/terminal-size.js';
-import { Stdout } from './stdout.js';
 
 // @internal
 export class StringRenderer {

@@ -1,5 +1,6 @@
 import sliceAnsi from 'slice-ansi';
 import stripAnsi from 'strip-ansi';
+
 import { TerminalSize } from '../utils/terminal-size.js';
 
 // @internal

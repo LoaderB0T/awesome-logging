@@ -1,6 +1,8 @@
-import { AwesomeLogger } from './awesome-logger.js';
-import { Terminal } from 'node-terminal-simulator';
 import { stdout } from 'process';
+
+import { Terminal } from 'node-terminal-simulator';
+
+import { AwesomeLogger } from './awesome-logger.js';
 import { Stdout } from './render/stdout.js';
 
 const t = new Terminal([100, 5]);

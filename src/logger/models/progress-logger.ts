@@ -1,4 +1,5 @@
 import stripAnsi from 'strip-ansi';
+
 import { colorize } from '../../utils/logger-color.js';
 import { TerminalSize } from '../../utils/terminal-size.js';
 import { AwesomeLoggerBase } from '../logger-base.js';

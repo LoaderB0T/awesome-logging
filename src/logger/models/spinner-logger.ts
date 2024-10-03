@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+
 import { AwesomeLoggerBase } from '../logger-base.js';
 import {
   AwesomeLoggerSpinnerConfig,

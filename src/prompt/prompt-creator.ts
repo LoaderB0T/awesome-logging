@@ -1,9 +1,9 @@
 import { AwesomeChoicePromt } from './models/choice-prompt.js';
-import { AwesomePromptBase } from './prompt-base.js';
+import { AwesomeConfirmPromt } from './models/confirm-prompt.js';
 import { AwesomeTextPromt } from './models/text-prompt.js';
 import { AwesomeTogglePromt } from './models/toggle-prompt.js';
+import { AwesomePromptBase } from './prompt-base.js';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt-type.js';
-import { AwesomeConfirmPromt } from './models/confirm-prompt.js';
 
 export class PromptCreator {
   public static create<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {

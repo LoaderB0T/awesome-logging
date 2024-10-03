@@ -1,10 +1,10 @@
-import { StringTrimmer } from '../render/string-trimmer.js';
+import { AwesomeLoggerBase } from './logger-base.js';
+import { AwesomeLogger } from '../awesome-logger.js';
+import { AwesomePromptBase } from '../prompt/prompt-base.js';
 import { StringRenderer } from '../render/string-renderer.js';
+import { StringTrimmer } from '../render/string-trimmer.js';
 import { CONTROL_PREFIX_FIRST_CHAR, HIDE_CURSOR } from '../utils/ansi-utils.js';
 import { ConsoleLog } from '../utils/console-log.js';
-import { AwesomeLoggerBase } from './logger-base.js';
-import { AwesomePromptBase } from '../prompt/prompt-base.js';
-import { AwesomeLogger } from '../awesome-logger.js';
 
 // @internal
 export class LoggerManager {

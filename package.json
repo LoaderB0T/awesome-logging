@@ -34,13 +34,14 @@
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@awdware/eslint-config-base": "^2.0.0-pre3",
-    "@awdware/eslint-config-nodejs": "^2.0.0-pre3",
+    "@awdware/eslint-config-base": "^2.1.0",
+    "@awdware/eslint-config-nodejs": "^2.0.0",
     "@awdware/prettier-config": "^1.0.0",
     "@jest/globals": "^29.7.0",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.0",
     "eslint": "^9.11.1",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "jest": "^29.7.0",
     "jest-junit": "^16.0.0",
@@ -51,7 +52,7 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.7.0"
+    "typescript-eslint": "^8.8.0"
   },
   "prettier": "@awdware/prettier-config",
   "keywords": [

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+
 import { AwesomeLogger } from '../../awesome-logger.js';
 import { AwesomeLoggerBase } from '../logger-base.js';
 import {
