@@ -29,7 +29,7 @@ importers:
         version: 2.0.0(@awdware/eslint-config-base@2.1.1(@types/eslint__js@8.42.3)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.16.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0))(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0))(eslint@9.14.0)(typescript-eslint@8.16.0(eslint@9.14.0)(typescript@5.6.2)))
       '@awdware/prettier-config':
         specifier: ^1.0.0
-        version: 1.0.0(prettier@3.3.3)
+        version: 1.0.0(prettier@3.4.1)
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
@@ -62,7 +62,7 @@ importers:
         version: 1.3.1
       prettier:
         specifier: ^3.3.3
-        version: 3.3.3
+        version: 3.4.1
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1770,8 +1770,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  prettier@3.4.1:
+    resolution: {integrity: sha512-G+YdqtITVZmOJje6QkXQWzl3fSfMxFwm1tjTyo9exhkmWSqC4Yhd1+lug++IlR2mvRVAxEDDWYkQdeSztajqgg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -2185,9 +2185,9 @@ snapshots:
     dependencies:
       '@awdware/eslint-config-base': 2.1.1(@types/eslint__js@8.42.3)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.16.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0))(eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0)(typescript@5.6.2))(eslint@9.14.0))(eslint@9.14.0)(typescript-eslint@8.16.0(eslint@9.14.0)(typescript@5.6.2))
 
-  '@awdware/prettier-config@1.0.0(prettier@3.3.3)':
+  '@awdware/prettier-config@1.0.0(prettier@3.4.1)':
     dependencies:
-      prettier: 3.3.3
+      prettier: 3.4.1
 
   '@babel/code-frame@7.24.7':
     dependencies:
@@ -4272,7 +4272,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.3.3: {}
+  prettier@3.4.1: {}
 
   pretty-format@29.7.0:
     dependencies:
