@@ -7,7 +7,10 @@ import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils.js';
 import { TerminalSize } from '../../utils/terminal-size.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 
-export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements AwesomePromptToggleControl {
+export class AwesomeTogglePromt
+  extends AwesomePromptBase<string[]>
+  implements AwesomePromptToggleControl
+{
   private _currentHighlightedRow: number;
   private readonly _text?: string;
   private readonly _options: string[];
@@ -24,10 +27,15 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
     this._currentHighlightedRow = 0;
     this._options = config.options ?? [];
     this._lines = [...this._options];
-    this._toggles = this._options.map(() => false);
+    this._toggles = this._options.map(o => config.default?.includes(o) ?? false);
   }
 
-  private adjustLine(lineText: string, index: number, highlighted: boolean, selected: boolean = false) {
+  private adjustLine(
+    lineText: string,
+    index: number,
+    highlighted: boolean,
+    selected: boolean = false
+  ) {
     const newText = `${selected ? chalk.green('[X]') : chalk.gray('[ ]')} ${(highlighted ? chalk.blue : chalk.white)(lineText)}`;
     this._lines[index] = newText;
   }
@@ -58,7 +66,10 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
       if (this._currentHighlightedRow < this._lines.length - 1) {
         const prevHighlightedLine = this._currentHighlightedRow;
         this._currentHighlightedRow++;
-        if (this._currentHighlightedRow - this.scrollAmount > TerminalSize.terminalHeight - 2 - this.fixedLineCount) {
+        if (
+          this._currentHighlightedRow - this.scrollAmount >
+          TerminalSize.terminalHeight - 2 - this.fixedLineCount
+        ) {
           this.scrollAmount++;
         }
         this.renderLines(prevHighlightedLine, this._currentHighlightedRow);
@@ -104,7 +115,9 @@ export class AwesomeTogglePromt extends AwesomePromptBase<string[]> implements A
         result.push(option);
       }
     }
-    const resultLog = chalk.gray(` - Selected option${result.length > 1 ? 's' : ''}: ${chalk.green(result.join(', '))}`);
+    const resultLog = chalk.gray(
+      ` - Selected option${result.length > 1 ? 's' : ''}: ${chalk.green(result.join(', '))}`
+    );
     this.setLogger(AwesomeLogger.create('text', { text: resultLog }));
   }
 

@@ -9,6 +9,10 @@ export type AwesomePromptToggleConfig = {
    * A list of options to display in the toggle.
    */
   options: string[];
+  /**
+   * A list of default selected options.
+   */
+  default: string[];
 };
 
 export type AwesomePromptToggleControl = AwesomePromptBaseControl<string[]>;
