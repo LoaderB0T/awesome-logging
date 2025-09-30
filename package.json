@@ -23,10 +23,10 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "chalk": "^5.4.1",
+    "chalk": "^5.6.2",
     "restore-cursor": "^5.1.0",
-    "slice-ansi": "^7.1.0",
-    "strip-ansi": "^7.1.0"
+    "slice-ansi": "^7.1.2",
+    "strip-ansi": "^7.1.2"
   },
   "devDependencies": {
     "@awdware/eslint-config-base": "^2.1.1",
