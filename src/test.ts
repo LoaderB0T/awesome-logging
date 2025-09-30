@@ -274,23 +274,32 @@ AwesomeLogger.log('awd5');
 // });
 // a.result.then(x => console.log('result = ' + x));
 
-const awd = AwesomeLogger.log('checklist', {
-  items: [
-    { text: 'item1', state: 'pending' },
-    { text: 'item2', state: 'pending' },
-    { text: 'item3', state: 'pending' },
-    { text: 'item4', state: 'pending' },
-    { text: 'item5', state: 'pending' },
-    { text: 'item6', state: 'pending' },
-    { text: 'item7', state: 'pending' },
-    { text: 'item8', state: 'pending' },
-    { text: 'item9', state: 'pending' },
-    { text: 'item10', state: 'pending' },
-  ],
-  logAllFinalStates: false,
+// const awd = AwesomeLogger.log('checklist', {
+//   items: [
+//     { text: 'item1', state: 'pending' },
+//     { text: 'item2', state: 'pending' },
+//     { text: 'item3', state: 'pending' },
+//     { text: 'item4', state: 'pending' },
+//     { text: 'item5', state: 'pending' },
+//     { text: 'item6', state: 'pending' },
+//     { text: 'item7', state: 'pending' },
+//     { text: 'item8', state: 'pending' },
+//     { text: 'item9', state: 'pending' },
+//     { text: 'item10', state: 'pending' },
+//   ],
+//   logAllFinalStates: false,
+// });
+
+// awd.changeState(0, 'succeeded');
+// awd.changeState(3, 'succeeded');
+
+// awd.end();
+
+const defaultText = AwesomeLogger.prompt('text', {
+  text: 'Please enter your phone number:',
+  default: '+49 ',
 });
 
-awd.changeState(0, 'succeeded');
-awd.changeState(3, 'succeeded');
-
-awd.end();
+await defaultText.result.then(r => {
+  AwesomeLogger.log(`You entered: ${r}`);
+});

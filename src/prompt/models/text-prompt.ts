@@ -6,7 +6,10 @@ import { AwesomeLoggerTextControl } from '../../logger/models/config/text.js';
 import { CONTROL_PREFIX, KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from '../../utils/ansi-utils.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 
-export class AwesomeTextPromt extends AwesomePromptBase<string> implements AwesomePromptTextControl {
+export class AwesomeTextPromt
+  extends AwesomePromptBase<string>
+  implements AwesomePromptTextControl
+{
   private readonly _questionLogger: AwesomeLoggerTextControl;
   private readonly _hintLogger: AwesomeLoggerTextControl;
   private readonly _answerLogger: AwesomeLoggerTextControl;
@@ -14,12 +17,15 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   private readonly _hints: string[];
   private _currentAnswer: string;
   private _cursorPos: number;
+  private _isUnchangedDefault: boolean = false;
 
   constructor(config: Partial<AwesomePromptTextConfig>) {
     const questionLogger = AwesomeLogger.create('text');
     const answerLogger = AwesomeLogger.create('text');
     const hintLogger = AwesomeLogger.create('text');
-    const multiLogger = AwesomeLogger.create('multi', { children: [questionLogger, hintLogger, answerLogger] });
+    const multiLogger = AwesomeLogger.create('multi', {
+      children: [questionLogger, hintLogger, answerLogger],
+    });
     super(multiLogger);
     this._cfg = {
       allowOnlyHints: config.allowOnlyHints ?? false,
@@ -28,9 +34,10 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
       default: config.default ?? '',
       fuzzyAutoComplete: config.fuzzyAutoComplete ?? false,
       hints: getHintsArray(),
-      validators: config.validators ?? []
+      validators: config.validators ?? [],
     };
     this._hints = this._cfg.hints as string[];
+    this._isUnchangedDefault = !!this._cfg.default;
 
     this._currentAnswer = '';
     this._questionLogger = questionLogger;
@@ -67,10 +74,15 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
     let autoCompleteMatch: string | null = null;
     let cursorRendered = false;
 
-    if (this._cfg.fuzzyAutoComplete && this._hints.length > 0) {
+    if (this._isUnchangedDefault) {
+      return chalk.gray(this._cfg.default);
+    } else if (this._cfg.fuzzyAutoComplete && this._hints.length > 0) {
       autoCompleteMatch = this.getFuzzyAutocompleteMatch(autoCompleteMatch);
     } else if (this._hints.length > 0) {
-      ({ autoCompleteMatch, cursorRendered } = this.getAutocompleteMatch(autoCompleteMatch, cursorRendered));
+      ({ autoCompleteMatch, cursorRendered } = this.getAutocompleteMatch(
+        autoCompleteMatch,
+        cursorRendered
+      ));
     }
 
     let answerText: string;
@@ -125,7 +137,7 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
 
   public init() {
     this._questionLogger.setText(this._cfg.text);
-    if (this._hints.length > 0) {
+    if (this._hints.length > 0 || this._isUnchangedDefault) {
       this._answerLogger.setText(this.getAnswerText());
     } else {
       this._answerLogger.setText(chalk.gray('type your answer here...'));
@@ -175,24 +187,34 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   }
 
   private gotRightKey() {
+    const keptDefault = this.handleDefaultOnInput(true);
+    if (keptDefault) {
+      this._cursorPos = this._currentAnswer.length;
+      return;
+    }
     if (this._cursorPos < this._currentAnswer.length) {
       this._cursorPos++;
     }
   }
 
   private gotLeftKey() {
+    this.handleDefaultOnInput(true);
     if (this._cursorPos > 0) {
       this._cursorPos--;
     }
   }
 
   private gotPrintableCharacterKey(key: string) {
+    this.handleDefaultOnInput();
     this._currentAnswer =
-      this._currentAnswer.substring(0, this._cursorPos) + key + this._currentAnswer.substring(this._cursorPos);
+      this._currentAnswer.substring(0, this._cursorPos) +
+      key +
+      this._currentAnswer.substring(this._cursorPos);
     this._cursorPos += key.length;
   }
 
   private gotTabKey() {
+    this.handleDefaultOnInput(true);
     const fittingAutocomplete = this.findPartialMatch(this._currentAnswer, this._hints);
     if (fittingAutocomplete) {
       this._currentAnswer = fittingAutocomplete;
@@ -201,22 +223,36 @@ export class AwesomeTextPromt extends AwesomePromptBase<string> implements Aweso
   }
 
   private gotBackspaceKey() {
+    this.handleDefaultOnInput();
     if (this._currentAnswer.length > 0) {
       if (this._cursorPos > 0) {
         this._currentAnswer =
-          this._currentAnswer.substring(0, this._cursorPos - 1) + this._currentAnswer.substring(this._cursorPos);
+          this._currentAnswer.substring(0, this._cursorPos - 1) +
+          this._currentAnswer.substring(this._cursorPos);
         this._cursorPos--;
       }
     }
   }
 
   private gotEnterKey() {
+    this.handleDefaultOnInput(true);
     if (this.isValid(this._currentAnswer)) {
       this.inputFinished(this._currentAnswer);
     } else {
       const ans = `${this.getAnswerText()} ${chalk.red('(invalid)')}`;
       this._answerLogger.setText(ans);
     }
+  }
+
+  private handleDefaultOnInput(keepDefault = false) {
+    if (this._isUnchangedDefault) {
+      this._isUnchangedDefault = false;
+      if (keepDefault) {
+        this._currentAnswer = this._cfg.default;
+        return true;
+      }
+    }
+    return false;
   }
 
   protected prepareResultLogger(): void {

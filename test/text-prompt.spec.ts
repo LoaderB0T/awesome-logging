@@ -28,6 +28,36 @@ describe('Text Prompt', () => {
     t.sendKey('enter');
   });
 
+  test('ask for text with default', done => {
+    const c = AwesomeLogger.prompt('text', { text: 'enter text', default: 'my answer!' });
+    expect(t.allLines).toStrictEqual(['', 'enter text', 'my answer!']);
+    c.result.then(r => {
+      expect(r).toBe('nope');
+      expect(t.allLines).toStrictEqual(['', ' - Input: nope']);
+      done();
+    });
+    t.sendText('nope');
+    expect(c.getCurrentAnswer()).toBe('nope');
+    t.sendKey('enter');
+  });
+
+  test('ask for text with default arrow', done => {
+    const c = AwesomeLogger.prompt('text', { text: 'enter text', default: 'my answer!' });
+    expect(t.allLines).toStrictEqual(['', 'enter text', 'my answer!']);
+    c.result.then(r => {
+      expect(r).toBe('my cool answer!');
+      expect(t.allLines).toStrictEqual(['', ' - Input: my cool answer!']);
+      done();
+    });
+    t.sendKey('left');
+    t.sendKey('right');
+    t.sendKey('right');
+    t.sendKey('right');
+    t.sendText('cool ');
+    expect(c.getCurrentAnswer()).toBe('my cool answer!');
+    t.sendKey('enter');
+  });
+
   test('Text prompt with optional hints', done => {
     const c = AwesomeLogger.prompt('text', {
       text: 'enter text',
