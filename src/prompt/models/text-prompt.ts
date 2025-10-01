@@ -87,7 +87,7 @@ export class AwesomeTextPromt
 
     let answerText: string;
     if (cursorRendered) {
-      answerText = this._currentAnswer;
+      answerText = chalk.gray(this._currentAnswer);
     } else {
       // The cursor needs to be able to be located one character after the entered test, therefor we need to add a space at the end in case the cursor is at the end.
       // If fuzzy match is activated there is text rendered after the actual user input. To prevent it from jumping around the additional space char is always rendered.
@@ -112,11 +112,11 @@ export class AwesomeTextPromt
     const match = this.findPartialMatch(this._currentAnswer, this._hints);
     if (match) {
       if (this._cursorPos < this._currentAnswer.length || this._cursorPos === match.length) {
-        autoCompleteMatch = chalk.gray(match.substring(this._currentAnswer.length));
+        autoCompleteMatch = chalk.blue(match.substring(this._currentAnswer.length));
       } else {
         const relativeCurserPos = this._cursorPos - this._currentAnswer.length;
         const autoCompletePart = match.substring(this._currentAnswer.length);
-        autoCompleteMatch = chalk.gray(
+        autoCompleteMatch = chalk.blue(
           `${autoCompletePart.substring(0, relativeCurserPos)}${chalk.bgWhite(
             autoCompletePart.substring(relativeCurserPos, relativeCurserPos + 1)
           )}${autoCompletePart.substring(relativeCurserPos + 1)}`

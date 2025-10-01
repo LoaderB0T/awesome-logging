@@ -297,7 +297,7 @@ AwesomeLogger.log('awd5');
 
 const defaultText = AwesomeLogger.prompt('text', {
   text: 'Please enter your phone number:',
-  default: '+49 ',
+  hints: ['+49...', '+43...', '+41...'],
 });
 
 await defaultText.result.then(r => {
