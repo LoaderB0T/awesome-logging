@@ -8,5 +8,8 @@ export default defineConfig({
     outputFile: {
       junit: 'junit.xml',
     },
+    env: {
+      FORCE_COLOR: '1',
+    },
   },
 });
