@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+import { describe, expect, test, beforeEach, afterEach } from 'vitest';
 import { Terminal } from 'node-terminal-simulator';
 import { AwesomeLogger } from '../src/index.js';
 import { Stdout } from '../src/render/stdout.js';
@@ -15,39 +15,38 @@ describe('Text Prompt', () => {
     t.restoreStdout(Stdout.getInstance());
   });
 
-  test('ask for text', done => {
+  test('ask for text', async () => {
     const c = AwesomeLogger.prompt('text', { text: 'enter text' });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'type your answer here...']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('my answer!');
       expect(t.allLines).toStrictEqual(['', ' - Input: my answer!']);
-      done();
     });
     t.sendText('my answer!');
     expect(c.getCurrentAnswer()).toBe('my answer!');
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('ask for text with default', done => {
+  test('ask for text with default', async () => {
     const c = AwesomeLogger.prompt('text', { text: 'enter text', default: 'my answer!' });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'my answer!']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('nope');
       expect(t.allLines).toStrictEqual(['', ' - Input: nope']);
-      done();
     });
     t.sendText('nope');
     expect(c.getCurrentAnswer()).toBe('nope');
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('ask for text with default arrow', done => {
+  test('ask for text with default arrow', async () => {
     const c = AwesomeLogger.prompt('text', { text: 'enter text', default: 'my answer!' });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'my answer!']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('my cool answer!');
       expect(t.allLines).toStrictEqual(['', ' - Input: my cool answer!']);
-      done();
     });
     t.sendKey('left');
     t.sendKey('right');
@@ -56,18 +55,18 @@ describe('Text Prompt', () => {
     t.sendText('cool ');
     expect(c.getCurrentAnswer()).toBe('my cool answer!');
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('Text prompt with optional hints', done => {
+  test('Text prompt with optional hints', async () => {
     const c = AwesomeLogger.prompt('text', {
       text: 'enter text',
       hints: ['abcdefg', 'abc123', 'abc111'],
     });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'abcdefg']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('abc11');
       expect(t.allLines).toStrictEqual(['', ' - Input: abc11']);
-      done();
     });
     t.sendText('abc');
     expect(c.getCurrentAnswer()).toBe('abc');
@@ -79,19 +78,19 @@ describe('Text Prompt', () => {
     expect(c.getCurrentAnswer()).toBe('abc11');
     expect(t.allLines).toStrictEqual(['', 'enter text', 'abc111']);
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('Text prompt with required hints', done => {
+  test('Text prompt with required hints', async () => {
     const c = AwesomeLogger.prompt('text', {
       text: 'enter text',
       hints: ['abcdefg', 'abc123', 'abc111'],
       allowOnlyHints: true,
     });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'abcdefg']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('abcdefg');
       expect(t.allLines).toStrictEqual(['', ' - Input: abcdefg']);
-      done();
     });
     t.sendText('a');
     expect(c.getCurrentAnswer()).toBe(undefined);
@@ -109,15 +108,15 @@ describe('Text Prompt', () => {
     expect(c.getCurrentAnswer()).toBe('abcdefg');
     expect(t.allLines).toStrictEqual(['', 'enter text', 'abcdefg']);
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('Text prompt test arrow keys and tab', done => {
+  test('Text prompt test arrow keys and tab', async () => {
     const c = AwesomeLogger.prompt('text', { text: 'enter text', hints: ['example'] });
     expect(t.allLines).toStrictEqual(['', 'enter text', 'example']);
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('example');
       expect(t.allLines).toStrictEqual(['', ' - Input: example']);
-      done();
     });
     t.sendText('a');
     expect(c.getCurrentAnswer()).toBe('a');
@@ -149,9 +148,10 @@ describe('Text Prompt', () => {
     expect(c.getCurrentAnswer()).toBe('example');
     expect(t.allLines).toStrictEqual(['', 'enter text', 'example']);
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('Text prompt with validators', done => {
+  test('Text prompt with validators', async () => {
     const c = AwesomeLogger.prompt('text', {
       text: 'Please enter your phone number:',
       validators: [
@@ -169,10 +169,9 @@ describe('Text Prompt', () => {
         },
       ],
     });
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toBe('+49 123 45678900');
       expect(t.allLines).toStrictEqual(['', ' - Input: +49 123 45678900']);
-      done();
     });
     expect(t.allLines).toStrictEqual([
       '',
@@ -214,5 +213,6 @@ describe('Text Prompt', () => {
       '+49 123 45678900',
     ]);
     t.sendKey('enter');
+    await resultPromise;
   });
 });

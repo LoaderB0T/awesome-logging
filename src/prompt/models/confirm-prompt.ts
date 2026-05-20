@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 import { AwesomePromptConfirmConfig, AwesomePromptConfirmControl } from './config/confirm.js';
-import { AwesomeLoggerTextControl } from '../../logger';
+import { AwesomeLoggerTextControl } from '../../logger/index.js';
 
 export class AwesomeConfirmPromt
   extends AwesomePromptBase<boolean>
