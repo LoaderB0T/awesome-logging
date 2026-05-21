@@ -19,6 +19,7 @@ export default [
   {
     rules: {
       'switch-colon-spacing': 'warn',
+      'import-x/order': 'off',
     },
   },
 ];
