@@ -59,3 +59,5 @@ export const KEY_ARROW_DOWN = `${CONTROL_PREFIX}B`;
 export const KEY_ARROW_RIGHT = `${CONTROL_PREFIX}C`;
 // @internal
 export const KEY_ARROW_LEFT = `${CONTROL_PREFIX}D`;
+// @internal
+export const KEY_DELETE = `${CONTROL_PREFIX}3~`;

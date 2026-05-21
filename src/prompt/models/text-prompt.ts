@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { AwesomeLogger } from '../../awesome-logger.js';
 import { AwesomePromptTextConfig, AwesomePromptTextControl } from './config/text.js';
 import { AwesomeLoggerTextControl } from '../../logger/models/config/text.js';
-import { CONTROL_PREFIX, KEY_ARROW_LEFT, KEY_ARROW_RIGHT } from '../../utils/ansi-utils.js';
+import { CONTROL_PREFIX, KEY_ARROW_LEFT, KEY_ARROW_RIGHT, KEY_DELETE } from '../../utils/ansi-utils.js';
 import { AwesomePromptBase } from '../prompt-base.js';
 
 export class AwesomeTextPromt
@@ -172,7 +172,7 @@ export class AwesomeTextPromt
     if (key.match(/^[\r\n]+$/)) {
       this.gotEnterKey();
       return;
-    } else if (key === '\b') {
+    } else if (key === '\b' || key === '\x7f') {
       this.gotBackspaceKey();
     } else if (key === '\t') {
       this.gotTabKey();
@@ -182,6 +182,8 @@ export class AwesomeTextPromt
       this.gotLeftKey();
     } else if (key === KEY_ARROW_RIGHT) {
       this.gotRightKey();
+    } else if (key === KEY_DELETE) {
+      this.gotDeleteKey();
     }
     this._answerLogger.setText(this.getAnswerText());
   }
@@ -231,6 +233,15 @@ export class AwesomeTextPromt
           this._currentAnswer.substring(this._cursorPos);
         this._cursorPos--;
       }
+    }
+  }
+
+  private gotDeleteKey() {
+    this.handleDefaultOnInput();
+    if (this._cursorPos < this._currentAnswer.length) {
+      this._currentAnswer =
+        this._currentAnswer.substring(0, this._cursorPos) +
+        this._currentAnswer.substring(this._cursorPos + 1);
     }
   }
 
