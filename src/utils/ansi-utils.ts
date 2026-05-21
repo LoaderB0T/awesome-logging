@@ -13,9 +13,11 @@ const debug = false;
 // @internal
 export const MOVE_LEFT = () => Stdout.getInstance().write(`${CONTROL_PREFIX}1000D`);
 // @internal
-export const MOVE_UP = (i: number = 1) => (i > 0 ? Stdout.getInstance().write(`${CONTROL_PREFIX}${i}A`) : {});
+export const MOVE_UP = (i: number = 1) =>
+  i > 0 ? Stdout.getInstance().write(`${CONTROL_PREFIX}${i}A`) : {};
 // @internal
-export const MOVE_DOWN = (i: number = 1) => (i > 0 ? Stdout.getInstance().write(`${CONTROL_PREFIX}${i}B`) : {});
+export const MOVE_DOWN = (i: number = 1) =>
+  i > 0 ? Stdout.getInstance().write(`${CONTROL_PREFIX}${i}B`) : {};
 // @internal
 export const INSERT_LINE = () => Stdout.getInstance().write('\n');
 // @internal
