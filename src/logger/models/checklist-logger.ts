@@ -80,7 +80,7 @@ export class AwesomeChecklistLogger
       item.text = newText!;
     }
 
-    let scroll = 0;
+    let scroll: number;
     const firstUnfinishedOptionIndex = this._options.items.findIndex(
       x => x.state === 'inProgress' || x.state === 'pending'
     );

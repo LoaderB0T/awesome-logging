@@ -6,8 +6,11 @@ import { AwesomePromptBase } from './prompt-base.js';
 import { AwesomePromptType, PromptConfig, PromptReturnType } from './prompt-type.js';
 
 export class PromptCreator {
-  public static create<T extends AwesomePromptType>(type: T, config: PromptConfig<T>): PromptReturnType<T> {
-    let prompt: AwesomePromptBase<any> | undefined = undefined;
+  public static create<T extends AwesomePromptType>(
+    type: T,
+    config: PromptConfig<T>
+  ): PromptReturnType<T> {
+    let prompt: AwesomePromptBase<any>;
 
     switch (type) {
       case 'text': {
