@@ -1,4 +1,4 @@
-import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+import { describe, expect, test, beforeEach, afterEach } from 'vitest';
 
 import { Terminal } from 'node-terminal-simulator';
 import { AwesomeLogger } from '../src/index.js';
@@ -17,12 +17,11 @@ describe('Toggle Prompt', () => {
     Terminal.logToFile('');
   });
 
-  test('three options', done => {
+  test('three options', async () => {
     const c = AwesomeLogger.prompt('choice', { options: ['option 1', 'option 2', 'option 3'] });
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toStrictEqual('option 2');
       expect(t.allLines).toStrictEqual(['', ' - Selected option: option 2']);
-      done();
     });
     expect(t.allLines).toStrictEqual(['', ' - option 1', ' - option 2', ' - option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual('option 1');
@@ -30,9 +29,10 @@ describe('Toggle Prompt', () => {
     expect(t.allLines).toStrictEqual(['', ' - option 1', ' - option 2', ' - option 3']);
     expect(c.getCurrentAnswer()).toStrictEqual('option 2');
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('10 options', done => {
+  test('10 options', async () => {
     const c = AwesomeLogger.prompt('choice', {
       options: [
         'option 1',
@@ -47,10 +47,9 @@ describe('Toggle Prompt', () => {
         'option 10',
       ],
     });
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toStrictEqual('option 7');
       expect(t.allLines).toStrictEqual(['', ' - Selected option: option 7']);
-      done();
     });
     expect(t.allLines).toStrictEqual([
       '',
@@ -92,9 +91,10 @@ describe('Toggle Prompt', () => {
     ]);
     expect(c.getCurrentAnswer()).toStrictEqual('option 7');
     t.sendKey('enter');
+    await resultPromise;
   });
 
-  test('10 options with text', done => {
+  test('10 options with text', async () => {
     const c = AwesomeLogger.prompt('choice', {
       text: 'Please choose one of the following options:',
       options: [
@@ -110,10 +110,9 @@ describe('Toggle Prompt', () => {
         'option 10',
       ],
     });
-    c.result.then(r => {
+    const resultPromise = c.result.then(r => {
       expect(r).toStrictEqual('option 1');
       expect(t.allLines).toStrictEqual(['', ' - Selected option: option 1']);
-      done();
     });
     expect(t.allLines).toStrictEqual([
       '',
@@ -267,5 +266,6 @@ describe('Toggle Prompt', () => {
     t.sendKey('up'); // Nothing happens
     t.sendKey('up'); // Nothing happens
     t.sendKey('enter');
+    await resultPromise;
   });
 });

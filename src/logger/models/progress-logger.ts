@@ -1,11 +1,14 @@
 import stripAnsi from 'strip-ansi';
 
+import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress.js';
 import { colorize } from '../../utils/logger-color.js';
 import { TerminalSize } from '../../utils/terminal-size.js';
 import { AwesomeLoggerBase } from '../logger-base.js';
-import { AwesomeProgressLoggerControl, AwesomeProgressLoggerConfig } from './config/progress.js';
 
-export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeProgressLoggerControl {
+export class AwesomeProgressLogger
+  extends AwesomeLoggerBase
+  implements AwesomeProgressLoggerControl
+{
   private readonly _options: AwesomeProgressLoggerConfig;
   private _currentProgress: number = 0;
 
@@ -21,7 +24,7 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
       maxWidth: options?.maxWidth ?? 999999,
       borderColor: options?.borderColor ?? 'GRAY',
       unfilledColor: options?.unfilledColor ?? 'GRAY',
-      filledColor: options?.filledColor ?? 'WHITE'
+      filledColor: options?.filledColor ?? 'WHITE',
     };
     if (this._options.text) {
       this._options.text += ' ';
@@ -46,8 +49,11 @@ export class AwesomeProgressLogger extends AwesomeLoggerBase implements AwesomeP
 
   public getNextLine(): string {
     const totalLength: number =
-      Math.min(TerminalSize.terminalWidth - 2, this._options.maxWidth) - stripAnsi(this._options.text).length;
-    const finnishedLength = Math.round((this._currentProgress / this._options.totalProgress) * totalLength);
+      Math.min(TerminalSize.terminalWidth - 2, this._options.maxWidth) -
+      stripAnsi(this._options.text).length;
+    const finnishedLength = Math.round(
+      (this._currentProgress / this._options.totalProgress) * totalLength
+    );
     const unFinnishedLength = totalLength - finnishedLength;
 
     const res =

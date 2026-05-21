@@ -10,7 +10,7 @@ import {
 export class AwesomeSpinnerLogger extends AwesomeLoggerBase implements AwesomeLoggerSpinnerControl {
   private readonly _options: AwesomeLoggerSpinnerConfig;
   private readonly _text: string;
-  private readonly _animationInterval?: NodeJS.Timeout;
+  private readonly _animationInterval?: ReturnType<typeof setInterval>;
   private _animationIndex: number = 0;
   private _stopped: boolean = false;
   private _cleared: boolean = false;

@@ -2,7 +2,7 @@ import chalk from 'chalk';
 
 import { AwesomeLogger } from '../../awesome-logger.js';
 import { AwesomePromptToggleConfig, AwesomePromptToggleControl } from './config/toggle.js';
-import { AwesomeLoggerTextControl } from '../../logger';
+import { AwesomeLoggerTextControl } from '../../logger/index.js';
 import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/ansi-utils.js';
 import { TerminalSize } from '../../utils/terminal-size.js';
 import { AwesomePromptBase } from '../prompt-base.js';

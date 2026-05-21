@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ES2025",
     "module": "ESNext",
-    "baseUrl": "./",
-    "lib": ["ES2019", "ESNext"],
+    "lib": [
+      "ES2025",
+      "ESNext"
+    ],
     "declaration": true,
     "strict": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "strictPropertyInitialization": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
     "stripInternal": true
   }
 }
